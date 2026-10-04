@@ -1,0 +1,976 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>LM Studio Pre-Wedding</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Jost:wght@400;500;600&family=Great+Vibes&family=Pinyon+Script&family=Noto+Sans+Myanmar:wght@400;600;700&family=Noto+Sans+Thai:wght@400;600;700&family=Noto+Sans+SC:wght@400;600;700&display=swap">
+<style>
+/* Layout: editorial photographer grid — full-bleed hero, 6-up portfolio row, beige about band, 4-up journal, insta strip, newsletter, footer. Single deliberate light look. */
+:root{
+  --ink:#4b3934; --ink-2:#6f5b55; --muted:#a28e88;
+  --paper:#fcf6f4; --card:#fffbfa; --sand:#f8ebe8; --mist:#f5e6e3; --line:#ecd9d4;
+  --gold:#cf9d95; --gold-deep:#a8706a; --rose-ink:#9c6a60; --white:#ffffff;
+  --f-display:"Cormorant Garamond","Noto Sans Myanmar","Noto Sans Thai","Noto Sans SC",Georgia,serif;
+  --f-body:"Jost","Noto Sans Myanmar","Noto Sans Thai","Noto Sans SC",system-ui,sans-serif;
+  --f-serif:"Cormorant Garamond","Noto Sans Myanmar","Noto Sans Thai","Noto Sans SC",Georgia,serif;
+  --f-script:"Great Vibes","Pinyon Script","Noto Sans Myanmar","Noto Sans Thai","Noto Sans SC",cursive;
+  --h1:clamp(50px,7vw,100px); --h1-lh:.98; --h2:clamp(26px,2.6vw,34px);
+  --lh:1.65; --track:.14em; --wrap:1240px;
+  color-scheme:light;
+}
+html[lang="my"],html[lang="shn"]{--h1:clamp(34px,4.6vw,62px);--h1-lh:1.5;--h2:clamp(20px,2vw,26px);--lh:1.95;--track:0;
+  --f-display:"Noto Sans Myanmar",sans-serif;--f-serif:"Noto Sans Myanmar",serif;--f-script:"Noto Sans Myanmar",sans-serif}
+html[lang="zh-Hans"]{--h1:clamp(46px,6.4vw,90px);--h1-lh:1.15;--track:.06em;--f-display:"Noto Sans SC",sans-serif;--f-serif:"Noto Sans SC",serif;--f-script:"Noto Sans SC",sans-serif}
+html[lang="th"]{--h1:clamp(44px,6.2vw,86px);--h1-lh:1.3;--lh:1.8;--track:.02em;--f-display:"Noto Sans Thai",sans-serif;--f-serif:"Noto Sans Thai",serif;--f-script:"Noto Sans Thai",sans-serif}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:var(--lh);margin:0}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+img{display:block;width:100%;height:100%;object-fit:cover}
+.wrap{max-width:var(--wrap);margin:0 auto;padding-inline:clamp(16px,3vw,40px)}
+.eyebrow{font-size:11px;font-weight:500;letter-spacing:var(--track);text-transform:uppercase}
+.h2{font-family:var(--f-serif);font-weight:600;font-size:clamp(20px,1.9vw,26px);color:var(--ink);letter-spacing:var(--track);text-transform:uppercase;margin:0;position:relative;padding-bottom:10px}
+.h2::after{content:"";position:absolute;left:0;bottom:0;width:28px;height:2px;background:var(--gold)}
+.btn{display:inline-flex;align-items:center;gap:10px;height:44px;padding:0 22px;font-size:11.5px;font-weight:600;letter-spacing:var(--track);text-transform:uppercase;border:1px solid var(--ink);transition:background .2s,color .2s,border-color .2s;white-space:nowrap}
+.btn-gold{background:var(--gold);border-color:var(--gold);color:var(--white)}
+.btn-gold:hover{background:var(--gold-deep);border-color:var(--gold-deep);color:var(--white)}
+.btn-line{background:var(--card);border-color:var(--gold-deep);color:var(--gold-deep)}
+.btn-line:hover{background:var(--gold-deep);color:var(--white)}
+.more{display:inline-flex;align-items:center;gap:10px;font-size:11px;font-weight:600;letter-spacing:var(--track);text-transform:uppercase}
+.more .dot{width:24px;height:24px;border-radius:50%;background:var(--gold);color:var(--white);display:grid;place-items:center;transition:transform .2s}
+.more:hover .dot{transform:translateX(4px)}
+.ico{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:24px}
+
+/* Header */
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:40;background:var(--paper);border-bottom:1px solid transparent}
+header.scrolled{border-bottom-color:var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:20px;height:78px}
+.logo{display:flex;flex-direction:column;line-height:1}
+.logo b{font-family:"Cormorant Garamond",Georgia,serif;font-weight:600;font-size:30px;letter-spacing:.12em;color:var(--ink)}
+.logo small{color:var(--gold-deep);font-size:9px;font-weight:500;letter-spacing:.32em;text-transform:uppercase;margin-top:3px}
+.menu{display:flex;gap:clamp(18px,3vw,44px);list-style:none;margin:0;padding:0}
+.menu a{font-size:11.5px;font-weight:500;letter-spacing:var(--track);text-transform:uppercase;padding:8px 0;position:relative;white-space:nowrap}
+.menu a::after{content:"";position:absolute;left:0;right:0;bottom:0;margin:auto;width:0;height:2px;background:var(--gold);transition:width .25s}
+.menu a:hover::after,.menu a.active::after{width:28px}
+.tools{display:flex;align-items:center;gap:14px}
+.tools > button,.tools > a{width:34px;height:34px;display:grid;place-items:center}
+.lang{position:relative}
+.lang-btn{display:flex!important;align-items:center;gap:6px;width:auto!important;padding:0 10px;height:34px;border:1px solid var(--line);font-size:12px;font-weight:500}
+.lang-list{position:absolute;right:0;top:calc(100% + 8px);background:var(--card);border:1px solid var(--line);box-shadow:0 14px 30px rgba(20,20,20,.08);list-style:none;margin:0;padding:6px;min-width:150px}
+.lang-list button{display:flex;justify-content:space-between;align-items:center;width:100%;text-align:left;padding:8px 10px;font-size:14px;gap:12px}
+.lang-list button:hover,.lang-list button[aria-current="true"]{background:var(--sand)}
+.lang-list small{color:var(--muted);font-size:10px;letter-spacing:.1em}
+.burger{display:none!important}
+.drawer{position:fixed;inset:0;z-index:60;background:rgba(20,20,20,.4)}
+.drawer nav{position:absolute;right:0;top:0;bottom:0;width:min(320px,86vw);background:var(--card);padding:calc(24px + env(safe-area-inset-top,0px)) 28px 24px;display:flex;flex-direction:column;gap:6px}
+.drawer nav a{font-size:15px;letter-spacing:var(--track);text-transform:uppercase;padding:12px 0;border-bottom:1px solid var(--line)}
+.drawer .x{align-self:flex-end;width:36px;height:36px;display:grid;place-items:center;margin-bottom:8px}
+.search{position:fixed;inset:0;z-index:70;background:rgba(252,246,244,.97);padding:calc(90px + env(safe-area-inset-top,0px)) 16px 24px}
+.search .box{max-width:680px;margin:0 auto}
+.search input{width:100%;font:inherit;font-size:22px;border:0;border-bottom:2px solid var(--ink);padding:10px 0;background:transparent;outline:none}
+.search ul{list-style:none;padding:0;margin:20px 0 0}
+.card img,.card video{object-position:center}
+.search li a{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.search li small{color:var(--muted);text-transform:uppercase;letter-spacing:.1em;font-size:10px}
+.search .x{position:absolute;right:20px;top:calc(24px + env(safe-area-inset-top,0px));width:40px;height:40px;display:grid;place-items:center}
+
+/* Hero */
+.hero{position:relative;min-height:clamp(460px,46vw,620px);display:flex;align-items:center;overflow:hidden;background:var(--sand)}
+.hero > img#heroImg{position:absolute;inset:0;z-index:0}
+.hero::before{z-index:1}
+.hero::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(252,244,242,.96) 0%,rgba(252,244,242,.86) 36%,rgba(252,244,242,.35) 54%,rgba(252,244,242,0) 68%)}
+.hero .wrap{position:relative;z-index:2;width:100%;padding-block:56px}
+.hero-copy{max-width:520px}
+.hero h1{font-family:var(--f-display);font-weight:500;color:var(--ink);font-size:var(--h1);line-height:var(--h1-lh);text-transform:uppercase;margin:14px 0 22px;letter-spacing:.005em;text-wrap:balance}
+.hero h1 span{display:block}
+.rule{width:36px;height:2px;background:var(--gold);margin-bottom:22px}
+.hero p{max-width:360px;color:var(--ink-2);margin:0 0 28px}
+.cta{display:flex;gap:14px;flex-wrap:wrap}
+.social-rail{position:absolute;right:clamp(16px,3vw,40px);top:0;bottom:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;color:var(--white)}
+.social-rail::before,.social-rail::after{content:"";width:1px;height:60px;background:rgba(255,255,255,.7)}
+.social-rail a{width:22px;height:22px;display:grid;place-items:center}
+.social-rail .ico{width:14px;height:14px}
+.based{position:absolute;right:clamp(64px,8vw,110px);bottom:44px;color:var(--white);text-shadow:0 1px 10px rgba(0,0,0,.25)}
+.based .eyebrow{font-size:10px;line-height:1.6}
+.based .rule{width:28px;margin:10px 0 6px}
+.based .sig{font-family:"Great Vibes","Pinyon Script",cursive;font-size:42px;line-height:1}
+
+/* Work */
+.work{padding-block:56px 64px;position:relative}
+.cards{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+.card{position:relative;aspect-ratio:3/4;overflow:hidden;color:var(--white);background:var(--mist)}
+.card img{transition:transform .6s ease}
+.card:hover img{transform:scale(1.05)}
+.card::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 50%,rgba(0,0,0,.6) 100%)}
+.card .cap{position:absolute;left:14px;right:14px;bottom:14px;z-index:1}
+.card b{display:block;font-size:12px;font-weight:600;letter-spacing:var(--track);text-transform:uppercase;line-height:1.4}
+.card span{font-size:10.5px;display:inline-flex;align-items:center;gap:6px;opacity:.9}
+.card span .ico{width:12px;height:12px;stroke:var(--gold)}
+
+/* About */
+.about{background:var(--sand);padding-block:64px;position:relative;overflow:hidden}
+.about-grid{display:grid;grid-template-columns:1fr 1.05fr;gap:clamp(32px,5vw,72px);align-items:center}
+.collage{position:relative;aspect-ratio:1.18;max-width:560px;width:100%}
+.collage .dots{position:absolute;left:0;top:4%;width:22%;height:30%;background:radial-gradient(circle,var(--ink-2) 1.1px,transparent 1.3px) 0 0/12px 12px;opacity:.55}
+.collage figure{position:absolute;margin:0;overflow:hidden;box-shadow:0 18px 40px rgba(60,40,20,.12)}
+.collage .p1{left:18%;top:0;width:52%;aspect-ratio:1.4}
+.collage .p2{left:2%;top:50%;width:38%;aspect-ratio:1.3}
+.collage .p3{left:50%;top:46%;width:40%;aspect-ratio:.95;filter:grayscale(1)}
+.collage .sig{position:absolute;left:34%;bottom:-2%;font-family:"Great Vibes","Pinyon Script",cursive;color:var(--gold-deep);font-size:clamp(34px,4vw,52px);transform:rotate(-8deg)}
+.stamp{position:absolute;left:78%;top:4%;width:92px;height:92px}
+.stamp svg{width:100%;height:100%;animation:spin 22s linear infinite}
+.stamp text{font-size:8.6px;letter-spacing:.18em;text-transform:uppercase;fill:var(--ink)}
+.stamp .cam{position:absolute;inset:0;display:grid;place-items:center}
+@keyframes spin{to{transform:rotate(360deg)}}
+.about h2{font-family:var(--f-serif);color:var(--ink);font-weight:600;font-size:var(--h2);letter-spacing:var(--track);text-transform:uppercase;margin:10px 0 18px;line-height:1.35;text-wrap:balance}
+.about .eyebrow{color:var(--gold-deep)}
+.about p{color:var(--ink-2);max-width:62ch;margin:0 0 30px}
+.stats{display:grid;grid-template-columns:repeat(3,auto);justify-content:start;gap:clamp(20px,4vw,52px);margin-bottom:32px}
+.stat{display:flex;gap:12px;align-items:flex-start}
+.stat .ico{width:26px;height:26px;stroke-width:1.3;margin-top:4px}
+.stat b{display:block;font-family:"Cormorant Garamond",Georgia,serif;font-size:34px;font-weight:600;line-height:1;font-variant-numeric:tabular-nums}
+.stat small{font-size:11.5px;color:var(--ink-2);line-height:1.4;display:block;margin-top:4px}
+.vert{position:absolute;right:clamp(10px,2vw,30px);top:50%;transform:translateY(-50%) rotate(180deg);writing-mode:vertical-rl;font-family:var(--f-script);font-size:26px;color:var(--ink-2);white-space:nowrap}
+html:not([lang="en"]) .vert{font-size:15px;letter-spacing:.1em}
+
+/* Stories */
+.stories{padding-block:56px 64px}
+.about-grid{position:relative;z-index:2}
+.posts{display:grid;grid-template-columns:2fr 1.1fr 1.1fr 1.1fr;gap:8px}
+.post{display:flex;flex-direction:column;border:1px solid var(--line);background:var(--card);min-width:0}
+.post .img{aspect-ratio:1.5;overflow:hidden}
+.post:first-child .img{aspect-ratio:auto;flex:1;min-height:180px}
+.post .img img{transition:transform .6s}
+.post:hover .img img{transform:scale(1.04)}
+.post .body{padding:14px 16px 16px}
+.tag{display:inline-block;background:var(--gold);color:var(--white);font-size:9.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:2px 7px;margin-bottom:8px}
+.post h3{font-family:var(--f-serif);font-weight:600;font-size:clamp(17px,1.5vw,20px);line-height:1.25;margin:0 0 10px;text-wrap:balance}
+html[lang="my"] .post h3,html[lang="shn"] .post h3{font-size:15px;line-height:1.75}
+.meta{font-size:11px;color:var(--muted);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.meta .ico{width:12px;height:12px}
+.meta i{width:3px;height:3px;border-radius:50%;background:var(--muted)}
+
+/* Insta */
+.insta{background:var(--mist);position:relative;overflow:hidden}
+.insta-row{display:grid;grid-template-columns:minmax(0,1.25fr) repeat(5,minmax(0,1fr)) minmax(0,.6fr);align-items:stretch}
+.insta-row .intro{display:flex;align-items:center;gap:16px;padding:20px 16px 20px 0}
+.insta-row .intro .ico{width:28px;height:28px;stroke-width:1.4}
+.insta-row .intro b{display:block;font-size:12px;font-weight:600;letter-spacing:var(--track);text-transform:uppercase;line-height:1.5}
+.insta-row .intro span{font-size:13px;color:var(--ink-2)}
+.insta-row .shot{aspect-ratio:1;overflow:hidden}
+.insta-row .shot img{transition:transform .5s}
+.insta-row .shot:hover img{transform:scale(1.06)}
+.topo{width:100%;height:100%;color:var(--muted);opacity:.5}
+
+/* Newsletter */
+.news{padding-block:44px 36px;border-bottom:1px solid var(--line);overflow:hidden}
+.news-row{display:flex;align-items:center;gap:clamp(20px,4vw,60px);flex-wrap:wrap}
+.env{width:84px;height:84px;border-radius:50%;border:1px solid var(--ink);display:grid;place-items:center;flex:none}
+.env .ico{width:30px;height:30px;stroke-width:1.2}
+.news-copy{flex:1 1 280px;min-width:0}
+.news-copy b{display:block;font-size:13px;font-weight:600;letter-spacing:var(--track);text-transform:uppercase}
+.news-copy p{margin:4px 0 0;font-size:13px;color:var(--ink-2);max-width:44ch}
+.news form{display:flex;flex:1 1 360px;max-width:480px;flex-wrap:wrap}
+.news input{flex:1 1 200px;min-width:0;height:48px;border:1px solid var(--line);border-right:0;padding:0 16px;font:inherit;font-size:13px;background:var(--card)}
+.news input:focus{outline:none;border-color:var(--gold)}
+.news .btn{height:48px;padding:0 32px}
+.news .msg{flex-basis:100%;font-size:12px;margin-top:8px;min-height:1.2em}
+.news .msg.err{color:#b23a2a}
+
+/* Footer */
+footer{padding-block:36px 28px}
+.foot{display:grid;grid-template-columns:1.6fr 1fr 1fr 1.2fr 1.4fr;gap:0}
+.foot > div{padding:0 24px;border-left:1px solid var(--line);min-width:0}
+.foot > div:first-child{padding-left:0;border-left:0}
+.foot h4{font-size:10px;font-weight:600;letter-spacing:var(--track);text-transform:uppercase;margin:0 0 12px}
+.foot ul{list-style:none;margin:0;padding:0;display:grid;gap:4px;font-size:12.5px;color:var(--ink-2)}
+.foot ul a:hover{color:var(--gold-deep)}
+.foot p{font-size:12.5px;color:var(--ink-2);margin:14px 0 0;max-width:24ch}
+.socials{display:flex;gap:10px;margin-bottom:14px}
+.socials a{width:30px;height:30px;border:1px solid var(--ink);border-radius:50%;display:grid;place-items:center;transition:background .2s,color .2s}
+.socials a:hover{background:var(--ink);color:var(--white)}
+.socials .ico{width:14px;height:14px}
+.contact-lines{font-size:12.5px;color:var(--ink-2);display:grid;gap:2px;user-select:text}
+.copy{margin-top:28px;padding-top:18px;border-top:1px solid var(--line);font-size:11.5px;color:var(--muted);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+/* Gallery / article modals */
+.modal{position:fixed;inset:0;z-index:80;background:var(--paper);overflow-y:auto;padding-block:calc(28px + env(safe-area-inset-top,0px)) 40px}
+.modal-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:24px}
+.modal-head h2{font-family:var(--f-display);font-size:clamp(34px,5vw,60px);text-transform:uppercase;line-height:1.1;margin:6px 0 4px}
+.modal-head small{color:var(--muted);font-size:12px}
+.modal .x,.viewer .x{width:44px;height:44px;display:grid;place-items:center;flex:none}
+.gal-grid{columns:3 260px;column-gap:10px}
+.gal-grid button{display:block;width:100%;margin:0 0 10px;break-inside:avoid;overflow:hidden;padding:0}
+.gal-grid img{height:auto;transition:transform .5s}
+.gal-grid button:hover img{transform:scale(1.03)}
+.viewer{position:fixed;inset:0;z-index:90;background:rgba(14,13,12,.96);display:flex;align-items:center;justify-content:center;padding:56px 16px}
+.viewer img,.viewer video{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain}
+.card video,.gal-grid video{width:100%;height:100%;object-fit:cover;display:block}
+.gal-grid video{height:auto}
+.gal-grid button.isv{position:relative}
+.gal-grid button.isv::after{content:"";position:absolute;left:50%;top:50%;width:54px;height:54px;margin:-27px 0 0 -27px;border-radius:50%;background:rgba(255,255,255,.85) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9 7l9 5-9 5z' fill='%23a8706a'/%3E%3C/svg%3E") center/26px no-repeat;box-shadow:0 6px 18px rgba(0,0,0,.25)}
+.gal-story{max-width:62ch;color:var(--ink-2);margin:10px 0 0;font-size:15px}
+.viewer .x{position:absolute;top:calc(10px + env(safe-area-inset-top,0px));right:10px;color:#fff}
+.viewer .nav-b{position:absolute;top:50%;transform:translateY(-50%);width:52px;height:52px;display:grid;place-items:center;color:#fff;background:rgba(255,255,255,.08);border-radius:50%}
+.viewer .prev{left:12px}.viewer .next{right:12px}
+.v-count{position:absolute;bottom:calc(16px + env(safe-area-inset-bottom,0px));left:0;right:0;text-align:center;color:#ddd;font-size:12px;letter-spacing:.1em}
+.art-in{max-width:820px;margin:0 auto;padding-inline:16px;position:relative}
+.art-in > .x{position:absolute;right:16px;top:-6px;z-index:2;background:var(--card);border-radius:50%}
+.art-img{aspect-ratio:16/9;overflow:hidden;margin-top:40px}
+.art-body{padding-top:22px}
+.art-body h2{font-family:var(--f-serif);font-size:clamp(26px,3.4vw,40px);line-height:1.25;margin:4px 0 12px;text-wrap:balance}
+.art-body #artText p{color:var(--ink-2);font-size:16px;max-width:65ch}
+.post{cursor:pointer;text-align:left}
+
+/* Flowers + heart divider */
+.fl{position:absolute;pointer-events:none;z-index:3;height:auto;width:auto;max-width:none;object-fit:contain;user-select:none}
+.fl-hero-tl{right:-20px;top:0;width:clamp(240px,30vw,440px)}
+.crop-top{aspect-ratio:1/.5;object-fit:cover!important;object-position:right top}
+.crop-bot{aspect-ratio:1/.62;object-fit:cover!important;object-position:right bottom}
+.fl-about{left:-30px;bottom:-40px;width:clamp(170px,19vw,280px)}
+.fl-pk-tr{right:-30px;top:-10px;width:clamp(220px,26vw,400px)}
+.fl-pk-bl{left:-30px;bottom:-20px;width:clamp(220px,26vw,400px);transform:scaleX(-1)}
+.fl-news-l{left:-40px;bottom:-60px;width:clamp(120px,13vw,200px)}
+.fl-news-r{right:-30px;bottom:-30px;width:clamp(160px,17vw,260px)}
+.fl-spray{display:block;width:min(360px,70%);height:auto;margin:0 auto -6px}
+.petals{position:absolute;inset:0;pointer-events:none;z-index:2;overflow:hidden}
+.petals i{position:absolute;top:-8%;left:var(--l);width:26px;height:34px;background:var(--p) center/contain no-repeat;opacity:.85;animation:petal var(--d) linear var(--w) infinite}
+@keyframes petal{0%{transform:translate(0,0) rotate(0)}25%{transform:translate(30px,28vh) rotate(90deg)}50%{transform:translate(-20px,56vh) rotate(180deg)}75%{transform:translate(25px,84vh) rotate(270deg)}100%{transform:translate(-10px,120vh) rotate(360deg)}}
+.wreath-head{margin-bottom:28px}
+.wreath{position:relative;width:clamp(300px,46vw,540px);aspect-ratio:1100/1069;margin:0 auto}
+.wreath > img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+.wr-in{position:absolute;inset:22% 18%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.wreath-head .wr-in h2{font-size:clamp(30px,4.4vw,56px)}
+html[lang="my"] .wreath-head .wr-in h2,html[lang="shn"] .wreath-head .wr-in h2{font-size:clamp(20px,2.6vw,32px)}
+.hero-copy .eyebrow{color:var(--gold-deep)}
+.heart{display:flex;align-items:center;justify-content:center;gap:10px;color:var(--gold);margin:6px 0 0}
+.heart::before,.heart::after{content:"";height:1px;width:56px;background:currentColor;opacity:.7}
+.heart svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.4}
+
+/* Packages / price list */
+.packages{position:relative;overflow:hidden;background:var(--sand);padding-block:72px 80px}
+.pk-bg{position:absolute;inset:0;z-index:0}
+.pk-bg img{width:100%;height:100%;object-fit:cover;opacity:var(--pk-op,.35)}
+.packages::after{content:"";position:absolute;inset:0;z-index:0;background:linear-gradient(180deg,rgba(252,244,242,.55),rgba(252,244,242,.25) 40%,rgba(252,244,242,.6))}
+.packages .wrap{position:relative;z-index:2}
+.pk-head{text-align:center;margin-bottom:40px}
+.pk-head .eyebrow{color:var(--gold-deep)}
+.pk-head h2{font-family:var(--f-serif);font-weight:600;font-size:clamp(40px,5.4vw,68px);line-height:1.05;letter-spacing:.06em;text-transform:uppercase;color:var(--rose-ink);margin:8px 0 4px;text-wrap:balance}
+html[lang="my"] .pk-head h2,html[lang="shn"] .pk-head h2{font-size:clamp(28px,3.4vw,42px);line-height:1.6;letter-spacing:0}
+.pk-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(16px,2.4vw,30px)}
+.pk{background:var(--card);border:1px solid #dcc1b8;padding:14px 14px 22px;display:flex;flex-direction:column;align-items:center;text-align:center;box-shadow:0 14px 34px rgba(156,106,96,.08);min-width:0}
+.pk .ph{width:100%;aspect-ratio:4/3;overflow:hidden;background:var(--mist)}
+.pk .ph img{transition:transform .6s}
+.pk:hover .ph img{transform:scale(1.04)}
+.pk h3{font-family:var(--f-serif);font-weight:600;font-size:clamp(20px,1.8vw,24px);letter-spacing:.08em;text-transform:uppercase;color:var(--rose-ink);margin:18px 0 4px}
+html[lang="my"] .pk h3,html[lang="shn"] .pk h3{font-size:17px;letter-spacing:0;line-height:1.7}
+.pk .price{font-family:var(--f-serif);font-size:20px;color:var(--gold-deep);margin-bottom:4px}
+.pk ul{list-style:none;padding:0;margin:8px 0 0;display:grid;gap:3px;font-size:13.5px;color:var(--ink-2)}
+.pk li::before{content:"· ";color:var(--gold)}
+.pk-close{margin-top:clamp(28px,4vw,44px);background:var(--card);border:1px solid #dcc1b8;outline:1px solid #dcc1b8;outline-offset:6px;padding:22px 20px;text-align:center}
+.pk-close p{margin:0;font-family:var(--f-serif);font-weight:600;font-size:clamp(20px,2.4vw,30px);letter-spacing:.08em;text-transform:uppercase;color:var(--rose-ink);text-wrap:balance}
+html[lang="my"] .pk-close p,html[lang="shn"] .pk-close p{font-size:clamp(17px,1.8vw,22px);letter-spacing:0;line-height:1.7}
+.news{position:relative}
+.news-row{position:relative;z-index:2}
+.insta-row .intro .ico{stroke-width:1.6}
+
+/* Places / map */
+.places{position:relative;overflow:hidden;background:linear-gradient(180deg,var(--paper),var(--sand) 55%,var(--paper));padding-block:72px 80px}
+.places .wrap{position:relative;z-index:2}
+.fl-pl-tl{left:-30px;top:-20px;width:clamp(160px,17vw,250px)}
+.pl-lead{max-width:56ch;margin:10px auto 0;color:var(--ink-2)}
+.map-stage{position:relative;max-width:1180px;margin:30px auto 0;--ar:1.96}
+.mz{position:relative;overflow:hidden;border-radius:14px;box-shadow:0 24px 50px rgba(60,40,30,.22);touch-action:pan-y;cursor:grab;background:#3a4a32}
+.map-stage.zoomed .mz{touch-action:none}
+.mz.drag{cursor:grabbing}
+.ml{position:relative;transform-origin:0 0;will-change:transform;--z:1}
+.ml img.map{width:100%;height:auto;display:block;user-select:none;-webkit-user-drag:none;image-rendering:auto}
+.route{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
+.route path{fill:none;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+#routeGlow{stroke:rgba(214,229,154,.35);stroke-width:calc(18px / var(--z))}
+#routePath{stroke:#d6e59a;stroke-width:calc(8px / var(--z));opacity:.95}
+.pin{position:absolute;transform:translate(-50%,-50%) scale(calc(1 / var(--z)));z-index:3;background:none;border:0;padding:0;cursor:pointer;width:30px;height:30px;border-radius:50%;background:#fffaf2;border:6px solid #c8db78;box-shadow:0 0 0 2px rgba(60,70,30,.55),0 4px 10px rgba(0,0,0,.4);display:grid;place-items:center;font:700 11px/1 Jost,sans-serif;color:#3c4a1e;transition:border-color .2s}
+.pin:hover,.pin.on{border-color:var(--gold-deep);color:var(--gold-deep)}
+.leads{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:4}
+.leads line{stroke:#fffaf2;stroke-width:1.6;vector-effect:non-scaling-stroke;opacity:.9}
+.leads circle{fill:#fffaf2}
+#plCards{position:absolute;inset:0;pointer-events:none;z-index:5}
+.mcard{position:absolute;transform:translate(-50%,-50%);width:clamp(140px,15vw,190px);background:#fbf8f1;border-radius:10px;padding:7px 7px 9px;box-shadow:0 10px 26px rgba(0,0,0,.35);pointer-events:auto;cursor:pointer;text-align:center;transition:transform .2s}
+.mcard:hover,.mcard.on{transform:translate(-50%,-50%) scale(1.05)}
+.mcard.on{outline:2px solid var(--gold-deep)}
+.mcard b{display:block;font-family:var(--f-serif);font-size:15px;font-weight:700;color:#2f3a1c;line-height:1.2;margin:2px 0 5px}
+html[lang="my"] .mcard b,html[lang="shn"] .mcard b{font-size:13px;line-height:1.6}
+.mcard .ph{aspect-ratio:16/10;overflow:hidden;border-radius:6px}
+.mcard i{display:block;font-size:10.5px;color:#6b6250;line-height:1.35;margin-top:5px}
+.map-stage.zoomed #plCards,.map-stage.zoomed .leads,.map-stage.nocards #plCards,.map-stage.nocards .leads{display:none}
+.mctl{position:absolute;right:12px;bottom:12px;z-index:6;display:flex;flex-direction:column;gap:6px}
+.mctl button{width:38px;height:38px;border-radius:50%;background:rgba(255,251,250,.95);border:1px solid var(--line);font-size:20px;line-height:1;color:var(--ink);box-shadow:0 4px 12px rgba(0,0,0,.25)}
+.mctl button:hover{background:var(--gold);color:#fff}
+.mhint{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);z-index:6;background:rgba(30,30,30,.55);color:#fff;font-size:11px;padding:4px 10px;border-radius:20px;white-space:nowrap;pointer-events:none}
+.credit{position:absolute;right:58px;bottom:4px;z-index:6;font-size:9px;color:rgba(255,255,255,.8);pointer-events:none}
+.map-stage:fullscreen{background:#151515;display:flex;align-items:center;justify-content:center;max-width:none;margin:0}
+.map-stage:fullscreen .mz{width:min(100vw,calc(100vh * var(--ar)));border-radius:0}
+.map-stage:fullscreen #plCards,.map-stage:fullscreen .leads{display:none}
+.pl-pop{position:absolute;z-index:7;width:260px;background:var(--card);border:1px solid var(--line);box-shadow:0 18px 40px rgba(0,0,0,.3);transform:translate(-50%,calc(-100% - 22px))}
+.pl-pop.below{transform:translate(-50%,22px)}
+.pl-pop .ph{aspect-ratio:16/10;overflow:hidden}
+.pl-pop .bd{padding:12px 14px 14px}
+.pl-pop h4{margin:0 0 2px;font-family:var(--f-serif);font-size:20px;color:var(--rose-ink)}
+.pl-pop .mt{font-size:11.5px;color:var(--gold-deep);margin-bottom:6px}
+.pl-pop p{margin:0 0 10px;font-size:13px;color:var(--ink-2);line-height:1.55}
+.pl-pop .acts{display:flex;gap:8px;flex-wrap:wrap}
+.pl-pop .btn{height:34px;padding:0 12px;font-size:10.5px}
+.pl-pop .x{position:absolute;right:6px;top:6px;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.9);display:grid;place-items:center}
+.journey{max-width:1040px;margin:64px auto 0}
+.jr-title{text-align:center;margin-bottom:18px}.jr-title .eyebrow{color:var(--gold-deep)}
+.jrow{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:clamp(20px,4vw,52px);align-items:center;position:relative}
+.jrow.rev .jph{order:2}
+.jph{aspect-ratio:4/3;overflow:hidden;-webkit-mask-image:radial-gradient(ellipse 72% 68% at 50% 50%,#000 58%,transparent 100%);mask-image:radial-gradient(ellipse 72% 68% at 50% 50%,#000 58%,transparent 100%)}
+.jtx{position:relative;min-width:0}
+.jnum{position:absolute;right:0;top:-34px;font-family:"Great Vibes",cursive;font-size:clamp(70px,9vw,120px);line-height:1;color:var(--gold);opacity:.22;pointer-events:none}
+.jtx .sub{font-size:11px;letter-spacing:var(--track);text-transform:uppercase;color:var(--gold-deep)}
+.jtx h3{font-family:var(--f-serif);font-weight:600;font-size:clamp(24px,2.6vw,34px);margin:4px 0 6px;color:var(--ink);line-height:1.2}
+html[lang="my"] .jtx h3,html[lang="shn"] .jtx h3{font-size:22px;line-height:1.7}
+.jtx .mt{font-size:12.5px;color:var(--gold-deep);margin-bottom:8px}
+.jtx p{margin:0 0 16px;color:var(--ink-2);max-width:46ch}
+.jtx .acts{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.jtx .lk{font-size:11px;font-weight:600;letter-spacing:var(--track);text-transform:uppercase;border-bottom:1px solid var(--gold);padding-bottom:2px;color:var(--ink)}
+.jlink{display:block;width:100%;height:70px}
+.jlink path{fill:none;stroke:var(--gold-deep);stroke-width:1.4;stroke-dasharray:3 6;vector-effect:non-scaling-stroke}
+.jlink circle{fill:var(--gold-deep)}
+.jrow.on .jph{outline:2px solid var(--gold);outline-offset:6px}
+.gmap{max-width:1040px;margin:56px auto 0;background:var(--card);border:1px solid #dcc1b8;padding:14px}
+.gmap-head{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap;padding:4px 4px 12px}
+.gmap-head .eyebrow{color:var(--gold-deep)}
+.gmap-head b{font-family:var(--f-serif);font-size:22px;font-weight:600}
+.gmap iframe{display:block;width:100%;height:clamp(280px,40vw,420px);border:0;background:var(--mist)}
+@media (max-width:760px){
+  #plCards,.leads{display:none}
+  .mhint{display:none}
+  .mctl{flex-direction:row;right:8px;bottom:8px;gap:5px}
+  .mctl button{width:32px;height:32px;font-size:17px}
+  .credit{right:auto;left:8px;bottom:2px;font-size:8px}
+  .mz{border-radius:10px}
+  .pl-pop{position:fixed;left:16px!important;right:16px;top:auto!important;bottom:calc(16px + env(safe-area-inset-bottom,0px));width:auto;transform:none!important;z-index:85}
+  .pl-pop.below{transform:none!important}
+  .jrow{grid-template-columns:1fr;gap:10px}.jrow.rev .jph{order:0}
+  .jnum{top:-10px}
+}
+
+/* Booking sheet + floating contact */
+.book{position:fixed;inset:0;z-index:95;background:rgba(40,25,22,.45);display:flex;align-items:flex-end;justify-content:center;padding:16px}
+.book-in{position:relative;width:min(520px,100%);max-height:calc(100vh - 32px);overflow-y:auto;background:var(--card);border-radius:18px;padding:22px 20px 18px;margin-bottom:env(safe-area-inset-bottom,0px);box-shadow:0 20px 50px rgba(0,0,0,.3)}
+@media (min-width:700px){.book{align-items:center}}
+.book-in h3{margin:0 0 4px;font-family:var(--f-serif);font-size:26px;color:var(--rose-ink)}
+.book-in p{margin:0 0 14px;color:var(--ink-2);font-size:13.5px}
+.book-in .x{position:absolute;right:10px;top:10px;width:36px;height:36px;display:grid;place-items:center}
+.bk-list{display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+#bkForm{display:grid;gap:10px;margin:6px 0 4px}
+#bkForm .bf2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+#bkForm label{display:grid;gap:3px;font-size:11.5px;color:var(--ink-2);min-width:0}
+#bkForm input,#bkForm select,#bkForm textarea{font:inherit;font-size:14px;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:9px 11px;width:100%;min-width:0}
+#bkForm input:focus,#bkForm select:focus,#bkForm textarea:focus{outline:none;border-color:var(--gold)}
+#bkForm .btn{justify-content:center;height:46px;border-radius:10px}
+#bkForm .msg{font-size:13px;min-height:1.2em}#bkForm .msg.err{color:#b23a2a}#bkForm .msg.ok{color:#2f7d4f;font-weight:600}
+.bk-or{display:flex;align-items:center;gap:10px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:14px 0 10px}
+.bk-or::before,.bk-or::after{content:"";flex:1;height:1px;background:var(--line)}
+.pk .bk{margin-top:14px;height:38px;padding:0 16px;font-size:10.5px}
+@media (max-width:480px){#bkForm .bf2{grid-template-columns:1fr}}
+.bk-list a{display:flex;align-items:center;gap:12px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--paper);transition:border-color .2s,background .2s}
+.bk-list a:hover{border-color:var(--gold);background:var(--sand)}
+.bk-list .ic{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;color:#fff;flex:none}
+.bk-list b{display:block;font-size:14px}.bk-list small{color:var(--muted);font-size:12px}
+.fab{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:50;display:flex;flex-direction:column;gap:10px}
+.fab a{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;color:#fff;box-shadow:0 8px 20px rgba(0,0,0,.25);transition:transform .2s}
+.fab a:hover{transform:scale(1.08)}
+.fab .ico{width:24px;height:24px}
+.c-tel,.c-mail,.c-addr{border-bottom:1px dotted var(--gold);color:var(--ink)}
+
+/* Responsive */
+@media (max-width:1080px){
+  .pk-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .menu{display:none}.burger{display:grid!important}
+  .cards{grid-template-columns:repeat(3,1fr)}
+  .posts{grid-template-columns:repeat(2,1fr)}
+  .post:first-child{grid-column:1/-1}.post:first-child .img{aspect-ratio:2.2;flex:none}
+  .insta-row{grid-template-columns:repeat(5,1fr)}
+  .insta-row .intro{grid-column:1/-1;padding:20px 0}
+  .insta-row .topo-cell{display:none}
+  .foot{grid-template-columns:repeat(2,1fr);gap:28px 0}
+  .foot > div:nth-child(odd){padding-left:0;border-left:0}
+  .foot > div:first-child{grid-column:1/-1}
+  .vert{display:none}
+}
+@media (max-width:760px){
+  .about-grid{grid-template-columns:1fr}
+  .hero::before{background:linear-gradient(180deg,rgba(252,244,242,.92) 0%,rgba(252,244,242,.75) 55%,rgba(252,244,242,.1) 100%)}
+  .hero{align-items:flex-start}
+  .based{display:none}
+  .social-rail{display:none}
+  .stats{grid-template-columns:1fr 1fr}
+  .tools .ig{display:none}
+}
+@media (max-width:520px){
+  .pk-grid{grid-template-columns:1fr}
+  .fl-hero-tl{width:150px;right:-50px;top:-40px}.fl-hero-br,.fl-news-r{display:none}
+  .cards{grid-template-columns:repeat(2,1fr)}
+  .posts{grid-template-columns:1fr}
+  .post:first-child .img{aspect-ratio:1.5}
+  .insta-row{grid-template-columns:repeat(3,1fr)}
+  .insta-row .shot:nth-of-type(n+5){display:none}
+  .foot{grid-template-columns:1fr}
+  .foot > div{padding-left:0;border-left:0}
+  .news input{border-right:1px solid var(--line)}
+  .news .btn{flex:1 1 100%;justify-content:center;margin-top:8px}
+  .logo b{font-size:24px}
+  .lang-btn .lbl{display:none}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+  <symbol id="i-ig" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".6" fill="currentColor"/></symbol>
+  <symbol id="i-yt" viewBox="0 0 24 24"><rect x="2.5" y="5.5" width="19" height="13" rx="4"/><path d="m10 9 5 3-5 3z" fill="currentColor"/></symbol>
+  <symbol id="i-fb" viewBox="0 0 24 24"><path d="M14 8h3V4h-3a4 4 0 0 0-4 4v3H7v4h3v6h4v-6h3l1-4h-4V8z"/></symbol>
+  <symbol id="i-tt" viewBox="0 0 24 24"><path d="M14 3v11.5a3.5 3.5 0 1 1-3.5-3.5M14 3c.5 2.6 2.3 4.4 5 4.6"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-cam" viewBox="0 0 24 24"><path d="M4 8h3l2-2.5h6L17 8h3v11H4z"/><circle cx="12" cy="13.2" r="3.6"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></symbol>
+  <symbol id="i-rings" viewBox="0 0 24 24"><circle cx="9" cy="14" r="5.5"/><circle cx="15" cy="14" r="5.5"/><path d="m10.5 5 1.5-2 1.5 2-1.5 2.2z"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 3 2.6 15 0 18M12 3c-2.6 3-2.6 15 0 18"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="1"/><path d="m3.5 6.5 8.5 7 8.5-7"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></symbol>
+  <symbol id="i-viber" viewBox="0 0 24 24"><path d="M12 3c5 0 8.5 2.4 8.5 7.6S17 18 12 18c-.8 0-1.6 0-2.3-.2L6 21v-4C4 15.6 3.5 13 3.5 10.6 3.5 5.4 7 3 12 3z"/><path d="M9.5 8.5c.5 2.6 2.4 4.5 5 5M12.5 7.5a3 3 0 0 1 2.5 2.5"/></symbol>
+  <symbol id="i-msg" viewBox="0 0 24 24"><path d="M12 3C7 3 3 6.7 3 11.3c0 2.6 1.3 4.9 3.3 6.4V21l3-1.7c.9.3 1.8.4 2.7.4 5 0 9-3.7 9-8.4S17 3 12 3z"/><path d="m7.5 13 3-3 2.2 2 3.8-3-3 3-2.2-2z"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+</svg>
+
+<header id="top">
+  <div class="wrap nav">
+    <a class="logo" href="#top" aria-label="LM Studio"><b class="b-name">LM STUDIO</b><small data-i="logo_sub">Pre-Wedding Planner</small></a>
+    <ul class="menu">
+      <li><a class="active" href="#top" data-i="nav_home">Home</a></li>
+      <li><a href="#work" data-i="nav_portfolio">Portfolio</a></li>
+      <li><a href="#stories" data-i="nav_journal">Journal</a></li>
+      <li><a href="#about" data-i="nav_about">About</a></li>
+      <li><a href="#packages" data-i="nav_packages">Packages</a></li>
+      <li><a href="#places" data-i="nav_places">Locations</a></li>
+      <li><a href="#contact" data-i="nav_contact">Contact</a></li>
+    </ul>
+    <div class="tools">
+      <button id="searchBtn" aria-label="Search"><svg class="ico"><use href="#i-search"/></svg></button>
+      <a class="ig" data-social="instagram" href="https://instagram.com/" data-social="instagram" target="_blank" rel="noopener" aria-label="Instagram"><svg class="ico"><use href="#i-ig"/></svg></a>
+      <div class="lang">
+        <button class="lang-btn" id="langBtn" aria-haspopup="listbox" aria-expanded="false"><svg class="ico"><use href="#i-globe"/></svg><span class="lbl" id="langLbl">EN</span><svg class="ico" style="width:12px;height:12px"><use href="#i-down"/></svg></button>
+        <ul class="lang-list" id="langList" role="listbox" hidden></ul>
+      </div>
+      <button class="burger" id="burger" aria-label="Menu"><svg class="ico" style="width:22px;height:22px"><use href="#i-menu"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<div class="drawer" id="drawer" hidden>
+  <nav>
+    <button class="x" id="drawerX" aria-label="Close"><svg class="ico"><use href="#i-x"/></svg></button>
+    <a href="#top" data-i="nav_home">Home</a><a href="#work" data-i="nav_portfolio">Portfolio</a><a href="#stories" data-i="nav_journal">Journal</a><a href="#about" data-i="nav_about">About</a><a href="#packages" data-i="nav_packages">Packages</a><a href="#places" data-i="nav_places">Locations</a><a href="#contact" data-i="nav_contact">Contact</a>
+  </nav>
+</div>
+
+<div class="search" id="search" hidden>
+  <button class="x" id="searchX" aria-label="Close"><svg class="ico" style="width:24px;height:24px"><use href="#i-x"/></svg></button>
+  <div class="box">
+    <input id="q" type="search" autocomplete="off" data-ph="search_ph" placeholder="Search">
+    <ul id="results"></ul>
+  </div>
+</div>
+
+<main>
+<section class="hero">
+  <img id="heroImg" src="img/hero.jpg" alt="">
+  <img class="fl fl-hero-tl fl-a crop-top" src="img/fl-magnolia.webp" alt="" aria-hidden="true">
+  <div class="petals" aria-hidden="true"><i style="--l:8%;--d:13s;--w:0s;--p:url(img/petal-1.webp)"></i><i style="--l:22%;--d:16s;--w:-5s;--p:url(img/petal-3.webp)"></i><i style="--l:38%;--d:12s;--w:-9s;--p:url(img/petal-5.webp)"></i><i style="--l:55%;--d:15s;--w:-2s;--p:url(img/petal-2.webp)"></i><i style="--l:68%;--d:11s;--w:-7s;--p:url(img/petal-4.webp)"></i><i style="--l:80%;--d:14s;--w:-11s;--p:url(img/petal-6.webp)"></i><i style="--l:92%;--d:17s;--w:-4s;--p:url(img/petal-3.webp)"></i></div>
+  <div class="wrap">
+    <div class="hero-copy">
+      <div class="eyebrow" data-i="hero_eyebrow">Hello, we are LM Studio</div>
+      <h1><span data-i="hero_t1">Planning</span><span data-i="hero_t2">Timeless Love</span></h1>
+      <div class="rule"></div>
+      <p data-i="hero_p"></p>
+      <div class="cta">
+        <a class="btn btn-gold" href="#work"><span data-i="btn_portfolio">View Portfolio</span><svg class="ico" style="width:14px;height:14px"><use href="#i-arrow"/></svg></a>
+        <a class="btn btn-line" href="#book" data-book data-i="btn_plan">Plan Your Shoot</a>
+      </div>
+    </div>
+  </div>
+  <div class="social-rail">
+    <a href="https://instagram.com/" data-social="instagram" target="_blank" rel="noopener" aria-label="Instagram"><svg class="ico"><use href="#i-ig"/></svg></a>
+    <a href="https://youtube.com/" data-social="youtube" target="_blank" rel="noopener" aria-label="YouTube"><svg class="ico"><use href="#i-yt"/></svg></a>
+    <a href="https://tiktok.com/" data-social="tiktok" target="_blank" rel="noopener" aria-label="TikTok"><svg class="ico"><use href="#i-tt"/></svg></a>
+    <a href="https://facebook.com/" data-social="facebook" target="_blank" rel="noopener" aria-label="Facebook"><svg class="ico"><use href="#i-fb"/></svg></a>
+  </div>
+  <div class="based">
+    <div class="eyebrow" data-i="based_label">Based in</div>
+    <div class="eyebrow" data-i="based_place">Namsang, Shan State</div>
+    <div class="rule"></div>
+    <div class="sig b-sig">LM Studio</div>
+  </div>
+</section>
+
+<section class="work wrap" id="work">
+  <div class="sec-head">
+    <h2 class="h2" data-i="explore">Explore Our Work</h2>
+    <a class="more" href="#work"><span data-i="view_all_portfolio">View All Portfolio</span><span class="dot"><svg class="ico" style="width:12px;height:12px"><use href="#i-arrow"/></svg></span></a>
+  </div>
+  <div class="cards" id="cards"></div>
+</section>
+
+<section class="about" id="about">
+  <img class="fl fl-about fl-a" src="img/fl-cherry.webp" alt="" aria-hidden="true">
+  <div class="wrap about-grid">
+    <div class="collage">
+      <div class="dots"></div>
+      <figure class="p1"><img id="about1" src="img/a-1.jpg" alt=""></figure>
+      <figure class="p2"><img id="about2" src="img/a-2.jpg" alt=""></figure>
+      <figure class="p3"><img id="about3" src="img/a-3.jpg" alt=""></figure>
+      <div class="stamp" aria-hidden="true">
+        <svg viewBox="0 0 100 100"><defs><path id="circ" d="M50,50 m-38,0 a38,38 0 1,1 76,0 a38,38 0 1,1 -76,0"/></defs><text><textPath href="#circ" id="stampText" textLength="236" lengthAdjust="spacing">Love · Plan · Capture · Forever ·</textPath></text></svg>
+        <div class="cam"><svg class="ico" style="width:22px;height:22px"><use href="#i-cam"/></svg></div>
+      </div>
+      <div class="sig b-sig2">lm studio</div>
+    </div>
+    <div>
+      <div class="eyebrow" data-i="about_eyebrow">About Us</div>
+      <h2 data-i="about_title">Hi, We're LM Studio</h2>
+      <p data-i="about_p"></p>
+      <div class="stats" id="stats"></div>
+      <a class="btn btn-line" href="#contact" data-i="more_about">More About Us</a>
+    </div>
+  </div>
+  <div class="vert" data-i="vertical">Planner. Dreamer. Storyteller.</div>
+</section>
+
+<section class="packages" id="packages">
+  <div class="pk-bg"><img id="pkBg" src="img/pk-bg.jpg" alt=""></div>
+  <img class="fl fl-pk-tr fl-a crop-top" src="img/fl-magnolia.webp" alt="" aria-hidden="true">
+  <img class="fl fl-pk-bl fl-a crop-bot" src="img/fl-magnolia.webp" alt="" aria-hidden="true">
+  <div class="wrap">
+    <div class="pk-head wreath-head">
+      <div class="wreath"><img src="img/fl-wreath.webp" alt="" aria-hidden="true">
+        <div class="wr-in"><div class="eyebrow" data-i="pk_eyebrow">Our Packages</div>
+        <h2 data-i="pk_title">Price List</h2>
+        <div class="heart" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/></svg></div></div></div>
+    </div>
+    <div class="pk-grid" id="pkGrid"></div>
+    <div class="pk-close"><p data-i="pk_closing">We look forward to working with you!</p></div>
+  </div>
+</section>
+
+<section class="places" id="places">
+  <img class="fl fl-pl-tl fl-a" src="img/fl-cherry.webp" alt="" aria-hidden="true">
+  <div class="wrap">
+    <div class="pk-head">
+      <div class="eyebrow" data-i="pl_eyebrow">Shoot Locations</div>
+      <h2 data-i="pl_title">Our Favourite Places</h2>
+      <div class="heart" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/></svg></div>
+      <p class="pl-lead" data-i="pl_lead"></p>
+    </div>
+    <div class="map-stage" id="mapStage">
+      <div class="mz" id="mz"><div class="ml" id="ml">
+        <img class="map" id="mapImg" src="img/map-tangyan.jpg" alt="" draggable="false">
+        <svg class="route" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path id="routeGlow"/><path id="routePath"/></svg>
+        <div id="pins"></div>
+      </div></div>
+      <div class="pl-pop" id="plPop" hidden></div>
+      <svg class="leads" id="leads" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"></svg>
+      <div id="plCards"></div>
+      <div class="mctl"><button id="zIn" aria-label="Zoom in">+</button><button id="zOut" aria-label="Zoom out">−</button><button id="zReset" aria-label="Reset">⟲</button><button id="zFull" aria-label="Full screen">⤢</button></div>
+      <div class="mhint" data-i="pl_zoom"></div>
+      <div class="credit" id="mapCredit"></div>
+    </div>
+    <div class="journey">
+      <div class="jr-title"><span class="eyebrow" data-i="pl_route">Your Route</span></div>
+      <div id="journey"></div>
+    </div>
+    <div class="gmap" id="gmapBox">
+      <div class="gmap-head"><div><div class="eyebrow" data-i="pl_map_title">Find us on the map</div><b id="gmapName"></b></div><a class="more" id="gmapLink" href="#" target="_blank" rel="noopener"><span data-i="pl_gmap">Open in Google Maps</span><span class="dot"><svg class="ico" style="width:12px;height:12px"><use href="#i-arrow"/></svg></span></a></div>
+      <iframe id="gmapFrame" title="Google Map" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+    </div>
+  </div>
+</section>
+
+<section class="stories wrap" id="stories">
+  <div class="sec-head">
+    <h2 class="h2" data-i="latest">Latest Stories</h2>
+    <a class="more" href="#stories"><span data-i="view_all_posts">View All Posts</span><span class="dot"><svg class="ico" style="width:12px;height:12px"><use href="#i-arrow"/></svg></span></a>
+  </div>
+  <div class="posts" id="posts"></div>
+</section>
+
+<section class="insta">
+  <div class="wrap insta-row">
+    <a class="intro" data-social="tiktok" href="https://tiktok.com/" target="_blank" rel="noopener">
+      <svg class="ico"><use href="#i-tt"/></svg>
+      <div><b data-i="insta_t">Follow Our Journey on TikTok</b><span class="tt-handle">@lmstudio</span></div>
+    </a>
+    <div id="instaShots" style="display:contents"></div>
+    <div class="topo-cell" aria-hidden="true"><svg class="topo" viewBox="0 0 120 120" preserveAspectRatio="xMidYMid slice" fill="none" stroke="currentColor" stroke-width=".6">
+      <path d="M10 100c20-30 10-60 40-70s50 20 60 50"/><path d="M20 105c18-26 10-52 34-61s42 18 52 44"/><path d="M30 110c16-22 10-44 28-51s34 16 42 38"/><path d="M42 112c12-16 8-34 20-38s24 12 30 30"/><path d="M0 40c30 10 40-20 70-15s30 30 50 25"/><path d="M0 28c30 10 42-20 72-15s30 28 48 22"/></svg></div>
+  </div>
+</section>
+
+<section class="news wrap" id="contact">
+  <img class="fl fl-news-l fl-a" src="img/fl-cherry.webp" alt="" aria-hidden="true">
+  <img class="fl fl-news-r fl-a crop-bot" src="img/fl-magnolia.webp" alt="" aria-hidden="true">
+  <div class="news-row">
+    <div class="env"><svg class="ico"><use href="#i-mail"/></svg></div>
+    <div class="news-copy"><b data-i="news_t">Stay Inspired</b><p data-i="news_p"></p></div>
+    <form id="newsForm" name="newsletter" method="POST" data-netlify="true" netlify-honeypot="bot-field" novalidate>
+      <input type="hidden" name="form-name" value="newsletter">
+      <input type="hidden" name="language" id="newsLang" value="en">
+      <p hidden><label>Leave empty <input name="bot-field"></label></p>
+      <input id="email" name="email" type="email" data-ph="news_ph" placeholder="Your email address" aria-label="Email" required>
+      <button class="btn btn-gold" type="submit" data-i="news_btn">Subscribe</button>
+      <div class="msg" id="newsMsg" role="status"></div>
+    </form>
+  </div>
+</section>
+</main>
+
+<div class="book" id="book" hidden role="dialog" aria-modal="true" aria-labelledby="bkT">
+  <div class="book-in"><button class="x" data-bkclose aria-label="Close"><svg class="ico"><use href="#i-x"/></svg></button>
+    <h3 id="bkT" data-i="bk_title">Book your shoot</h3>
+    <form id="bkForm" name="booking" method="POST" data-netlify="true" netlify-honeypot="bot-field" novalidate>
+      <input type="hidden" name="form-name" value="booking"><input type="hidden" name="language" id="bkLang" value="en">
+      <p hidden><label>Leave empty <input name="bot-field"></label></p>
+      <div class="bf2"><label><span data-i="bf_name">Your name</span><input id="bfName" name="name" required autocomplete="name"></label>
+      <label><span data-i="bf_phone">Phone</span><input id="bfPhone" name="phone" type="tel" required autocomplete="tel" inputmode="tel"></label></div>
+      <div class="bf2"><label><span data-i="bf_date">Preferred date</span><input id="bfDate" name="shoot_date" type="date"></label>
+      <label><span data-i="bf_email">Email</span><input id="bfEmail" name="email" type="email" autocomplete="email"></label></div>
+      <div class="bf2"><label><span data-i="bf_package">Package</span><select id="bfPkg" name="package"></select></label>
+      <label><span data-i="bf_place">Location</span><select id="bfPlace" name="place"></select></label></div>
+      <label><span data-i="bf_msg">Message</span><textarea id="bfMsg" name="message" rows="3"></textarea></label>
+      <button class="btn btn-gold" type="submit" data-i="bf_send">Send booking request</button>
+      <div class="msg" id="bfMsgOut" role="status"></div>
+    </form>
+    <div class="bk-or" data-i="bf_or">Or contact us directly</div>
+    <div class="bk-list" id="bkList"></div></div>
+</div>
+<div class="fab" id="fab"></div>
+<div class="modal" id="gal" hidden role="dialog" aria-modal="true">
+  <div class="modal-in wrap">
+    <div class="modal-head"><div><div class="eyebrow" data-i="explore">Explore Our Work</div><h2 id="galTitle"></h2><small id="galCount"></small><p class="gal-story" id="galStory" hidden></p></div><button class="x" data-close aria-label="Close"><svg class="ico" style="width:24px;height:24px"><use href="#i-x"/></svg></button></div>
+    <div class="gal-grid" id="galGrid"></div>
+  </div>
+</div>
+<div class="viewer" id="viewer" hidden>
+  <button class="x" id="vX" aria-label="Close"><svg class="ico" style="width:26px;height:26px"><use href="#i-x"/></svg></button>
+  <button class="nav-b prev" id="vPrev" aria-label="Previous"><svg class="ico" style="width:28px;height:28px;transform:rotate(180deg)"><use href="#i-arrow"/></svg></button>
+  <img id="vImg" alt="">
+  <video id="vVid" controls playsinline hidden></video>
+  <button class="nav-b next" id="vNext" aria-label="Next"><svg class="ico" style="width:28px;height:28px"><use href="#i-arrow"/></svg></button>
+  <div class="v-count" id="vCount"></div>
+</div>
+<div class="modal" id="art" hidden role="dialog" aria-modal="true">
+  <article class="modal-in art-in">
+    <button class="x" data-close aria-label="Close"><svg class="ico" style="width:24px;height:24px"><use href="#i-x"/></svg></button>
+    <div class="art-img"><img id="artImg" alt=""></div>
+    <div class="art-body"><span class="tag" id="artTag"></span><h2 id="artTitle"></h2><div class="meta" id="artMeta"></div><div id="artText"></div></div>
+  </article>
+</div>
+
+<footer class="wrap">
+  <div class="foot">
+    <div>
+      <a class="logo" href="#top"><b class="b-name">LM STUDIO</b><small data-i="logo_sub">Pre-Wedding Planner</small></a>
+      <p data-i="foot_tag"></p>
+    </div>
+    <div><h4 data-i="f_pages">Pages</h4><ul>
+      <li><a href="#top" data-i="nav_home">Home</a></li><li><a href="#work" data-i="nav_portfolio">Portfolio</a></li><li><a href="#stories" data-i="nav_journal">Journal</a></li><li><a href="#about" data-i="nav_about">About</a></li><li><a href="#places" data-i="nav_places">Locations</a></li><li><a href="#contact" data-i="nav_contact">Contact</a></li></ul></div>
+    <div><h4 data-i="f_portfolio">Portfolio</h4><ul id="footCats"></ul></div>
+    <div><h4 data-i="f_resources">Resources</h4><ul>
+      <li><a href="#packages" data-i="res1">Packages &amp; Pricing</a></li><li><a href="#stories" data-i="res2">Planning Guide</a></li><li><a href="#stories" data-i="res3">Outfit Lookbook</a></li><li><a href="#stories" data-i="res4">Location Map</a></li></ul></div>
+    <div><h4 data-i="f_connect">Let's Connect</h4>
+      <div class="socials">
+        <a href="https://instagram.com/" data-social="instagram" target="_blank" rel="noopener" aria-label="Instagram"><svg class="ico"><use href="#i-ig"/></svg></a>
+        <a href="https://youtube.com/" data-social="youtube" target="_blank" rel="noopener" aria-label="YouTube"><svg class="ico"><use href="#i-yt"/></svg></a>
+        <a href="https://tiktok.com/" data-social="tiktok" target="_blank" rel="noopener" aria-label="TikTok"><svg class="ico"><use href="#i-tt"/></svg></a>
+        <a href="https://facebook.com/" data-social="facebook" target="_blank" rel="noopener" aria-label="Facebook"><svg class="ico"><use href="#i-fb"/></svg></a>
+      </div>
+      <div class="contact-lines">
+        <span class="c-email"></span>
+        <span class="c-phone"></span>
+        <a class="c-addr" id="addrLink" href="#" target="_blank" rel="noopener"><span data-i="address">2nd Ward, Namsang, Shan State</span></a>
+      </div>
+    </div>
+  </div>
+  <div class="copy"><span data-i="copyright">© 2026 LM Studio. All rights reserved.</span><span class="c-web">LMSTUDIO.COM</span></div>
+</footer>
+
+<script src="content.js"></script>
+<script>
+/* LM STUDIO website. All words, photos and links come from content.js — edit them with admin.html. */
+const DEF_PACKAGES={"bg": "img/pk-bg.jpg", "bgOpacity": 0.35, "items": [{"img": "img/w-bridal.jpg", "price": "", "name": {"en": "Package One", "shn": "ပႅၵ်ႉၶဵတ်ႉ 1", "my": "ပက်ကေ့ချ် (၁)", "zh": "套餐一", "th": "แพ็กเกจที่ 1"}, "features": {"en": "One hour session\n25 edited pictures\nOne location", "shn": "ထႆႇ 1 ၸူဝ်ႈမူင်း\nႁၢင်ႈမႄးယဝ်ႉ 25 ဢၼ်\nတီႈထႆႇ 1 တီႈ", "my": "ရိုက်ကူးချိန် ၁ နာရီ\nပြင်ဆင်ပြီးပုံ ၂၅ ပုံ\nနေရာ ၁ ခု", "zh": "拍摄1小时\n精修照片25张\n1个拍摄地点", "th": "ถ่าย 1 ชั่วโมง\nภาพตกแต่ง 25 ภาพ\n1 สถานที่"}}, {"img": "img/s-1.jpg", "price": "", "name": {"en": "Package Two", "shn": "ပႅၵ်ႉၶဵတ်ႉ 2", "my": "ပက်ကေ့ချ် (၂)", "zh": "套餐二", "th": "แพ็กเกจที่ 2"}, "features": {"en": "Two hours session\n50 edited pictures\nTwo locations", "shn": "ထႆႇ 2 ၸူဝ်ႈမူင်း\nႁၢင်ႈမႄးယဝ်ႉ 50 ဢၼ်\nတီႈထႆႇ 2 တီႈ", "my": "ရိုက်ကူးချိန် ၂ နာရီ\nပြင်ဆင်ပြီးပုံ ၅၀ ပုံ\nနေရာ ၂ ခု", "zh": "拍摄2小时\n精修照片50张\n2个拍摄地点", "th": "ถ่าย 2 ชั่วโมง\nภาพตกแต่ง 50 ภาพ\n2 สถานที่"}}, {"img": "img/w-engagement.jpg", "price": "", "name": {"en": "Package Three", "shn": "ပႅၵ်ႉၶဵတ်ႉ 3", "my": "ပက်ကေ့ချ် (၃)", "zh": "套餐三", "th": "แพ็กเกจที่ 3"}, "features": {"en": "Four hours session\n150 edited pictures\nPhoto album", "shn": "ထႆႇ 4 ၸူဝ်ႈမူင်း\nႁၢင်ႈမႄးယဝ်ႉ 150 ဢၼ်\nပပ်ႉႁၢင်ႈ", "my": "ရိုက်ကူးချိန် ၄ နာရီ\nပြင်ဆင်ပြီးပုံ ၁၅၀ ပုံ\nဓာတ်ပုံအယ်လ်ဘမ်", "zh": "拍摄4小时\n精修照片150张\n相册一本", "th": "ถ่าย 4 ชั่วโมง\nภาพตกแต่ง 150 ภาพ\nอัลบั้มภาพ"}}, {"img": "img/w-traditional.jpg", "price": "", "name": {"en": "Package Four", "shn": "ပႅၵ်ႉၶဵတ်ႉ 4", "my": "ပက်ကေ့ချ် (၄)", "zh": "套餐四", "th": "แพ็กเกจที่ 4"}, "features": {"en": "Half-day session\n200 edited pictures\nTwo outfits\nPhoto album", "shn": "ထႆႇ ၶိင်ႈဝၼ်း\nႁၢင်ႈမႄးယဝ်ႉ 200 ဢၼ်\nၶူဝ်းၼုင်ႈ 2 ၸုမ်း\nပပ်ႉႁၢင်ႈ", "my": "နေ့တစ်ဝက် ရိုက်ကူးမှု\nပြင်ဆင်ပြီးပုံ ၂၀၀ ပုံ\nဝတ်စုံ ၂ စုံ\nဓာတ်ပုံအယ်လ်ဘမ်", "zh": "半天拍摄\n精修照片200张\n2套服装\n相册一本", "th": "ถ่ายครึ่งวัน\nภาพตกแต่ง 200 ภาพ\n2 ชุด\nอัลบั้มภาพ"}}, {"img": "img/w-prewedding.jpg", "price": "", "name": {"en": "Package Five", "shn": "ပႅၵ်ႉၶဵတ်ႉ 5", "my": "ပက်ကေ့ချ် (၅)", "zh": "套餐五", "th": "แพ็กเกจที่ 5"}, "features": {"en": "Full-day session\n300 edited pictures\nThree outfits\nMakeup & styling", "shn": "ထႆႇ တဵမ်ဝၼ်း\nႁၢင်ႈမႄးယဝ်ႉ 300 ဢၼ်\nၶူဝ်းၼုင်ႈ 3 ၸုမ်း\nပိၼ်ႇမႄး", "my": "တစ်နေ့လုံး ရိုက်ကူးမှု\nပြင်ဆင်ပြီးပုံ ၃၀၀ ပုံ\nဝတ်စုံ ၃ စုံ\nမိတ်ကပ်နှင့် အလှပြင်", "zh": "全天拍摄\n精修照片300张\n3套服装\n化妆与造型", "th": "ถ่ายเต็มวัน\nภาพตกแต่ง 300 ภาพ\n3 ชุด\nแต่งหน้าและทำผม"}}, {"img": "img/w-destination.jpg", "price": "", "name": {"en": "Package Six", "shn": "ပႅၵ်ႉၶဵတ်ႉ 6", "my": "ပက်ကေ့ချ် (၆)", "zh": "套餐六", "th": "แพ็กเกจที่ 6"}, "features": {"en": "Two-day destination shoot\n400 edited pictures\nPremium album\nTravel planning", "shn": "ထႆႇတၢင်းၵႆ 2 ဝၼ်း\nႁၢင်ႈမႄးယဝ်ႉ 400 ဢၼ်\nပပ်ႉႁၢင်ႈ ၸၼ်ႉသုင်\nၸတ်းၵၢၼ်ၶၢဝ်းတၢင်း", "my": "၂ ရက် ခရီးစဉ် ရိုက်ကူးမှု\nပြင်ဆင်ပြီးပုံ ၄၀၀ ပုံ\nအဆင့်မြင့် အယ်လ်ဘမ်\nခရီးစဉ် စီစဉ်ပေးခြင်း", "zh": "两天旅拍\n精修照片400张\n高级相册\n行程规划", "th": "ถ่ายต่างสถานที่ 2 วัน\nภาพตกแต่ง 400 ภาพ\nอัลบั้มพรีเมียม\nวางแผนการเดินทาง"}}]};
+const DEF_PLACES={"mapImg": "img/map-tangyan.jpg", "credit": "Imagery © Esri, Maxar, Earthstar Geographics", "embedQuery": "Tangyan, Myanmar", "embedZoom": 12, "showEmbed": true, "showCards": true, "items": [{"x": 50.0, "y": 45.8, "cx": 87, "cy": 50, "img": "img/a-1.jpg", "lat": "22.4917", "lng": "98.4006", "name": {"en": "Tangyan Town", "shn": "ဝဵင်းတၢင်ႉယၢၼ်း", "my": "တန့်ယန်းမြို့", "zh": "Tangyan 镇", "th": "เมืองตังยาน"}, "sub": {"en": "Start point", "shn": "တီႈတႄႇ", "my": "စတင်ရာ", "zh": "出发点", "th": "จุดเริ่มต้น"}, "desc": {"en": "Our starting point. Meet the team, change outfits and get styled before we drive out.", "shn": "", "my": "စတင်ရာနေရာ။ အဖွဲ့နဲ့တွေ့ဆုံ၊ ဝတ်စုံလဲ၊ အလှပြင်ပြီးမှ ထွက်ပါမယ်။", "zh": "我们的出发点。与团队见面、换装、化妆后出发。", "th": "จุดเริ่มต้นของเรา พบทีมงาน เปลี่ยนชุด และแต่งหน้าก่อนออกเดินทาง"}, "meta": {"en": "Start point · Studio pickup", "shn": "", "my": "စတင်ရာ · စတူဒီယိုမှ ကြိုဆို", "zh": "出发点 · 工作室接送", "th": "จุดเริ่มต้น · รับจากสตูดิโอ"}}, {"x": 46.6, "y": 37.8, "cx": 13, "cy": 50, "img": "img/a-2.jpg", "lat": "", "lng": "", "name": {"en": "Loi Ngin Viewpoint", "shn": "လွႆငိၼ်း", "my": "လွိုင်ငင် ရှုခင်း", "zh": "Loi Ngin 观景点", "th": "จุดชมวิวลอยเงิน"}, "sub": {"en": "Hill", "shn": "လွႆ", "my": "တောင်", "zh": "山丘", "th": "เนินเขา"}, "desc": {"en": "A hill above town with wide views over the valley. Best at golden hour.", "shn": "", "my": "မြို့ပေါ်ကို မြင်ရတဲ့ တောင်ကုန်း။ ချိုင့်ဝှမ်းကို ကျယ်ကျယ်မြင်ရပြီး နေဝင်ချိန်မှာ အလှဆုံးပါ။", "zh": "俯瞰小镇与山谷的山丘，黄金时刻最美。", "th": "เนินเขาเหนือเมือง มองเห็นหุบเขากว้าง สวยที่สุดช่วงแสงทอง"}, "meta": {"en": "10 min drive · Golden hour", "shn": "", "my": "ကား ၁၀ မိနစ် · နေဝင်ချိန်", "zh": "车程10分钟 · 黄金时刻", "th": "ขับรถ 10 นาที · แสงทอง"}}, {"x": 47.9, "y": 15.6, "cx": 13, "cy": 17, "img": "img/s-4.jpg", "lat": "", "lng": "", "name": {"en": "Nawng Hee Taung", "shn": "ၼွင်ႁီႈတွင်း", "my": "နောင်ဟီးတောင်", "zh": "Nawng Hee Taung", "th": "หนองฮีตอง"}, "sub": {"en": "Village", "shn": "မၢၼ်ႈ", "my": "ရွာ", "zh": "村庄", "th": "หมู่บ้าน"}, "desc": {"en": "Quiet village lanes, wooden houses and morning mist.", "shn": "", "my": "တိတ်ဆိတ်တဲ့ ရွာလမ်းလေးတွေ၊ သစ်သားအိမ်တွေနဲ့ မနက်ခင်း မြူခိုး။", "zh": "宁静的村道、木屋与晨雾。", "th": "ทางเดินในหมู่บ้านที่เงียบสงบ บ้านไม้ และหมอกยามเช้า"}, "meta": {"en": "15 min drive · Sunrise", "shn": "", "my": "ကား ၁၅ မိနစ် · နေထွက်ချိန်", "zh": "车程15分钟 · 日出", "th": "ขับรถ 15 นาที · พระอาทิตย์ขึ้น"}}, {"x": 75.5, "y": 39.0, "cx": 87, "cy": 17, "img": "img/s-3.jpg", "lat": "", "lng": "", "name": {"en": "Long Pwe Fields", "shn": "တုင်ႈလူင်ပွႆး", "my": "လုံပွဲ လယ်ကွင်း", "zh": "Long Pwe 田野", "th": "ทุ่งลองปวย"}, "sub": {"en": "Fields", "shn": "တုင်ႈ", "my": "လယ်ကွင်း", "zh": "田野", "th": "ทุ่ง"}, "desc": {"en": "Seasonal flower fields in bloom. Bright, joyful colours.", "shn": "", "my": "ရာသီအလိုက် ပွင့်တဲ့ ပန်းခင်းများ။ အရောင်စုံ တောက်ပပါတယ်။", "zh": "季节性花田盛开，色彩明亮欢快。", "th": "ทุ่งดอกไม้ตามฤดูกาล สีสันสดใส"}, "meta": {"en": "20 min drive · Nov – Jan", "shn": "", "my": "ကား ၂၀ မိနစ် · နိုဝင်ဘာ – ဇန်နဝါရီ", "zh": "车程20分钟 · 11月–1月", "th": "ขับรถ 20 นาที · พ.ย. – ม.ค."}}, {"x": 50.1, "y": 79.2, "cx": 87, "cy": 83, "img": "img/w-destination.jpg", "lat": "", "lng": "", "name": {"en": "Hway Ti Stream", "shn": "ႁူၺ်ႈတီႈ", "my": "ဟွေတီ ချောင်း", "zh": "Hway Ti 溪流", "th": "ลำธารห้วยตี"}, "sub": {"en": "Stream", "shn": "ႁူၺ်ႈ", "my": "ချောင်း", "zh": "溪流", "th": "ลำธาร"}, "desc": {"en": "Clear water and green rocks along the stream. Bring a second outfit.", "shn": "", "my": "ချောင်းတစ်လျှောက် ကြည်လင်တဲ့ရေနဲ့ စိမ်းလန်းတဲ့ ကျောက်တုံးများ။ အပိုဝတ်စုံ ယူလာပါ။", "zh": "溪边清澈流水与青石，建议多带一套服装。", "th": "น้ำใสและโขดหินเขียวริมลำธาร ควรเตรียมชุดสำรอง"}, "meta": {"en": "20 min drive · Midday", "shn": "", "my": "ကား ၂၀ မိနစ် · နေ့လယ်", "zh": "车程20分钟 · 中午", "th": "ขับรถ 20 นาที · เที่ยงวัน"}}, {"x": 41.9, "y": 72.0, "cx": 13, "cy": 83, "img": "img/i-4.jpg", "lat": "", "lng": "", "name": {"en": "Nawng Long Lake", "shn": "ၼွင်လူင်", "my": "နောင်လုံ ကန်", "zh": "Nawng Long 湖", "th": "ทะเลสาบหนองหลวง"}, "sub": {"en": "Lake", "shn": "ၼွင်", "my": "ကန်", "zh": "湖泊", "th": "ทะเลสาบ"}, "desc": {"en": "Still water for mirror-like reflections and boat moments.", "shn": "", "my": "ရေပြင်ငြိမ်လို့ မှန်လို ရောင်ပြန်ဟပ်ပုံနဲ့ လှေပေါ်ပုံတွေအတွက် ကောင်းပါတယ်။", "zh": "平静水面，适合倒影与小船画面。", "th": "ผิวน้ำนิ่งสำหรับภาพสะท้อนและภาพบนเรือ"}, "meta": {"en": "25 min drive · Morning", "shn": "", "my": "ကား ၂၅ မိနစ် · မနက်ခင်း", "zh": "车程25分钟 · 上午", "th": "ขับรถ 25 นาที · ช่วงเช้า"}}]};
+const DEF_TEXT={"en": {"pk_eyebrow": "Our Packages", "pk_title": "Price List", "pk_closing": "We look forward to working with you!", "insta_t": "Follow Our Journey on TikTok", "news_sending": "Sending…", "news_fail": "Could not send. Please check your internet and try again.", "pl_eyebrow": "Shoot Locations", "pl_title": "Our Favourite Places", "pl_lead": "Tap a pin to explore each place. We plan the route, timing and light for your day.", "pl_route": "Your Route", "pl_book": "Book this location", "pl_gmap": "Open in Google Maps", "pl_map_title": "Find us on the map", "nav_places": "Locations", "pl_zoom": "Pinch, scroll with Ctrl, or use + to zoom", "bk_title": "Book your shoot", "bk_lead": "Choose how you would like to contact us.", "bk_call": "Call", "bk_viber": "Viber", "bk_fb": "Facebook Messenger", "bk_mail": "Email", "bk_map": "Find our studio", "bf_name": "Your name", "bf_phone": "Phone / Viber", "bf_email": "Email (optional)", "bf_date": "Preferred date", "bf_package": "Package", "bf_place": "Location", "bf_msg": "Tell us about your plans", "bf_send": "Send booking request", "bf_sending": "Sending…", "bf_ok": "Thank you! We will contact you within 24 hours.", "bf_err": "Please enter your name and phone number.", "bf_fail": "Could not send. Please call us instead.", "bf_or": "Or contact us directly", "bf_any": "Not sure yet", "pk_book": "Book this package"}, "shn": {"pk_eyebrow": "ပႅၵ်ႉၶဵတ်ႉႁဝ်း", "pk_title": "သဵၼ်ႈမၢႆ ၵႃႈၶၼ်", "pk_closing": "ႁဝ်းပႂ်ႉၶႃႈ တေႁဵတ်းၵၢၼ်ႁူမ်ႈၵၼ်တင်းသူ", "insta_t": "ၸွမ်းတူၺ်းႁဝ်း တီႈ TikTok", "news_sending": "တိုၵ်ႉသူင်ႇယူႇ…", "news_fail": "သူင်ႇဢမ်ႇလႆႈ။ ၵူတ်ႇတူၺ်း Internet သေ ၶတ်းၸႂ်ထႅင်ႈ။", "pl_eyebrow": "တီႈထႆႇႁၢင်ႈ", "pl_title": "တီႈထႆႇ ဢၼ်ႁဝ်းမၵ်ႉ", "pl_lead": "ၼဵၵ်းတီႈ Pin သေ တူၺ်းတီႈထႆႇ။ ႁဝ်းၸတ်းပၼ် တၢင်း၊ ယၢမ်း လႄႈ လႅင်း။", "pl_route": "တၢင်းထႆႇႁၢင်ႈ", "pl_book": "ၸွင်ႈတီႈၼႆႉ", "pl_gmap": "တူၺ်းၼႂ်း Google Maps", "pl_map_title": "သွၵ်ႈႁႃၼိူဝ်ၽႅၼ်ႇလိၼ်", "nav_places": "တီႈထႆႇ", "pl_zoom": "ယိုၼ်ႈလဵၵ်ႈ/ယႂ်ႇ ၽႅၼ်ႇလိၼ် ပေႃး ၼဵၵ်း +", "bk_title": "ၸွင်ႈထႆႇႁၢင်ႈ", "bk_lead": "လိူၵ်ႈ လၢႆးၵပ်းသိုပ်ႇ ႁဝ်း။", "bk_call": "ၵႂႃႇၽူင်း", "bk_viber": "Viber", "bk_fb": "Facebook Messenger", "bk_mail": "Email", "bk_map": "တီႈယူႇ ႁဝ်း", "bf_name": "ၸိုဝ်ႈ", "bf_phone": "ၽူင်း / Viber", "bf_email": "Email (ဢမ်ႇသႂ်ႇၵေႃႈလႆႈ)", "bf_date": "ဝၼ်းဢၼ်ၶႂ်ႈထႆႇ", "bf_package": "ပႅၵ်ႉၶဵတ်ႉ", "bf_place": "တီႈထႆႇ", "bf_msg": "လၢတ်ႈပၼ် ၽႅၼ်ၵၢၼ်သူ", "bf_send": "သူင်ႇ ၶေႃႈၸွင်ႈ", "bf_sending": "တိုၵ်ႉသူင်ႇယူႇ…", "bf_ok": "ယိၼ်းၸူမ်းၶႃႈ။ ႁဝ်းတေၵပ်းသိုပ်ႇၶိုၼ်း ၼႂ်း 24 ၸူဝ်ႈမူင်း။", "bf_err": "သႂ်ႇ ၸိုဝ်ႈ လႄႈ မၢႆၽူင်း။", "bf_fail": "သူင်ႇဢမ်ႇလႆႈ။ ၵႂႃႇၽူင်းႁႃႁဝ်းၶႃႈ။", "bf_or": "ဢမ်ႇၼၼ် ၵပ်းသိုပ်ႇႁဝ်းၵမ်းလဵဝ်", "bf_any": "ပႆႇမၼ်ႈၸႂ်", "pk_book": "ၸွင်ႈပႅၵ်ႉၶဵတ်ႉၼႆႉ"}, "my": {"pk_eyebrow": "ကျွန်ုပ်တို့၏ ပက်ကေ့ချ်များ", "pk_title": "ဈေးနှုန်းစာရင်း", "pk_closing": "သင်နှင့်အတူ လက်တွဲလုပ်ဆောင်ရန် မျှော်လင့်နေပါသည်။", "insta_t": "TikTok တွင် ကျွန်ုပ်တို့ကို ဖော်လိုလုပ်ပါ", "news_sending": "ပို့နေသည်…", "news_fail": "ပို့၍မရပါ။ အင်တာနက်ကို စစ်ပြီး ထပ်ကြိုးစားပါ။", "pl_eyebrow": "ရိုက်ကူးရေး နေရာများ", "pl_title": "ကျွန်ုပ်တို့ နှစ်သက်သော နေရာများ", "pl_lead": "Pin ကိုနှိပ်ပြီး နေရာတစ်ခုချင်းစီကို ကြည့်ပါ။ လမ်းကြောင်း၊ အချိန်နဲ့ အလင်းရောင်ကို ကျွန်ုပ်တို့ စီစဉ်ပေးပါတယ်။", "pl_route": "ရိုက်ကူးရေး လမ်းကြောင်း", "pl_book": "ဒီနေရာ ဘွတ်ကင်လုပ်ရန်", "pl_gmap": "Google Maps တွင်ကြည့်ရန်", "pl_map_title": "မြေပုံပေါ်တွင် ရှာပါ", "nav_places": "နေရာများ", "pl_zoom": "လက်နှစ်ချောင်းဖြင့် ချဲ့ပါ၊ သို့မဟုတ် + ကိုနှိပ်ပါ", "bk_title": "ရိုက်ကူးမှု ဘွတ်ကင်လုပ်ရန်", "bk_lead": "ဆက်သွယ်လိုသည့် နည်းလမ်းကို ရွေးပါ။", "bk_call": "ဖုန်းခေါ်ရန်", "bk_viber": "Viber", "bk_fb": "Facebook Messenger", "bk_mail": "အီးမေးလ်", "bk_map": "စတူဒီယို တည်နေရာ", "bf_name": "အမည်", "bf_phone": "ဖုန်း / Viber", "bf_email": "အီးမေးလ် (မထည့်လည်းရ)", "bf_date": "ရိုက်ချင်သည့်ရက်", "bf_package": "ပက်ကေ့ချ်", "bf_place": "နေရာ", "bf_msg": "သင့်အစီအစဉ်ကို ပြောပြပါ", "bf_send": "ဘွတ်ကင် ပို့ရန်", "bf_sending": "ပို့နေသည်…", "bf_ok": "ကျေးဇူးတင်ပါတယ်။ ၂၄ နာရီအတွင်း ပြန်လည်ဆက်သွယ်ပါမယ်။", "bf_err": "အမည်နဲ့ ဖုန်းနံပါတ် ထည့်ပေးပါ။", "bf_fail": "ပို့၍မရပါ။ ဖုန်းဖြင့် ဆက်သွယ်ပေးပါ။", "bf_or": "သို့မဟုတ် တိုက်ရိုက် ဆက်သွယ်ပါ", "bf_any": "မဆုံးဖြတ်ရသေး", "pk_book": "ဒီပက်ကေ့ချ် ဘွတ်ကင်လုပ်ရန်"}, "zh": {"pk_eyebrow": "我们的套餐", "pk_title": "价格表", "pk_closing": "期待与您合作！", "insta_t": "在 TikTok 上关注我们", "news_sending": "发送中…", "news_fail": "发送失败，请检查网络后重试。", "pl_eyebrow": "拍摄地点", "pl_title": "我们最爱的地方", "pl_lead": "点击地图上的标记查看每个地点。我们为您规划路线、时间与光线。", "pl_route": "拍摄路线", "pl_book": "预约此地点", "pl_gmap": "在 Google 地图中打开", "pl_map_title": "在地图上找到我们", "nav_places": "地点", "pl_zoom": "双指缩放、按住 Ctrl 滚动或点击 + 放大", "bk_title": "预约拍摄", "bk_lead": "请选择联系方式。", "bk_call": "拨打电话", "bk_viber": "Viber", "bk_fb": "Facebook Messenger", "bk_mail": "电子邮件", "bk_map": "工作室位置", "bf_name": "您的姓名", "bf_phone": "电话 / Viber", "bf_email": "电子邮件（选填）", "bf_date": "期望拍摄日期", "bf_package": "套餐", "bf_place": "地点", "bf_msg": "告诉我们您的计划", "bf_send": "发送预约请求", "bf_sending": "发送中…", "bf_ok": "谢谢！我们将在24小时内与您联系。", "bf_err": "请填写姓名和电话号码。", "bf_fail": "发送失败，请直接致电我们。", "bf_or": "或直接联系我们", "bf_any": "还不确定", "pk_book": "预约此套餐"}, "th": {"pk_eyebrow": "แพ็กเกจของเรา", "pk_title": "รายการราคา", "pk_closing": "เรายินดีที่จะได้ร่วมงานกับคุณ!", "insta_t": "ติดตามเราบน TikTok", "news_sending": "กำลังส่ง…", "news_fail": "ส่งไม่สำเร็จ กรุณาตรวจสอบอินเทอร์เน็ตแล้วลองอีกครั้ง", "pl_eyebrow": "สถานที่ถ่ายภาพ", "pl_title": "สถานที่โปรดของเรา", "pl_lead": "แตะหมุดเพื่อดูแต่ละสถานที่ เราวางแผนเส้นทาง เวลา และแสงให้คุณ", "pl_route": "เส้นทางของคุณ", "pl_book": "จองสถานที่นี้", "pl_gmap": "เปิดใน Google Maps", "pl_map_title": "ค้นหาเราบนแผนที่", "nav_places": "สถานที่", "pl_zoom": "ใช้สองนิ้ว กด Ctrl แล้วเลื่อน หรือแตะ + เพื่อซูม", "bk_title": "จองการถ่ายภาพ", "bk_lead": "เลือกช่องทางที่สะดวกในการติดต่อเรา", "bk_call": "โทร", "bk_viber": "Viber", "bk_fb": "Facebook Messenger", "bk_mail": "อีเมล", "bk_map": "ตำแหน่งสตูดิโอ", "bf_name": "ชื่อของคุณ", "bf_phone": "โทรศัพท์ / Viber", "bf_email": "อีเมล (ไม่บังคับ)", "bf_date": "วันที่ต้องการ", "bf_package": "แพ็กเกจ", "bf_place": "สถานที่", "bf_msg": "บอกเราเกี่ยวกับแผนของคุณ", "bf_send": "ส่งคำขอจอง", "bf_sending": "กำลังส่ง…", "bf_ok": "ขอบคุณ! เราจะติดต่อกลับภายใน 24 ชั่วโมง", "bf_err": "กรุณากรอกชื่อและเบอร์โทรศัพท์", "bf_fail": "ส่งไม่สำเร็จ กรุณาโทรหาเรา", "bf_or": "หรือติดต่อเราโดยตรง", "bf_any": "ยังไม่แน่ใจ", "pk_book": "จองแพ็กเกจนี้"}};
+const LANGS=[
+  {code:"en",html:"en",label:"EN",name:"English",loc:"en-US"},
+  {code:"shn",html:"shn",label:"တႆး",name:"တႆး",loc:"en-GB"},
+  {code:"my",html:"my",label:"မြန်မာ",name:"မြန်မာ",loc:"my-MM"},
+  {code:"zh",html:"zh-Hans",label:"中文",name:"中文",loc:"zh-CN"},
+  {code:"th",html:"th",label:"ไทย",name:"ไทย",loc:"th-TH"}
+];
+const FALLBACK={shn:["shn","my","en"],my:["my","en"],zh:["zh","en"],th:["th","en"],en:["en"]};
+let S=normalize(window.SITE||{});
+function cleanPath(v){if(typeof v!=="string"||v.startsWith("data:")||/^https?:/i.test(v))return v;
+  let p=v.trim().replace(/\\/g,"/").replace(/^(\.\/)+/,"").replace(/^\/+/,"");const i=p.toLowerCase().lastIndexOf("img/");if(i>0)p=p.slice(i);return p}
+function cleanAll(o){for(const k in o){const v=o[k];if(typeof v==="string"&&/\.(jpe?g|png|webp|gif|mp4|webm|mov|m4v)$/i.test(v))o[k]=cleanPath(v);else if(v&&typeof v==="object")cleanAll(v)}return o}
+function normalize(site){
+  site=Object.assign({text:{},categories:[],posts:[],stats:[],instagram:[],images:{},brand:{},contact:{},social:{}},site);
+  if(!site.packages)site.packages=JSON.parse(JSON.stringify(DEF_PACKAGES));
+  if(!site.places)site.places=JSON.parse(JSON.stringify(DEF_PLACES));
+  if(site.places.mapImg==="img/map-terrain.webp"){const old=["Tangyan Town", "Pine Forest Trail", "Hilltop Pagoda", "Lake Reflections", "Flower Fields", "Waterfall"];const D=JSON.parse(JSON.stringify(DEF_PLACES));
+    site.places.mapImg=D.mapImg;site.places.credit=D.credit;site.places.embedZoom=D.embedZoom;
+    if((site.places.items||[]).every((p,i)=>p.name&&p.name.en===old[i]))site.places.items=D.items;
+    else site.places.items.forEach((p,i)=>{if(p.cx==null){p.cx=p.x<50?13:87;p.cy=[17,50,83][i%3]}})}
+  if(site.places.showCards==null)site.places.showCards=true;
+  if(site.places.credit==null)site.places.credit="";
+  for(const l in DEF_TEXT){site.text[l]=Object.assign({},DEF_TEXT[l],site.text[l]||{});
+    if(/instagram/i.test(site.text[l].insta_t||""))site.text[l].insta_t=DEF_TEXT[l].insta_t}
+  if(!site.social.tiktokHandle)site.social.tiktokHandle=site.social.instagramHandle||"";
+  cleanAll(site);if(!site.forms)site.forms={provider:"auto"};if(!site.cloud)site.cloud={url:"",key:""};
+  return site}
+let cur="en";
+const $=s=>document.querySelector(s);
+const esc=v=>String(v??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const pick=obj=>{if(!obj)return"";for(const l of FALLBACK[cur]){if(obj[l])return obj[l]}return""};
+const tx=k=>{for(const l of FALLBACK[cur]){const v=S.text?.[l]?.[k];if(v)return v}return""};
+const arrow='<svg class="ico"><use href="#i-arrow"/></svg>';
+function fmtDate(d,l){try{return new Intl.DateTimeFormat(l.loc,{year:"numeric",month:"short",day:"numeric"}).format(new Date(d+"T00:00:00"))}catch(e){return d||""}}
+const isVid=s=>/\.(mp4|webm|mov|m4v)(\?|#|$)/i.test(String(s||""))||String(s||"").startsWith("blob:");
+function media(src,{auto=false,pos="",lazy=true}={}){if(!src)return"";const st=pos?` style="object-position:${esc(pos)}"`:"";
+  return isVid(src)?`<video src="${esc(src)}#t=0.1" muted playsinline preload="metadata"${auto?" autoplay loop":""}${st}></video>`:`<img src="${esc(src)}" alt=""${lazy?' loading="lazy"':""}${st}>`}
+function setImg(id,src){const el=document.getElementById(id);if(el&&src)el.src=src}
+function render(){
+  const l=LANGS.find(x=>x.code===cur);
+  document.documentElement.lang=l.html;
+  document.querySelectorAll("[data-i]").forEach(el=>{const v=tx(el.dataset.i);if(v)el.textContent=v});
+  document.querySelectorAll("[data-ph]").forEach(el=>el.placeholder=tx(el.dataset.ph));
+  $("#langLbl").textContent=l.label;
+  $("#stampText").textContent=tx("stamp");
+  // brand, contact, social
+  document.querySelectorAll(".b-name").forEach(e=>e.textContent=S.brand.name||"");
+  document.querySelectorAll(".b-sig").forEach(e=>e.textContent=S.brand.signature||"");
+  document.querySelectorAll(".b-sig2").forEach(e=>e.textContent=(S.brand.signature||"").toLowerCase());
+  document.querySelectorAll(".c-email").forEach(e=>e.innerHTML=S.contact.email?`<a class="c-mail" href="mailto:${esc(S.contact.email)}">${esc(S.contact.email)}</a>`:"");
+  document.querySelectorAll(".c-phone").forEach(e=>e.innerHTML=phones().map(p=>`<a class="c-tel" href="tel:${p.tel}">${esc(p.label)}</a>`).join(" · "));
+  $("#addrLink").href="https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(S.text?.en?.address||tx("address"));
+  renderContact();
+  document.querySelectorAll(".c-web").forEach(e=>e.textContent=S.brand.website||"");
+  document.querySelectorAll(".ig-handle").forEach(e=>e.textContent=S.social.instagramHandle||"");
+  document.querySelectorAll(".tt-handle").forEach(e=>e.textContent=S.social.tiktokHandle||"");
+  document.querySelectorAll("[data-social]").forEach(a=>{const u=S.social[a.dataset.social];a.hidden=!u;if(u)a.href=u});
+  // images
+  setImg("heroImg",S.images.hero);setImg("about1",S.images.about1);setImg("about2",S.images.about2);setImg("about3",S.images.about3);
+  // stats
+  const icons={cam:"i-cam",pin:"i-pin",rings:"i-rings",clock:"i-clock",mail:"i-mail"};
+  $("#stats").innerHTML=(S.stats||[]).map(s=>`<div class="stat"><svg class="ico"><use href="#${icons[s.icon]||"i-cam"}"/></svg><div><b>${esc(s.value)}</b><small>${esc(pick(s.label))}</small></div></div>`).join("");
+  // portfolio
+  $("#cards").innerHTML=S.categories.map((c,i)=>c.hidden?"":`<a class="card" href="#work" data-cat="${i}">${media(c.cover||c.photos?.[0]||"",{auto:true,pos:c.coverPos||""})}<div class="cap"><b>${esc(pick(c.name))}</b><span>${esc(tx("view_gallery"))} ${arrow}</span></div></a>`).join("");
+  $("#footCats").innerHTML=S.categories.map((c,i)=>c.hidden?"":`<li><a href="#work" data-cat="${i}">${esc(pick(c.name))}</a></li>`).join("");
+  // stories (newest first)
+  const posts=S.posts.map((p,i)=>({...p,_i:i})).sort((a,b)=>(b.date||"").localeCompare(a.date||"")).slice(0,4);
+  $("#posts").innerHTML=posts.map(p=>`<a class="post" href="#stories" data-post="${p._i}"><div class="img"><img src="${esc(p.img)}" alt="" loading="lazy"></div><div class="body">${pick(p.tag)?`<span class="tag">${esc(pick(p.tag))}</span>`:""}<h3>${esc(pick(p.title))}</h3><div class="meta"><span>${fmtDate(p.date,l)}</span><i></i><svg class="ico"><use href="#i-clock"/></svg><span>${esc(tx("min_read").replace("{n}",p.minutes))}</span></div></div></a>`).join("");
+  // packages
+  const P=S.packages||{items:[]};setImg("pkBg",P.bg);$("#pkBg").parentElement.hidden=!P.bg;
+  document.querySelector(".packages").style.setProperty("--pk-op",P.bgOpacity??.35);
+  $("#pkGrid").innerHTML=(P.items||[]).map((it,i)=>`<article class="pk"><div class="ph">${it.img?`<img src="${esc(it.img)}" alt="" loading="lazy">`:""}</div><h3>${esc(pick(it.name))}</h3>${it.price?`<div class="price">${esc(it.price)}</div>`:""}<ul>${String(pick(it.features)||"").split(/\n/).map(x=>x.trim()).filter(Boolean).map(x=>`<li>${esc(x)}</li>`).join("")}</ul><a class="btn btn-line bk" href="#book" data-book data-bkpkg="${i}">${esc(tx("pk_book"))}</a></article>`).join("");
+  // places / map
+  renderPlaces(l);
+  // tiktok strip
+  $("#instaShots").innerHTML=(S.instagram||[]).slice(0,5).map(src=>`<a class="shot" href="${esc(S.social.tiktok||"#")}" target="_blank" rel="noopener"><img src="${esc(src)}" alt="" loading="lazy"></a>`).join("");
+  $("#langList").innerHTML=LANGS.map(x=>`<li><button role="option" data-l="${x.code}" aria-current="${x.code===cur}"><span>${x.name}</span><small>${x.code.toUpperCase()}</small></button></li>`).join("");
+  const m=$("#newsMsg");if(m.dataset.k)m.textContent=tx(m.dataset.k);
+  if(!$("#search").hidden)doSearch();
+  if(!$("#gal").hidden)openGallery(galIdx,true);
+  if(!$("#art").hidden)openPost(artIdx);
+}
+function setLang(c){cur=FALLBACK[c]?c:"en";try{localStorage.setItem("lm_lang",cur)}catch(e){}render()}
+// gallery
+let galIdx=0,vList=[],vPos=0,artIdx=0;
+function openGallery(i,keep){const c=S.categories[i];if(!c)return;galIdx=i;
+  const photos=c.photos?.length?c.photos:[c.cover];
+  $("#galTitle").textContent=pick(c.name);$("#galCount").textContent=tx("photos").replace("{n}",photos.length);
+  $("#galStory").textContent=pick(c.story)||"";$("#galStory").hidden=!pick(c.story);
+  $("#galGrid").innerHTML=photos.map((p,k)=>`<button data-v="${k}" class="${isVid(p)?"isv":""}">${media(p)}</button>`).join("");
+  vList=photos;$("#gal").hidden=false;document.body.style.overflow="hidden";if(!keep)$("#gal").scrollTop=0}
+function showV(k){vPos=(k+vList.length)%vList.length;const src=vList[vPos],V=$("#vVid");
+  if(isVid(src)){$("#vImg").hidden=true;V.hidden=false;V.src=src;V.play().catch(()=>{})}else{V.pause();V.hidden=true;V.removeAttribute("src");$("#vImg").hidden=false;$("#vImg").src=src}$("#vCount").textContent=`${vPos+1} / ${vList.length}`;$("#viewer").hidden=false}
+function openPost(i){const p=S.posts[i];if(!p)return;artIdx=i;const l=LANGS.find(x=>x.code===cur);
+  $("#artImg").src=p.img;$("#artTag").textContent=pick(p.tag);$("#artTag").hidden=!pick(p.tag);$("#artTitle").textContent=pick(p.title);
+  $("#artMeta").innerHTML=`<span>${fmtDate(p.date,l)}</span><i></i><svg class="ico"><use href="#i-clock"/></svg><span>${esc(tx("min_read").replace("{n}",p.minutes))}</span>`;
+  $("#artText").innerHTML=String(pick(p.body)||"").split(/\n\s*\n|\n/).filter(Boolean).map(x=>`<p>${esc(x)}</p>`).join("");
+  $("#art").hidden=false;document.body.style.overflow="hidden"}
+let plSel=-1;
+function phones(){return String(S.contact.phone||"").split(/[,;\/]|\s{3,}|\n/).map(x=>x.trim()).filter(x=>x.replace(/\D/g,"").length>=6).map(x=>({label:x,tel:x.replace(/[^\d+]/g,"")}))}
+function intl(t){t=String(t||"").replace(/[^\d+]/g,"");if(t.startsWith("+"))return t;if(t.startsWith("0"))return "+95"+t.slice(1);return t?"+"+t:""}
+function contactLinks(){const L=[],ph=phones();
+  ph.forEach(p=>L.push({k:"call",href:"tel:"+p.tel,icon:"i-phone",bg:"#6aa36f",t:tx("bk_call"),s:p.label}));
+  const vb=intl(S.contact.viber||(ph[0]&&ph[0].tel));if(vb)L.push({k:"viber",href:"viber://chat?number="+encodeURIComponent(vb),icon:"i-viber",bg:"#7360f2",t:tx("bk_viber"),s:vb});
+  if(S.social.facebook)L.push({k:"fb",href:S.social.facebook,icon:"i-msg",bg:"#1877f2",t:tx("bk_fb"),s:"Facebook",ext:1});
+  if(S.contact.email)L.push({k:"mail",href:"mailto:"+S.contact.email,icon:"i-mail",bg:"#c98e88",t:tx("bk_mail"),s:S.contact.email});
+  L.push({k:"map",href:"https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(S.text?.en?.address||tx("address")),icon:"i-pin",bg:"#a8706a",t:tx("bk_map"),s:tx("address"),ext:1});
+  return L}
+function renderContact(){const L=contactLinks();
+  $("#bkList").innerHTML=L.map(x=>`<a href="${esc(x.href)}" ${x.ext?'target="_blank" rel="noopener"':""}><span class="ic" style="background:${x.bg}"><svg class="ico"><use href="#${x.icon}"/></svg></span><span><b>${esc(x.t)}</b><small>${esc(x.s)}</small></span></a>`).join("");
+  $("#fab").innerHTML=L.filter(x=>x.k==="call"||x.k==="viber").slice(0,2).reverse().map(x=>`<a href="${esc(x.href)}" style="background:${x.bg}" aria-label="${esc(x.t)}"><svg class="ico"><use href="#${x.icon}"/></svg></a>`).join("");
+  $("#fab").hidden=S.contact.fab===false}
+function gUrl(p){return p&&p.lat&&p.lng?`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(p.lat+","+p.lng)}`:`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent((p?(p.name?.en||pick(p.name))+", ":"")+(S.places.embedQuery||""))}`}
+function gEmbed(p){const P=S.places;const q=p?(p.lat&&p.lng?p.lat+","+p.lng:(p.name?.en||pick(p.name))+", "+(P.embedQuery||"")):(P.embedQuery||"");return `https://maps.google.com/maps?q=${encodeURIComponent(q)}&z=${p&&p.lat?14:(P.embedZoom||11)}&output=embed`}
+function routeD(pts){if(pts.length<2)return"";let d=`M${pts[0][0]},${pts[0][1]}`;for(let i=0;i<pts.length-1;i++){const p0=pts[i-1]||pts[i],p1=pts[i],p2=pts[i+1],p3=pts[i+2]||p2;
+  d+=` C${p1[0]+(p2[0]-p0[0])/6},${p1[1]+(p2[1]-p0[1])/6} ${p2[0]-(p3[0]-p1[0])/6},${p2[1]-(p3[1]-p1[1])/6} ${p2[0]},${p2[1]}`}return d}
+function renderPlaces(l){const P=S.places||{items:[]},I=P.items||[];
+  $("#places").hidden=!I.length&&!P.mapImg;
+  setImg("mapImg",P.mapImg);$("#mapCredit").textContent=P.credit||"";
+  $("#mapStage").classList.toggle("nocards",P.showCards===false);
+  const d=routeD(I.map(p=>[+p.x||0,+p.y||0]));$("#routePath").setAttribute("d",d);$("#routeGlow").setAttribute("d",d);
+  $("#pins").innerHTML=I.map((p,i)=>`<button class="pin${i===plSel?" on":""}" data-pl="${i}" style="left:${+p.x||0}%;top:${+p.y||0}%" aria-label="${esc(pick(p.name))}">${i+1}</button>`).join("");
+  $("#leads").innerHTML=I.map(p=>`<line x1="${+p.cx||0}" y1="${+p.cy||0}" x2="${+p.x||0}" y2="${+p.y||0}"/>`).join("");
+  $("#plCards").innerHTML=I.map((p,i)=>`<div class="mcard${i===plSel?" on":""}" data-pl="${i}" style="left:${+p.cx||0}%;top:${+p.cy||0}%"><b>${esc(pick(p.name))}</b>${p.img?`<div class="ph"><img src="${esc(p.img)}" alt="" loading="lazy"></div>`:""}${pick(p.meta)?`<i>${esc(pick(p.meta))}</i>`:""}</div>`).join("");
+  $("#journey").innerHTML=I.map((p,i)=>`${i?`<svg class="jlink" viewBox="0 0 100 70" preserveAspectRatio="none" aria-hidden="true"><path d="${i%2?"M30,0 C30,40 70,30 70,70":"M70,0 C70,40 30,30 30,70"}"/></svg>`:""}<article class="jrow${i%2?" rev":""}${i===plSel?" on":""}" id="jr${i}"><div class="jph">${p.img?`<img src="${esc(p.img)}" alt="" loading="lazy">`:""}</div><div class="jtx"><span class="jnum">${String(i+1).padStart(2,"0")}.</span>${pick(p.sub)?`<div class="sub">${esc(pick(p.sub))}</div>`:""}<h3>${esc(pick(p.name))}</h3>${pick(p.meta)?`<div class="mt">${esc(pick(p.meta))}</div>`:""}<p>${esc(pick(p.desc))}</p><div class="acts"><a class="btn btn-gold" href="#book" data-book data-bkpl="${i}">${esc(tx("pl_book"))}</a><a class="lk" href="#gmapBox" data-plmap="${i}">${esc(tx("pl_gmap"))}</a></div></div></article>`).join("");
+  $("#gmapBox").hidden=P.showEmbed===false;
+  const cp=I[plSel]||null;$("#gmapName").textContent=cp?pick(cp.name):(P.embedQuery||"");$("#gmapLink").href=gUrl(cp);
+  const src=gEmbed(cp);if($("#gmapFrame").dataset.src!==src){$("#gmapFrame").dataset.src=src;$("#gmapFrame").src=src}
+  if(!$("#plPop").hidden)openPop(plSel)}
+function posPop(){const p=S.places.items[plSel],pop=$("#plPop");if(!p||pop.hidden&&!pop.dataset.opening)return;const mz=$("#mz"),W=mz.clientWidth,H=mz.clientHeight;
+  const px=Z.x+(+p.x/100)*W*Z.z,py=Z.y+(+p.y/100)*H*Z.z;pop.style.left=Math.min(Math.max(px,140),W-140)+"px";pop.style.top=py+"px";pop.classList.toggle("below",py<H*0.5)}
+function openPop(i){const p=S.places.items[i];if(!p)return;plSel=i;const pop=$("#plPop");
+  posPop();
+  pop.innerHTML=`<button class="x" data-plclose aria-label="Close"><svg class="ico"><use href="#i-x"/></svg></button>${p.img?`<div class="ph"><img src="${esc(p.img)}" alt=""></div>`:""}<div class="bd"><h4>${esc(pick(p.name))}</h4>${pick(p.meta)?`<div class="mt">${esc(pick(p.meta))}</div>`:""}<p>${esc(pick(p.desc))}</p><div class="acts"><a class="btn btn-gold" href="#book" data-book data-bkpl="${i}">${esc(tx("pl_book"))}</a><a class="btn btn-line" href="${gUrl(p)}" target="_blank" rel="noopener">Google Maps</a></div></div>`;
+  pop.hidden=false;posPop();document.querySelectorAll(".pin").forEach((b,k)=>b.classList.toggle("on",k===i));
+  document.querySelectorAll(".mcard").forEach((b,k)=>b.classList.toggle("on",k===i));
+  document.querySelectorAll(".jrow").forEach((b,k)=>b.classList.toggle("on",k===i));
+  const src=gEmbed(p);$("#gmapName").textContent=pick(p.name);$("#gmapLink").href=gUrl(p);if($("#gmapFrame").dataset.src!==src){$("#gmapFrame").dataset.src=src;$("#gmapFrame").src=src}}
+/* ---- map zoom & pan ---- */
+const Z={z:1,x:0,y:0};const ptrs=new Map();let pinch=null,dragged=false;
+function applyZ(){const mz=$("#mz"),W=mz.clientWidth,H=mz.clientHeight;Z.z=Math.min(5,Math.max(1,Z.z));
+  Z.x=Math.min(0,Math.max(W-W*Z.z,Z.x));Z.y=Math.min(0,Math.max(H-H*Z.z,Z.y));
+  const ml=$("#ml");ml.style.transform=`translate(${Z.x}px,${Z.y}px) scale(${Z.z})`;ml.style.setProperty("--z",Z.z);
+  $("#mapStage").classList.toggle("zoomed",Z.z>1.01);if(!$("#plPop").hidden)posPop()}
+function zoomAt(f,cx,cy){const mz=$("#mz"),r=mz.getBoundingClientRect();if(cx==null){cx=r.width/2;cy=r.height/2}
+  const nz=Math.min(5,Math.max(1,Z.z*f)),k=nz/Z.z;Z.x=cx-(cx-Z.x)*k;Z.y=cy-(cy-Z.y)*k;Z.z=nz;applyZ()}
+(function initZoom(){const mz=$("#mz");
+  mz.addEventListener("wheel",e=>{if(!e.ctrlKey&&Z.z<=1.01)return;e.preventDefault();const r=mz.getBoundingClientRect();zoomAt(e.deltaY<0?1.15:1/1.15,e.clientX-r.left,e.clientY-r.top)},{passive:false});
+  mz.addEventListener("pointerdown",e=>{ptrs.set(e.pointerId,{x:e.clientX,y:e.clientY});dragged=false;
+    if(ptrs.size===2){const [a,b]=[...ptrs.values()];pinch={d:Math.hypot(a.x-b.x,a.y-b.y),z:Z.z}}
+  });
+  mz.addEventListener("pointermove",e=>{if(!ptrs.has(e.pointerId))return;const prev=ptrs.get(e.pointerId);ptrs.set(e.pointerId,{x:e.clientX,y:e.clientY});
+    if(ptrs.size===2&&pinch){const [a,b]=[...ptrs.values()],r=mz.getBoundingClientRect();const d=Math.hypot(a.x-b.x,a.y-b.y);
+      zoomAt((pinch.z*d/pinch.d)/Z.z,(a.x+b.x)/2-r.left,(a.y+b.y)/2-r.top);dragged=true;e.preventDefault();return}
+    if(Z.z>1.01){const dx=e.clientX-prev.x,dy=e.clientY-prev.y;if(Math.abs(dx)+Math.abs(dy)>2&&!dragged){dragged=true;try{mz.setPointerCapture(e.pointerId)}catch(_){}mz.classList.add("drag")}if(dragged){Z.x+=dx;Z.y+=dy;applyZ()}}});
+  const up=e=>{ptrs.delete(e.pointerId);if(ptrs.size<2)pinch=null;if(!ptrs.size)mz.classList.remove("drag")};
+  mz.addEventListener("pointerup",up);mz.addEventListener("pointercancel",up);
+  mz.addEventListener("click",e=>{if(dragged){e.stopPropagation();e.preventDefault();dragged=false}},true);
+  mz.addEventListener("dblclick",e=>{const r=mz.getBoundingClientRect();if(Z.z>2.5){Z.z=1;Z.x=Z.y=0;applyZ()}else zoomAt(2,e.clientX-r.left,e.clientY-r.top)});
+  $("#zIn").onclick=()=>zoomAt(1.5);$("#zOut").onclick=()=>zoomAt(1/1.5);$("#zReset").onclick=()=>{Z.z=1;Z.x=Z.y=0;applyZ()};
+  $("#zFull").onclick=()=>{const st=$("#mapStage");try{if(document.fullscreenElement)document.exitFullscreen();else st.requestFullscreen().catch(()=>{})}catch(e){}};
+  document.addEventListener("fullscreenchange",()=>setTimeout(applyZ,60));addEventListener("resize",()=>applyZ());
+  $("#mapImg").addEventListener("load",()=>{const im=$("#mapImg");if(im.naturalWidth)$("#mapStage").style.setProperty("--ar",im.naturalWidth/im.naturalHeight);applyZ()});
+})();
+document.addEventListener("click",e=>{
+  const bk=e.target.closest("[data-book]");if(bk){e.preventDefault();$("#plPop").hidden=true;openBook(bk.dataset.bkpkg,bk.dataset.bkpl);return}
+  if(e.target.closest("[data-bkclose]")||e.target.id==="book"){$("#book").hidden=true;return}
+  const pn=e.target.closest("[data-pl]");if(pn){openPop(+pn.dataset.pl);return}
+  if(e.target.closest("[data-plclose]")){$("#plPop").hidden=true;return}
+  const pm=e.target.closest("[data-plmap]");if(pm){plSel=+pm.dataset.plmap;openPop(plSel);$("#plPop").hidden=true}
+  if(!e.target.closest("#plPop")&&!e.target.closest(".pin")&&!$("#plPop").hidden&&e.target.closest("#mapStage"))$("#plPop").hidden=true;
+});
+function openBook(pk,pl){const P=S.packages?.items||[],L=S.places?.items||[];
+  $("#bfPkg").innerHTML=`<option value="">${esc(tx("bf_any"))}</option>`+P.map((p,i)=>`<option value="${esc(p.name?.en||pick(p.name))}" ${String(i)===pk?"selected":""}>${esc(pick(p.name))}${p.price?" · "+esc(p.price):""}</option>`).join("");
+  $("#bfPlace").innerHTML=`<option value="">${esc(tx("bf_any"))}</option>`+L.map((p,i)=>`<option value="${esc(p.name?.en||pick(p.name))}" ${String(i)===pl?"selected":""}>${esc(pick(p.name))}</option>`).join("");
+  $("#bfMsgOut").textContent="";$("#bfMsgOut").className="msg";$("#book").hidden=false;setTimeout(()=>$("#bfName").focus(),50)}
+const cloudOn=()=>!!(S.cloud&&S.cloud.url&&S.cloud.key);
+const sbH=()=>({apikey:S.cloud.key});
+$("#bkForm").addEventListener("submit",async e=>{e.preventDefault();const f=e.target,out=$("#bfMsgOut"),btn=f.querySelector("button[type=submit]");
+  const show=(k,cls)=>{out.className="msg "+(cls||"");out.textContent=tx(k)};
+  const d={name:$("#bfName").value.trim(),phone:$("#bfPhone").value.trim(),email:$("#bfEmail").value.trim(),shoot_date:$("#bfDate").value||null,package:$("#bfPkg").value,place:$("#bfPlace").value,message:$("#bfMsg").value.trim(),lang:cur};
+  if(!d.name||d.phone.replace(/\D/g,"").length<6){show("bf_err","err");return}
+  if(f.querySelector("[name=bot-field]").value){show("bf_ok","ok");return}
+  $("#bkLang").value=cur;show("bf_sending");btn.disabled=true;
+  try{let r;
+    if(cloudOn()){r=await fetch(S.cloud.url.replace(/\/+$/,"")+"/rest/v1/inquiries",{method:"POST",headers:{...sbH(),"Content-Type":"application/json",Prefer:"return=minimal"},body:JSON.stringify(d)})}
+    else{const prov=(S.forms&&S.forms.provider)||"auto";const useFS=prov==="formsubmit"||(prov==="auto"&&!/netlify\.app$/i.test(location.hostname));
+      if(useFS){const to=(S.forms&&S.forms.email)||S.contact.email;r=await fetch("https://formsubmit.co/ajax/"+encodeURIComponent(to),{method:"POST",headers:{"Content-Type":"application/json",Accept:"application/json"},body:JSON.stringify({...d,_subject:"New booking · "+d.name,_template:"table",_captcha:"false"})})}
+      else{r=await fetch("/",{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:new URLSearchParams(new FormData(f)).toString()})}}
+    if(!r.ok)throw new Error(r.status);show("bf_ok","ok");f.reset()}
+  catch(err){show("bf_fail","err")}
+  btn.disabled=false});
+async function loadCloud(){if(!cloudOn()||window.LM_PREVIEW)return;try{const r=await fetch(S.cloud.url.replace(/\/+$/,"")+"/rest/v1/site_content?id=eq.1&select=data",{headers:sbH()});
+  if(!r.ok)return;const j=await r.json();if(j&&j[0]&&j[0].data){const keep=S.cloud;S=normalize(j[0].data);if(!cloudOn())S.cloud=keep;render()}}catch(e){}}
+function closeModals(){["#gal","#art","#viewer","#search","#drawer","#plPop","#book"].forEach(s=>$(s).hidden=true);document.body.style.overflow=""}
+document.addEventListener("click",e=>{
+  const c=e.target.closest("[data-cat]");if(c){e.preventDefault();openGallery(+c.dataset.cat);return}
+  const p=e.target.closest("[data-post]");if(p){e.preventDefault();openPost(+p.dataset.post);return}
+  const v=e.target.closest("[data-v]");if(v){showV(+v.dataset.v);return}
+  if(e.target.closest("[data-close]")){$(`#${e.target.closest(".modal").id}`).hidden=true;document.body.style.overflow="";return}
+  if(!e.target.closest(".lang"))$("#langList").hidden=true;
+});
+$("#vX").addEventListener("click",()=>{$("#viewer").hidden=true;$("#vVid").pause()});
+$("#vPrev").addEventListener("click",()=>showV(vPos-1));
+$("#vNext").addEventListener("click",()=>showV(vPos+1));
+$("#viewer").addEventListener("click",e=>{if(e.target.id==="viewer")$("#viewer").hidden=true});
+// language menu
+$("#langBtn").addEventListener("click",e=>{e.stopPropagation();const L=$("#langList");L.hidden=!L.hidden;$("#langBtn").setAttribute("aria-expanded",String(!L.hidden))});
+$("#langList").addEventListener("click",e=>{const b=e.target.closest("button[data-l]");if(b){setLang(b.dataset.l);$("#langList").hidden=true;$("#langBtn").setAttribute("aria-expanded","false")}});
+// drawer
+$("#burger").addEventListener("click",()=>$("#drawer").hidden=false);
+$("#drawerX").addEventListener("click",()=>$("#drawer").hidden=true);
+$("#drawer").addEventListener("click",e=>{if(e.target.id==="drawer"||e.target.closest("nav a"))$("#drawer").hidden=true});
+// search
+function doSearch(){const q=$("#q").value.trim().toLowerCase();
+  const items=[...S.categories.filter(c=>!c.hidden).map((c)=>({c,i:S.categories.indexOf(c)})).map(({c,i})=>({n:pick(c.name),k:tx("search_cat"),a:`data-cat="${i}"`})),...S.posts.map((p,i)=>({n:pick(p.title),k:tx("search_post"),a:`data-post="${i}"`}))].filter(x=>!q||x.n.toLowerCase().includes(q));
+  $("#results").innerHTML=items.map(x=>`<li><a href="#" ${x.a}><span>${esc(x.n)}</span><small>${esc(x.k)}</small></a></li>`).join("")}
+$("#searchBtn").addEventListener("click",()=>{$("#search").hidden=false;doSearch();$("#q").focus()});
+$("#searchX").addEventListener("click",()=>$("#search").hidden=true);
+$("#q").addEventListener("input",doSearch);
+$("#results").addEventListener("click",e=>{if(e.target.closest("a"))$("#search").hidden=true});
+document.addEventListener("keydown",e=>{
+  if(!$("#viewer").hidden){if(e.key==="ArrowRight")showV(vPos+1);if(e.key==="ArrowLeft")showV(vPos-1);if(e.key==="Escape"){$("#viewer").hidden=true;return}}
+  if(e.key==="Escape")closeModals()});
+// newsletter
+$("#newsForm").addEventListener("submit",async e=>{e.preventDefault();const f=e.target,v=$("#email").value.trim(),m=$("#newsMsg"),btn=f.querySelector("button[type=submit]");
+  const show=(k,err)=>{m.dataset.k=k;m.className="msg"+(err?" err":"");m.textContent=tx(k)};
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)){show("news_err",1);return}
+  $("#newsLang").value=cur;show("news_sending");btn.disabled=true;
+  if(f.querySelector("[name=bot-field]").value){show("news_ok");return}
+  try{const prov=(S.forms&&S.forms.provider)||"auto";
+    const useFS=prov==="formsubmit"||(prov==="auto"&&!/netlify\.app$/i.test(location.hostname));
+    let r;
+    if(useFS){const to=(S.forms&&S.forms.email)||S.contact.email;
+      r=await fetch("https://formsubmit.co/ajax/"+encodeURIComponent(to),{method:"POST",headers:{"Content-Type":"application/json","Accept":"application/json"},
+        body:JSON.stringify({email:v,language:cur,_subject:"New subscriber · "+(S.brand.name||"Website"),_template:"table",_captcha:"false"})})}
+    else{r=await fetch("/",{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:new URLSearchParams(new FormData(f)).toString()})}
+    if(!r.ok)throw new Error(r.status);show("news_ok");$("#email").value=""}
+  catch(err){show("news_fail",1)}
+  btn.disabled=false});
+addEventListener("scroll",()=>$("header").classList.toggle("scrolled",scrollY>10),{passive:true});
+document.addEventListener("error",e=>{if(e.target.tagName==="IMG")e.target.style.visibility="hidden"},true);
+// live preview from admin.html
+addEventListener("message",e=>{const d=e.data;if(!d||typeof d!=="object")return;
+  if(d.type==="lm-preview"&&d.site){window.LM_PREVIEW=true;S=normalize(d.site);if(d.lang&&FALLBACK[d.lang])cur=d.lang;render()}});
+let saved=null;try{saved=localStorage.getItem("lm_lang")}catch(e){}
+setLang(saved||"en");
+if(!/[?&]preview/.test(location.search))loadCloud();
+</script>
+</body>
+</html>

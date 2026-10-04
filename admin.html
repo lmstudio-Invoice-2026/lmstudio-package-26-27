@@ -1,0 +1,665 @@
+<!doctype html>
+<html lang="my">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LM STUDIO Website Editor</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600&family=Noto+Sans+Myanmar:wght@400;600&family=Noto+Sans+Thai:wght@400;600&family=Noto+Sans+SC:wght@400;600&display=swap">
+<style>
+/* Layout: top action bar, left tab rail, centre form, right live preview. */
+:root{
+  --ink:#1a1917;--ink-2:#55514b;--muted:#8d877e;--bg:#f6f3ee;--card:#ffffff;--line:#e3ddd3;--gold:#cf9d95;--gold-soft:#f8e6e2;--ok:#2f7d4f;--warn:#b5651d;--bad:#b23a2a;
+  --f:"Jost","Noto Sans Myanmar","Noto Sans Thai","Noto Sans SC",system-ui,sans-serif;color-scheme:light}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f);font-size:14px;line-height:1.6}
+button{font:inherit;cursor:pointer}
+input,textarea,select{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.app{display:grid;grid-template-rows:auto auto 1fr;height:100%}
+.miss{background:#fde9e6;border-bottom:1px solid #f0c4bd;color:#7a2f25;padding:10px 16px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:13px}
+.miss b{font-weight:600}
+.miss details{flex-basis:100%;font-size:12px}
+.miss details code{display:inline-block;margin:2px 6px 0 0;background:#fff;padding:1px 6px;border-radius:4px}
+img.broken{visibility:hidden}
+.top{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:10px 16px;background:var(--ink);color:#fff}
+.top h1{font-size:15px;font-weight:600;letter-spacing:.08em;margin:0 12px 0 0;white-space:nowrap}
+.top h1 small{font-weight:400;opacity:.6;letter-spacing:0;margin-left:6px}
+.status{font-size:12px;padding:3px 10px;border-radius:20px;background:rgba(255,255,255,.12)}
+.status.dirty{background:#7a4b10}.status.saved{background:#245e3c}
+.spacer{flex:1}
+.b{border:1px solid var(--line);background:var(--card);padding:7px 14px;border-radius:6px;font-size:13px;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.b:hover{border-color:var(--ink)}
+.b.gold{background:var(--gold);border-color:var(--gold);font-weight:600;color:#fff}
+.b.dark{background:transparent;color:#fff;border-color:rgba(255,255,255,.35)}
+.b.dark:hover{border-color:#fff}
+.b.sm{padding:3px 9px;font-size:12px}
+.b.danger{color:var(--bad)}
+.b:disabled{opacity:.45;cursor:not-allowed}
+.top select{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.35);border-radius:6px;padding:6px 8px}
+.top select option{color:var(--ink)}
+.main{display:grid;grid-template-columns:200px minmax(0,1fr) minmax(0,46%);min-height:0}
+.main.nopv{grid-template-columns:200px minmax(0,1fr) 0}
+.rail{border-right:1px solid var(--line);background:var(--card);padding:12px 8px;overflow-y:auto}
+.rail button{display:block;width:100%;text-align:left;border:0;background:none;padding:10px 12px;border-radius:6px;margin-bottom:2px}
+.rail button small{display:block;color:var(--muted);font-size:11px;line-height:1.2}
+.rail button[aria-current="true"]{background:var(--gold-soft);font-weight:600}
+.panel{overflow-y:auto;padding:20px clamp(16px,2.4vw,32px) 80px;min-width:0}
+.panel h2{font-size:20px;margin:0 0 4px}
+.panel .lead{color:var(--ink-2);margin:0 0 18px;max-width:70ch}
+.group{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px;margin-bottom:16px}
+.group > h3{font-size:14px;margin:0 0 12px;letter-spacing:.04em}
+.row{padding:10px 0;border-top:1px dashed var(--line)}
+.row:first-of-type{border-top:0;padding-top:0}
+.row > label,.lbl{display:block;font-weight:600;font-size:13px;margin-bottom:6px}
+.row > label code,.lbl code{font-weight:400;font-size:11px;color:var(--muted);margin-left:6px}
+.langs{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px}
+.lf{display:flex;flex-direction:column;gap:2px;min-width:0}
+.lf span{font-size:10.5px;color:var(--muted);letter-spacing:.06em}
+.lf span.missing{color:var(--warn)}
+input[type=text],input[type=date],input[type=number],input[type=url],input[type=email],textarea,select.inp{width:100%;border:1px solid var(--line);border-radius:6px;padding:7px 10px;background:#fff;min-width:0}
+textarea{min-height:76px;resize:vertical}
+input:focus,textarea:focus{border-color:var(--gold);outline:none}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.chip{border:1px solid var(--line);background:var(--card);border-radius:20px;padding:4px 12px;font-size:12.5px}
+.chip[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.slots{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:14px}
+.slot{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden;display:flex;flex-direction:column}
+.slot .th{aspect-ratio:4/3;background:#ece7df}
+.slot .th img{width:100%;height:100%;object-fit:cover;display:block}
+.slot .info{padding:10px;display:flex;flex-direction:column;gap:6px}
+.slot .info b{font-size:13px}
+.slot .info small{color:var(--muted);font-size:11.5px;line-height:1.4}
+.photos{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;margin-top:10px}
+.ph{position:relative;border-radius:8px;overflow:hidden;border:2px solid transparent;background:#ece7df}
+.ph.cover{border-color:var(--gold)}
+.ph img{width:100%;aspect-ratio:1;object-fit:cover;display:block}
+.ph .tools{position:absolute;left:0;right:0;bottom:0;display:flex;justify-content:space-between;gap:2px;padding:4px;background:linear-gradient(transparent,rgba(0,0,0,.65))}
+.ph .tools button{border:0;background:rgba(255,255,255,.92);border-radius:4px;font-size:11px;padding:2px 6px}
+.ph .badge{position:absolute;top:4px;left:4px;background:var(--gold);font-size:10px;font-weight:600;padding:1px 6px;border-radius:4px}
+.ph.add{display:grid;place-items:center;aspect-ratio:1;border:2px dashed var(--line);background:#fff;color:var(--ink-2);font-size:12.5px;text-align:center;padding:8px}
+.ph.add:hover{border-color:var(--gold)}
+.item-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.item-head .thumb{width:64px;height:48px;border-radius:6px;overflow:hidden;background:#ece7df;flex:none}
+.item-head .thumb img{width:100%;height:100%;object-fit:cover}
+.item-head b{flex:1;min-width:140px}
+details.group > summary{cursor:pointer;list-style:none}
+details.group > summary::-webkit-details-marker{display:none}
+details.group[open] > summary{margin-bottom:12px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.preview{border-left:1px solid var(--line);background:#ddd;min-width:0;display:flex;flex-direction:column}
+.preview .pv-bar{display:flex;gap:8px;align-items:center;padding:6px 10px;background:var(--card);border-bottom:1px solid var(--line);font-size:12px;color:var(--ink-2)}
+.preview iframe{flex:1;border:0;width:100%;background:#fff}
+.main.nopv .preview{display:none}
+.help ol{padding-left:20px}.help li{margin-bottom:10px}
+.help .note{background:var(--gold-soft);border-radius:8px;padding:12px 14px;margin:12px 0}
+.mapboard{position:relative;max-width:720px;background:#f3ece8;border:1px dashed var(--line);border-radius:10px;cursor:crosshair;user-select:none}
+.mapboard img{width:100%;display:block;pointer-events:none}
+.mapboard .mp{position:absolute;transform:translate(-50%,-100%);width:26px;height:32px;pointer-events:none}
+.mapboard .mp b{position:absolute;inset:0 0 8px;display:grid;place-items:center;color:#fff;font-size:11px}
+.mapboard .mp svg{width:26px;height:32px;fill:#a8706a}
+.mapboard .mp.on svg{fill:#b9443e;transform:scale(1.25)}
+.mapboard .mc{position:absolute;transform:translate(-50%,-50%);background:#fbf8f1;border:1px solid #c9b9a8;border-radius:6px;padding:2px 6px;font-size:10.5px;white-space:nowrap;pointer-events:none;z-index:2}
+.mapboard .mc.on{background:#b9443e;color:#fff}
+.mapboard .mp{z-index:3}
+.mapboard svg.rt{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.mapboard svg.rt path{fill:none;stroke:#fff;stroke-width:2;stroke-dasharray:6 6;vector-effect:non-scaling-stroke}
+.placepick{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}
+.placepick button{border:1px solid var(--line);background:#fff;border-radius:20px;padding:3px 10px;font-size:12px}
+.placepick button[aria-pressed="true"]{background:#b9443e;color:#fff;border-color:#b9443e}
+.rail .badge{display:inline-block;min-width:18px;padding:0 6px;border-radius:9px;background:#b9443e;color:#fff;font-size:11px;margin-left:6px;text-align:center}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin-bottom:16px}
+.tile{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;cursor:pointer}
+.tile b{display:block;font-size:30px;line-height:1.1;font-variant-numeric:tabular-nums}
+.tile small{color:var(--muted);font-size:12px}
+.tile.hot{border-color:#e6b3ad;background:#fdf1ef}
+.recent{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
+.recent div{border-radius:10px;overflow:hidden;background:#ece7df;aspect-ratio:4/5;position:relative}
+.recent img,.recent video,.ph video{width:100%;height:100%;object-fit:cover;display:block}
+.recent span{position:absolute;left:0;right:0;bottom:0;padding:6px 8px;background:linear-gradient(transparent,rgba(0,0,0,.6));color:#fff;font-size:12px}
+.ph video{aspect-ratio:1}
+.ph .vtag{position:absolute;top:4px;right:4px;background:rgba(0,0,0,.6);color:#fff;font-size:10px;padding:1px 6px;border-radius:4px}
+.focus{position:relative;width:min(320px,100%);aspect-ratio:3/4;border-radius:10px;overflow:hidden;cursor:crosshair;background:#ece7df}
+.focus img,.focus video{width:100%;height:100%;object-fit:cover;pointer-events:none}
+.focus i{position:absolute;width:22px;height:22px;margin:-11px 0 0 -11px;border:2px solid #fff;border-radius:50%;box-shadow:0 0 0 2px rgba(0,0,0,.4);pointer-events:none}
+.inq{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:12px;border-left:5px solid #ccc}
+.inq.s-new{border-left-color:#b9443e}.inq.s-contacted{border-left-color:#d79b3e}.inq.s-booked{border-left-color:#2f7d4f}.inq.s-done{border-left-color:#7a8a99}.inq.s-cancelled{border-left-color:#bbb;opacity:.75}
+.inq h4{margin:0;font-size:17px}.inq .when{color:var(--muted);font-size:12px}
+.inq .meta{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;margin:8px 0;color:var(--ink-2)}
+.inq .msgx{background:var(--bg);border-radius:8px;padding:8px 10px;font-size:13.5px;white-space:pre-wrap;margin:6px 0}
+.inq .acts{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:8px}
+.inq .acts a{text-decoration:none}
+.cloudbox{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:10px 12px;border-radius:10px;background:var(--bg);font-size:13px;margin-bottom:12px}
+.dot{width:10px;height:10px;border-radius:50%;background:#bbb;display:inline-block}.dot.on{background:#2f7d4f}
+textarea.sql{font:12px/1.5 ui-monospace,Consolas,monospace;min-height:220px;white-space:pre}
+.ct{list-style:none;padding:0;margin:12px 0 0;display:grid;gap:6px}
+.ct li{display:flex;gap:10px;align-items:flex-start;padding:8px 10px;border-radius:8px;background:var(--bg);font-size:13px}
+.ct li b{flex:none;width:22px;text-align:center}.ct li.ok b{color:#2f7d4f}.ct li.bad b{color:#b23a2a}.ct li.skip b{color:#999}
+.ct li small{display:block;color:var(--muted)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 18px;border-radius:8px;font-size:13px;z-index:9;max-width:90vw}
+.toast.bad{background:var(--bad)}
+.confirm{display:inline-flex;gap:6px;align-items:center;font-size:12px;color:var(--bad)}
+@media (max-width:1100px){.main{grid-template-columns:170px minmax(0,1fr)}.preview{display:none}#pvToggle{display:none}}
+@media (max-width:640px){.main{grid-template-columns:1fr;grid-template-rows:auto 1fr}.rail{display:flex;overflow-x:auto;border-right:0;border-bottom:1px solid var(--line);padding:6px}.rail button{width:auto;white-space:nowrap}.rail button small{display:none}}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="top">
+    <h1>LM STUDIO <small>Website Editor · ပြင်ဆင်ရန်</small></h1>
+    <span class="status" id="status">ပြင်ဆင်မှု မရှိသေး</span>
+    <span class="spacer"></span>
+    <label style="font-size:12px;opacity:.8" for="pvLang">Preview ဘာသာ</label>
+    <select id="pvLang"><option value="en">English</option><option value="shn">တႆး</option><option value="my">မြန်မာ</option><option value="zh">中文</option><option value="th">ไทย</option></select>
+    <button class="b dark" id="pvToggle">Preview ပိတ်/ဖွင့်</button>
+    <button class="b dark" id="connectBtn" title="Chrome / Edge only">Folder ချိတ်ရန်</button>
+    <button class="b gold" id="saveBtn">သိမ်းရန် (Save)</button>
+    <button class="b dark" id="dlBtn">content.js ဒေါင်းရန်</button>
+  </div>
+  <div class="miss" id="missBar" hidden>
+    <span>⚠ <b id="missN">0</b> ပုံ ဒီ folder ရဲ့ <code>img/</code> ထဲမှာ မတွေ့ပါ — ပုံဟောင်းတွေက တခြား folder (ယခင် folder) ထဲမှာ ကျန်နေတာ ဖြစ်နိုင်ပါတယ်။</span>
+    <button class="b sm" id="recoverBtn">ယခင် folder ကနေ ပုံတွေ ပြန်ယူရန်</button>
+    <span id="fixWrap" hidden><button class="b sm gold" id="fixBtn">စာလုံး အကြီး/အသေး မကိုက်တဲ့ လမ်းကြောင်း <b id="fixN">0</b> ခု ပြင်ရန် (GitHub)</button></span>
+    <button class="b sm" id="recheckBtn">ပြန်စစ်ရန်</button>
+    <span id="dropMissWrap"><button class="b sm danger" id="dropMissAsk">မတွေ့တဲ့ပုံတွေကို စာရင်းကဖယ်ရန်</button></span>
+    <details><summary>မတွေ့တဲ့ ဖိုင်စာရင်း</summary><div id="missList"></div></details>
+  </div>
+  <div class="main" id="main">
+    <nav class="rail" id="rail"></nav>
+    <section class="panel" id="panel"></section>
+    <aside class="preview"><div class="pv-bar">Live preview · ပြင်တာ ချက်ချင်းမြင်ရ</div><iframe id="pv" src="index.html?preview=1" title="Website preview"></iframe></aside>
+  </div>
+</div>
+<input type="file" id="filePick" accept="image/*" hidden>
+<script type="text/plain" id="sqlSetup">-- LM STUDIO website · Supabase setup (run once in Supabase → SQL Editor → New query → Run)
+-- 1) Website content (everything you edit in admin.html)
+create table if not exists public.site_content (
+  id int primary key,
+  data jsonb not null,
+  updated_at timestamptz default now()
+);
+alter table public.site_content enable row level security;
+drop policy if exists "public read content" on public.site_content;
+create policy "public read content" on public.site_content for select using (true);
+drop policy if exists "admin write content" on public.site_content;
+create policy "admin write content" on public.site_content for all to authenticated using (true) with check (true);
+
+-- 2) Booking requests from the website
+create table if not exists public.inquiries (
+  id bigint generated always as identity primary key,
+  created_at timestamptz default now(),
+  name text not null check (char_length(name) between 1 and 120),
+  phone text check (char_length(phone) <= 40),
+  email text check (char_length(email) <= 120),
+  shoot_date date,
+  package text check (char_length(package) <= 200),
+  place text check (char_length(place) <= 200),
+  message text check (char_length(message) <= 2000),
+  lang text check (char_length(lang) <= 8),
+  status text not null default 'new',
+  note text
+);
+alter table public.inquiries enable row level security;
+drop policy if exists "anyone can send inquiry" on public.inquiries;
+create policy "anyone can send inquiry" on public.inquiries for insert to anon, authenticated with check (status = 'new' and note is null);
+drop policy if exists "admin reads inquiries" on public.inquiries;
+create policy "admin reads inquiries" on public.inquiries for select to authenticated using (true);
+drop policy if exists "admin updates inquiries" on public.inquiries;
+create policy "admin updates inquiries" on public.inquiries for update to authenticated using (true) with check (true);
+drop policy if exists "admin deletes inquiries" on public.inquiries;
+create policy "admin deletes inquiries" on public.inquiries for delete to authenticated using (true);
+
+-- 3) Photo & video storage (public bucket "media", 50 MB per file)
+insert into storage.buckets (id, name, public, file_size_limit)
+values ('media', 'media', true, 52428800)
+on conflict (id) do update set public = true;
+drop policy if exists "public read media" on storage.objects;
+create policy "public read media" on storage.objects for select using (bucket_id = 'media');
+drop policy if exists "admin upload media" on storage.objects;
+create policy "admin upload media" on storage.objects for insert to authenticated with check (bucket_id = 'media');
+drop policy if exists "admin update media" on storage.objects;
+create policy "admin update media" on storage.objects for update to authenticated using (bucket_id = 'media');
+drop policy if exists "admin delete media" on storage.objects;
+create policy "admin delete media" on storage.objects for delete to authenticated using (bucket_id = 'media');
+
+-- IMPORTANT: Authentication → Sign In / Providers → turn OFF "Allow new users to sign up",
+-- then Authentication → Users → "Add user" to create ONLY your own admin login.
+</script>
+<script src="content.js"></script>
+<script>
+const LANGS=[["en","English"],["shn","တႆး"],["my","မြန်မာ"],["zh","中文"],["th","ไทย"]];
+const DEF_PACKAGES={"bg": "img/pk-bg.jpg", "bgOpacity": 0.35, "items": [{"img": "img/w-bridal.jpg", "price": "", "name": {"en": "Package One", "shn": "ပႅၵ်ႉၶဵတ်ႉ 1", "my": "ပက်ကေ့ချ် (၁)", "zh": "套餐一", "th": "แพ็กเกจที่ 1"}, "features": {"en": "One hour session\n25 edited pictures\nOne location", "shn": "ထႆႇ 1 ၸူဝ်ႈမူင်း\nႁၢင်ႈမႄးယဝ်ႉ 25 ဢၼ်\nတီႈထႆႇ 1 တီႈ", "my": "ရိုက်ကူးချိန် ၁ နာရီ\nပြင်ဆင်ပြီးပုံ ၂၅ ပုံ\nနေရာ ၁ ခု", "zh": "拍摄1小时\n精修照片25张\n1个拍摄地点", "th": "ถ่าย 1 ชั่วโมง\nภาพตกแต่ง 25 ภาพ\n1 สถานที่"}}, {"img": "img/s-1.jpg", "price": "", "name": {"en": "Package Two", "shn": "ပႅၵ်ႉၶဵတ်ႉ 2", "my": "ပက်ကေ့ချ် (၂)", "zh": "套餐二", "th": "แพ็กเกจที่ 2"}, "features": {"en": "Two hours session\n50 edited pictures\nTwo locations", "shn": "ထႆႇ 2 ၸူဝ်ႈမူင်း\nႁၢင်ႈမႄးယဝ်ႉ 50 ဢၼ်\nတီႈထႆႇ 2 တီႈ", "my": "ရိုက်ကူးချိန် ၂ နာရီ\nပြင်ဆင်ပြီးပုံ ၅၀ ပုံ\nနေရာ ၂ ခု", "zh": "拍摄2小时\n精修照片50张\n2个拍摄地点", "th": "ถ่าย 2 ชั่วโมง\nภาพตกแต่ง 50 ภาพ\n2 สถานที่"}}, {"img": "img/w-engagement.jpg", "price": "", "name": {"en": "Package Three", "shn": "ပႅၵ်ႉၶဵတ်ႉ 3", "my": "ပက်ကေ့ချ် (၃)", "zh": "套餐三", "th": "แพ็กเกจที่ 3"}, "features": {"en": "Four hours session\n150 edited pictures\nPhoto album", "shn": "ထႆႇ 4 ၸူဝ်ႈမူင်း\nႁၢင်ႈမႄးယဝ်ႉ 150 ဢၼ်\nပပ်ႉႁၢင်ႈ", "my": "ရိုက်ကူးချိန် ၄ နာရီ\nပြင်ဆင်ပြီးပုံ ၁၅၀ ပုံ\nဓာတ်ပုံအယ်လ်ဘမ်", "zh": "拍摄4小时\n精修照片150张\n相册一本", "th": "ถ่าย 4 ชั่วโมง\nภาพตกแต่ง 150 ภาพ\nอัลบั้มภาพ"}}, {"img": "img/w-traditional.jpg", "price": "", "name": {"en": "Package Four", "shn": "ပႅၵ်ႉၶဵတ်ႉ 4", "my": "ပက်ကေ့ချ် (၄)", "zh": "套餐四", "th": "แพ็กเกจที่ 4"}, "features": {"en": "Half-day session\n200 edited pictures\nTwo outfits\nPhoto album", "shn": "ထႆႇ ၶိင်ႈဝၼ်း\nႁၢင်ႈမႄးယဝ်ႉ 200 ဢၼ်\nၶူဝ်းၼုင်ႈ 2 ၸုမ်း\nပပ်ႉႁၢင်ႈ", "my": "နေ့တစ်ဝက် ရိုက်ကူးမှု\nပြင်ဆင်ပြီးပုံ ၂၀၀ ပုံ\nဝတ်စုံ ၂ စုံ\nဓာတ်ပုံအယ်လ်ဘမ်", "zh": "半天拍摄\n精修照片200张\n2套服装\n相册一本", "th": "ถ่ายครึ่งวัน\nภาพตกแต่ง 200 ภาพ\n2 ชุด\nอัลบั้มภาพ"}}, {"img": "img/w-prewedding.jpg", "price": "", "name": {"en": "Package Five", "shn": "ပႅၵ်ႉၶဵတ်ႉ 5", "my": "ပက်ကေ့ချ် (၅)", "zh": "套餐五", "th": "แพ็กเกจที่ 5"}, "features": {"en": "Full-day session\n300 edited pictures\nThree outfits\nMakeup & styling", "shn": "ထႆႇ တဵမ်ဝၼ်း\nႁၢင်ႈမႄးယဝ်ႉ 300 ဢၼ်\nၶူဝ်းၼုင်ႈ 3 ၸုမ်း\nပိၼ်ႇမႄး", "my": "တစ်နေ့လုံး ရိုက်ကူးမှု\nပြင်ဆင်ပြီးပုံ ၃၀၀ ပုံ\nဝတ်စုံ ၃ စုံ\nမိတ်ကပ်နှင့် အလှပြင်", "zh": "全天拍摄\n精修照片300张\n3套服装\n化妆与造型", "th": "ถ่ายเต็มวัน\nภาพตกแต่ง 300 ภาพ\n3 ชุด\nแต่งหน้าและทำผม"}}, {"img": "img/w-destination.jpg", "price": "", "name": {"en": "Package Six", "shn": "ပႅၵ်ႉၶဵတ်ႉ 6", "my": "ပက်ကေ့ချ် (၆)", "zh": "套餐六", "th": "แพ็กเกจที่ 6"}, "features": {"en": "Two-day destination shoot\n400 edited pictures\nPremium album\nTravel planning", "shn": "ထႆႇတၢင်းၵႆ 2 ဝၼ်း\nႁၢင်ႈမႄးယဝ်ႉ 400 ဢၼ်\nပပ်ႉႁၢင်ႈ ၸၼ်ႉသုင်\nၸတ်းၵၢၼ်ၶၢဝ်းတၢင်း", "my": "၂ ရက် ခရီးစဉ် ရိုက်ကူးမှု\nပြင်ဆင်ပြီးပုံ ၄၀၀ ပုံ\nအဆင့်မြင့် အယ်လ်ဘမ်\nခရီးစဉ် စီစဉ်ပေးခြင်း", "zh": "两天旅拍\n精修照片400张\n高级相册\n行程规划", "th": "ถ่ายต่างสถานที่ 2 วัน\nภาพตกแต่ง 400 ภาพ\nอัลบั้มพรีเมียม\nวางแผนการเดินทาง"}}]};
+const DEF_PLACES={"mapImg": "img/map-tangyan.jpg", "credit": "Imagery © Esri, Maxar, Earthstar Geographics", "embedQuery": "Tangyan, Myanmar", "embedZoom": 12, "showEmbed": true, "showCards": true, "items": [{"x": 50.0, "y": 45.8, "cx": 87, "cy": 50, "img": "img/a-1.jpg", "lat": "22.4917", "lng": "98.4006", "name": {"en": "Tangyan Town", "shn": "ဝဵင်းတၢင်ႉယၢၼ်း", "my": "တန့်ယန်းမြို့", "zh": "Tangyan 镇", "th": "เมืองตังยาน"}, "sub": {"en": "Start point", "shn": "တီႈတႄႇ", "my": "စတင်ရာ", "zh": "出发点", "th": "จุดเริ่มต้น"}, "desc": {"en": "Our starting point. Meet the team, change outfits and get styled before we drive out.", "shn": "", "my": "စတင်ရာနေရာ။ အဖွဲ့နဲ့တွေ့ဆုံ၊ ဝတ်စုံလဲ၊ အလှပြင်ပြီးမှ ထွက်ပါမယ်။", "zh": "我们的出发点。与团队见面、换装、化妆后出发。", "th": "จุดเริ่มต้นของเรา พบทีมงาน เปลี่ยนชุด และแต่งหน้าก่อนออกเดินทาง"}, "meta": {"en": "Start point · Studio pickup", "shn": "", "my": "စတင်ရာ · စတူဒီယိုမှ ကြိုဆို", "zh": "出发点 · 工作室接送", "th": "จุดเริ่มต้น · รับจากสตูดิโอ"}}, {"x": 46.6, "y": 37.8, "cx": 13, "cy": 50, "img": "img/a-2.jpg", "lat": "", "lng": "", "name": {"en": "Loi Ngin Viewpoint", "shn": "လွႆငိၼ်း", "my": "လွိုင်ငင် ရှုခင်း", "zh": "Loi Ngin 观景点", "th": "จุดชมวิวลอยเงิน"}, "sub": {"en": "Hill", "shn": "လွႆ", "my": "တောင်", "zh": "山丘", "th": "เนินเขา"}, "desc": {"en": "A hill above town with wide views over the valley. Best at golden hour.", "shn": "", "my": "မြို့ပေါ်ကို မြင်ရတဲ့ တောင်ကုန်း။ ချိုင့်ဝှမ်းကို ကျယ်ကျယ်မြင်ရပြီး နေဝင်ချိန်မှာ အလှဆုံးပါ။", "zh": "俯瞰小镇与山谷的山丘，黄金时刻最美。", "th": "เนินเขาเหนือเมือง มองเห็นหุบเขากว้าง สวยที่สุดช่วงแสงทอง"}, "meta": {"en": "10 min drive · Golden hour", "shn": "", "my": "ကား ၁၀ မိနစ် · နေဝင်ချိန်", "zh": "车程10分钟 · 黄金时刻", "th": "ขับรถ 10 นาที · แสงทอง"}}, {"x": 47.9, "y": 15.6, "cx": 13, "cy": 17, "img": "img/s-4.jpg", "lat": "", "lng": "", "name": {"en": "Nawng Hee Taung", "shn": "ၼွင်ႁီႈတွင်း", "my": "နောင်ဟီးတောင်", "zh": "Nawng Hee Taung", "th": "หนองฮีตอง"}, "sub": {"en": "Village", "shn": "မၢၼ်ႈ", "my": "ရွာ", "zh": "村庄", "th": "หมู่บ้าน"}, "desc": {"en": "Quiet village lanes, wooden houses and morning mist.", "shn": "", "my": "တိတ်ဆိတ်တဲ့ ရွာလမ်းလေးတွေ၊ သစ်သားအိမ်တွေနဲ့ မနက်ခင်း မြူခိုး။", "zh": "宁静的村道、木屋与晨雾。", "th": "ทางเดินในหมู่บ้านที่เงียบสงบ บ้านไม้ และหมอกยามเช้า"}, "meta": {"en": "15 min drive · Sunrise", "shn": "", "my": "ကား ၁၅ မိနစ် · နေထွက်ချိန်", "zh": "车程15分钟 · 日出", "th": "ขับรถ 15 นาที · พระอาทิตย์ขึ้น"}}, {"x": 75.5, "y": 39.0, "cx": 87, "cy": 17, "img": "img/s-3.jpg", "lat": "", "lng": "", "name": {"en": "Long Pwe Fields", "shn": "တုင်ႈလူင်ပွႆး", "my": "လုံပွဲ လယ်ကွင်း", "zh": "Long Pwe 田野", "th": "ทุ่งลองปวย"}, "sub": {"en": "Fields", "shn": "တုင်ႈ", "my": "လယ်ကွင်း", "zh": "田野", "th": "ทุ่ง"}, "desc": {"en": "Seasonal flower fields in bloom. Bright, joyful colours.", "shn": "", "my": "ရာသီအလိုက် ပွင့်တဲ့ ပန်းခင်းများ။ အရောင်စုံ တောက်ပပါတယ်။", "zh": "季节性花田盛开，色彩明亮欢快。", "th": "ทุ่งดอกไม้ตามฤดูกาล สีสันสดใส"}, "meta": {"en": "20 min drive · Nov – Jan", "shn": "", "my": "ကား ၂၀ မိနစ် · နိုဝင်ဘာ – ဇန်နဝါရီ", "zh": "车程20分钟 · 11月–1月", "th": "ขับรถ 20 นาที · พ.ย. – ม.ค."}}, {"x": 50.1, "y": 79.2, "cx": 87, "cy": 83, "img": "img/w-destination.jpg", "lat": "", "lng": "", "name": {"en": "Hway Ti Stream", "shn": "ႁူၺ်ႈတီႈ", "my": "ဟွေတီ ချောင်း", "zh": "Hway Ti 溪流", "th": "ลำธารห้วยตี"}, "sub": {"en": "Stream", "shn": "ႁူၺ်ႈ", "my": "ချောင်း", "zh": "溪流", "th": "ลำธาร"}, "desc": {"en": "Clear water and green rocks along the stream. Bring a second outfit.", "shn": "", "my": "ချောင်းတစ်လျှောက် ကြည်လင်တဲ့ရေနဲ့ စိမ်းလန်းတဲ့ ကျောက်တုံးများ။ အပိုဝတ်စုံ ယူလာပါ။", "zh": "溪边清澈流水与青石，建议多带一套服装。", "th": "น้ำใสและโขดหินเขียวริมลำธาร ควรเตรียมชุดสำรอง"}, "meta": {"en": "20 min drive · Midday", "shn": "", "my": "ကား ၂၀ မိနစ် · နေ့လယ်", "zh": "车程20分钟 · 中午", "th": "ขับรถ 20 นาที · เที่ยงวัน"}}, {"x": 41.9, "y": 72.0, "cx": 13, "cy": 83, "img": "img/i-4.jpg", "lat": "", "lng": "", "name": {"en": "Nawng Long Lake", "shn": "ၼွင်လူင်", "my": "နောင်လုံ ကန်", "zh": "Nawng Long 湖", "th": "ทะเลสาบหนองหลวง"}, "sub": {"en": "Lake", "shn": "ၼွင်", "my": "ကန်", "zh": "湖泊", "th": "ทะเลสาบ"}, "desc": {"en": "Still water for mirror-like reflections and boat moments.", "shn": "", "my": "ရေပြင်ငြိမ်လို့ မှန်လို ရောင်ပြန်ဟပ်ပုံနဲ့ လှေပေါ်ပုံတွေအတွက် ကောင်းပါတယ်။", "zh": "平静水面，适合倒影与小船画面。", "th": "ผิวน้ำนิ่งสำหรับภาพสะท้อนและภาพบนเรือ"}, "meta": {"en": "25 min drive · Morning", "shn": "", "my": "ကား ၂၅ မိနစ် · မနက်ခင်း", "zh": "车程25分钟 · 上午", "th": "ขับรถ 25 นาที · ช่วงเช้า"}}]};
+const DEF_TEXT={"en": {"pk_eyebrow": "Our Packages", "pk_title": "Price List", "pk_closing": "We look forward to working with you!", "insta_t": "Follow Our Journey on TikTok", "news_sending": "Sending…", "news_fail": "Could not send. Please check your internet and try again.", "pl_eyebrow": "Shoot Locations", "pl_title": "Our Favourite Places", "pl_lead": "Tap a pin to explore each place. We plan the route, timing and light for your day.", "pl_route": "Your Route", "pl_book": "Book this location", "pl_gmap": "Open in Google Maps", "pl_map_title": "Find us on the map", "nav_places": "Locations", "pl_zoom": "Pinch, scroll with Ctrl, or use + to zoom", "bk_title": "Book your shoot", "bk_lead": "Choose how you would like to contact us.", "bk_call": "Call", "bk_viber": "Viber", "bk_fb": "Facebook Messenger", "bk_mail": "Email", "bk_map": "Find our studio", "bf_name": "Your name", "bf_phone": "Phone / Viber", "bf_email": "Email (optional)", "bf_date": "Preferred date", "bf_package": "Package", "bf_place": "Location", "bf_msg": "Tell us about your plans", "bf_send": "Send booking request", "bf_sending": "Sending…", "bf_ok": "Thank you! We will contact you within 24 hours.", "bf_err": "Please enter your name and phone number.", "bf_fail": "Could not send. Please call us instead.", "bf_or": "Or contact us directly", "bf_any": "Not sure yet", "pk_book": "Book this package"}, "shn": {"pk_eyebrow": "ပႅၵ်ႉၶဵတ်ႉႁဝ်း", "pk_title": "သဵၼ်ႈမၢႆ ၵႃႈၶၼ်", "pk_closing": "ႁဝ်းပႂ်ႉၶႃႈ တေႁဵတ်းၵၢၼ်ႁူမ်ႈၵၼ်တင်းသူ", "insta_t": "ၸွမ်းတူၺ်းႁဝ်း တီႈ TikTok", "news_sending": "တိုၵ်ႉသူင်ႇယူႇ…", "news_fail": "သူင်ႇဢမ်ႇလႆႈ။ ၵူတ်ႇတူၺ်း Internet သေ ၶတ်းၸႂ်ထႅင်ႈ။", "pl_eyebrow": "တီႈထႆႇႁၢင်ႈ", "pl_title": "တီႈထႆႇ ဢၼ်ႁဝ်းမၵ်ႉ", "pl_lead": "ၼဵၵ်းတီႈ Pin သေ တူၺ်းတီႈထႆႇ။ ႁဝ်းၸတ်းပၼ် တၢင်း၊ ယၢမ်း လႄႈ လႅင်း။", "pl_route": "တၢင်းထႆႇႁၢင်ႈ", "pl_book": "ၸွင်ႈတီႈၼႆႉ", "pl_gmap": "တူၺ်းၼႂ်း Google Maps", "pl_map_title": "သွၵ်ႈႁႃၼိူဝ်ၽႅၼ်ႇလိၼ်", "nav_places": "တီႈထႆႇ", "pl_zoom": "ယိုၼ်ႈလဵၵ်ႈ/ယႂ်ႇ ၽႅၼ်ႇလိၼ် ပေႃး ၼဵၵ်း +", "bk_title": "ၸွင်ႈထႆႇႁၢင်ႈ", "bk_lead": "လိူၵ်ႈ လၢႆးၵပ်းသိုပ်ႇ ႁဝ်း။", "bk_call": "ၵႂႃႇၽူင်း", "bk_viber": "Viber", "bk_fb": "Facebook Messenger", "bk_mail": "Email", "bk_map": "တီႈယူႇ ႁဝ်း", "bf_name": "ၸိုဝ်ႈ", "bf_phone": "ၽူင်း / Viber", "bf_email": "Email (ဢမ်ႇသႂ်ႇၵေႃႈလႆႈ)", "bf_date": "ဝၼ်းဢၼ်ၶႂ်ႈထႆႇ", "bf_package": "ပႅၵ်ႉၶဵတ်ႉ", "bf_place": "တီႈထႆႇ", "bf_msg": "လၢတ်ႈပၼ် ၽႅၼ်ၵၢၼ်သူ", "bf_send": "သူင်ႇ ၶေႃႈၸွင်ႈ", "bf_sending": "တိုၵ်ႉသူင်ႇယူႇ…", "bf_ok": "ယိၼ်းၸူမ်းၶႃႈ။ ႁဝ်းတေၵပ်းသိုပ်ႇၶိုၼ်း ၼႂ်း 24 ၸူဝ်ႈမူင်း။", "bf_err": "သႂ်ႇ ၸိုဝ်ႈ လႄႈ မၢႆၽူင်း။", "bf_fail": "သူင်ႇဢမ်ႇလႆႈ။ ၵႂႃႇၽူင်းႁႃႁဝ်းၶႃႈ။", "bf_or": "ဢမ်ႇၼၼ် ၵပ်းသိုပ်ႇႁဝ်းၵမ်းလဵဝ်", "bf_any": "ပႆႇမၼ်ႈၸႂ်", "pk_book": "ၸွင်ႈပႅၵ်ႉၶဵတ်ႉၼႆႉ"}, "my": {"pk_eyebrow": "ကျွန်ုပ်တို့၏ ပက်ကေ့ချ်များ", "pk_title": "ဈေးနှုန်းစာရင်း", "pk_closing": "သင်နှင့်အတူ လက်တွဲလုပ်ဆောင်ရန် မျှော်လင့်နေပါသည်။", "insta_t": "TikTok တွင် ကျွန်ုပ်တို့ကို ဖော်လိုလုပ်ပါ", "news_sending": "ပို့နေသည်…", "news_fail": "ပို့၍မရပါ။ အင်တာနက်ကို စစ်ပြီး ထပ်ကြိုးစားပါ။", "pl_eyebrow": "ရိုက်ကူးရေး နေရာများ", "pl_title": "ကျွန်ုပ်တို့ နှစ်သက်သော နေရာများ", "pl_lead": "Pin ကိုနှိပ်ပြီး နေရာတစ်ခုချင်းစီကို ကြည့်ပါ။ လမ်းကြောင်း၊ အချိန်နဲ့ အလင်းရောင်ကို ကျွန်ုပ်တို့ စီစဉ်ပေးပါတယ်။", "pl_route": "ရိုက်ကူးရေး လမ်းကြောင်း", "pl_book": "ဒီနေရာ ဘွတ်ကင်လုပ်ရန်", "pl_gmap": "Google Maps တွင်ကြည့်ရန်", "pl_map_title": "မြေပုံပေါ်တွင် ရှာပါ", "nav_places": "နေရာများ", "pl_zoom": "လက်နှစ်ချောင်းဖြင့် ချဲ့ပါ၊ သို့မဟုတ် + ကိုနှိပ်ပါ", "bk_title": "ရိုက်ကူးမှု ဘွတ်ကင်လုပ်ရန်", "bk_lead": "ဆက်သွယ်လိုသည့် နည်းလမ်းကို ရွေးပါ။", "bk_call": "ဖုန်းခေါ်ရန်", "bk_viber": "Viber", "bk_fb": "Facebook Messenger", "bk_mail": "အီးမေးလ်", "bk_map": "စတူဒီယို တည်နေရာ", "bf_name": "အမည်", "bf_phone": "ဖုန်း / Viber", "bf_email": "အီးမေးလ် (မထည့်လည်းရ)", "bf_date": "ရိုက်ချင်သည့်ရက်", "bf_package": "ပက်ကေ့ချ်", "bf_place": "နေရာ", "bf_msg": "သင့်အစီအစဉ်ကို ပြောပြပါ", "bf_send": "ဘွတ်ကင် ပို့ရန်", "bf_sending": "ပို့နေသည်…", "bf_ok": "ကျေးဇူးတင်ပါတယ်။ ၂၄ နာရီအတွင်း ပြန်လည်ဆက်သွယ်ပါမယ်။", "bf_err": "အမည်နဲ့ ဖုန်းနံပါတ် ထည့်ပေးပါ။", "bf_fail": "ပို့၍မရပါ။ ဖုန်းဖြင့် ဆက်သွယ်ပေးပါ။", "bf_or": "သို့မဟုတ် တိုက်ရိုက် ဆက်သွယ်ပါ", "bf_any": "မဆုံးဖြတ်ရသေး", "pk_book": "ဒီပက်ကေ့ချ် ဘွတ်ကင်လုပ်ရန်"}, "zh": {"pk_eyebrow": "我们的套餐", "pk_title": "价格表", "pk_closing": "期待与您合作！", "insta_t": "在 TikTok 上关注我们", "news_sending": "发送中…", "news_fail": "发送失败，请检查网络后重试。", "pl_eyebrow": "拍摄地点", "pl_title": "我们最爱的地方", "pl_lead": "点击地图上的标记查看每个地点。我们为您规划路线、时间与光线。", "pl_route": "拍摄路线", "pl_book": "预约此地点", "pl_gmap": "在 Google 地图中打开", "pl_map_title": "在地图上找到我们", "nav_places": "地点", "pl_zoom": "双指缩放、按住 Ctrl 滚动或点击 + 放大", "bk_title": "预约拍摄", "bk_lead": "请选择联系方式。", "bk_call": "拨打电话", "bk_viber": "Viber", "bk_fb": "Facebook Messenger", "bk_mail": "电子邮件", "bk_map": "工作室位置", "bf_name": "您的姓名", "bf_phone": "电话 / Viber", "bf_email": "电子邮件（选填）", "bf_date": "期望拍摄日期", "bf_package": "套餐", "bf_place": "地点", "bf_msg": "告诉我们您的计划", "bf_send": "发送预约请求", "bf_sending": "发送中…", "bf_ok": "谢谢！我们将在24小时内与您联系。", "bf_err": "请填写姓名和电话号码。", "bf_fail": "发送失败，请直接致电我们。", "bf_or": "或直接联系我们", "bf_any": "还不确定", "pk_book": "预约此套餐"}, "th": {"pk_eyebrow": "แพ็กเกจของเรา", "pk_title": "รายการราคา", "pk_closing": "เรายินดีที่จะได้ร่วมงานกับคุณ!", "insta_t": "ติดตามเราบน TikTok", "news_sending": "กำลังส่ง…", "news_fail": "ส่งไม่สำเร็จ กรุณาตรวจสอบอินเทอร์เน็ตแล้วลองอีกครั้ง", "pl_eyebrow": "สถานที่ถ่ายภาพ", "pl_title": "สถานที่โปรดของเรา", "pl_lead": "แตะหมุดเพื่อดูแต่ละสถานที่ เราวางแผนเส้นทาง เวลา และแสงให้คุณ", "pl_route": "เส้นทางของคุณ", "pl_book": "จองสถานที่นี้", "pl_gmap": "เปิดใน Google Maps", "pl_map_title": "ค้นหาเราบนแผนที่", "nav_places": "สถานที่", "pl_zoom": "ใช้สองนิ้ว กด Ctrl แล้วเลื่อน หรือแตะ + เพื่อซูม", "bk_title": "จองการถ่ายภาพ", "bk_lead": "เลือกช่องทางที่สะดวกในการติดต่อเรา", "bk_call": "โทร", "bk_viber": "Viber", "bk_fb": "Facebook Messenger", "bk_mail": "อีเมล", "bk_map": "ตำแหน่งสตูดิโอ", "bf_name": "ชื่อของคุณ", "bf_phone": "โทรศัพท์ / Viber", "bf_email": "อีเมล (ไม่บังคับ)", "bf_date": "วันที่ต้องการ", "bf_package": "แพ็กเกจ", "bf_place": "สถานที่", "bf_msg": "บอกเราเกี่ยวกับแผนของคุณ", "bf_send": "ส่งคำขอจอง", "bf_sending": "กำลังส่ง…", "bf_ok": "ขอบคุณ! เราจะติดต่อกลับภายใน 24 ชั่วโมง", "bf_err": "กรุณากรอกชื่อและเบอร์โทรศัพท์", "bf_fail": "ส่งไม่สำเร็จ กรุณาโทรหาเรา", "bf_or": "หรือติดต่อเราโดยตรง", "bf_any": "ยังไม่แน่ใจ", "pk_book": "จองแพ็กเกจนี้"}};
+function cleanPath(v){if(typeof v!=="string"||v.startsWith("data:")||/^https?:/i.test(v))return v;
+  let p=v.trim().replace(/\\/g,"/").replace(/^(\.\/)+/,"").replace(/^\/+/,"");const i=p.toLowerCase().lastIndexOf("img/");if(i>0)p=p.slice(i);return p}
+function cleanAll(o){for(const k in o){const v=o[k];if(typeof v==="string"&&/\.(jpe?g|png|webp|gif|mp4|webm|mov|m4v)$/i.test(v))o[k]=cleanPath(v);else if(v&&typeof v==="object")cleanAll(v)}return o}
+function normalize(site){
+  site=Object.assign({text:{},categories:[],posts:[],stats:[],instagram:[],images:{},brand:{},contact:{},social:{}},site);
+  if(!site.packages)site.packages=JSON.parse(JSON.stringify(DEF_PACKAGES));
+  if(!site.places)site.places=JSON.parse(JSON.stringify(DEF_PLACES));
+  if(site.places.mapImg==="img/map-terrain.webp"){const old=["Tangyan Town", "Pine Forest Trail", "Hilltop Pagoda", "Lake Reflections", "Flower Fields", "Waterfall"];const D=JSON.parse(JSON.stringify(DEF_PLACES));
+    site.places.mapImg=D.mapImg;site.places.credit=D.credit;site.places.embedZoom=D.embedZoom;
+    if((site.places.items||[]).every((p,i)=>p.name&&p.name.en===old[i]))site.places.items=D.items;
+    else site.places.items.forEach((p,i)=>{if(p.cx==null){p.cx=p.x<50?13:87;p.cy=[17,50,83][i%3]}})}
+  if(site.places.showCards==null)site.places.showCards=true;
+  if(site.places.credit==null)site.places.credit="";
+  for(const l in DEF_TEXT){site.text[l]=Object.assign({},DEF_TEXT[l],site.text[l]||{});
+    if(/instagram/i.test(site.text[l].insta_t||""))site.text[l].insta_t=DEF_TEXT[l].insta_t}
+  if(!site.social.tiktokHandle)site.social.tiktokHandle=site.social.instagramHandle||"";
+  cleanAll(site);if(!site.forms)site.forms={provider:"auto"};if(!site.cloud)site.cloud={url:"",key:""};
+  return site}
+let SITE=normalize(JSON.parse(JSON.stringify(window.SITE||{})));
+let dirHandle=null,dirty=false,tab="overview",langFilter="all";
+const $=s=>document.querySelector(s);
+const esc=v=>String(v??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const getP=p=>p.split(".").reduce((o,k)=>o==null?o:o[k],SITE);
+function setP(p,v){const ks=p.split(".");let o=SITE;ks.slice(0,-1).forEach(k=>{if(o[k]==null)o[k]={};o=o[k]});o[ks.at(-1)]=v}
+const per=()=>Object.fromEntries(LANGS.map(([l])=>[l,""]));
+
+/* ---------- text labels (Burmese) ---------- */
+const TEXT_GROUPS=[
+ ["ခေါင်းစီး / Menu",[["logo_sub","Logo အောက်က စာလုံးသေး"],["nav_home","Menu: ပင်မ"],["nav_portfolio","Menu: လက်ရာများ"],["nav_journal","Menu: ဆောင်းပါး"],["nav_about","Menu: အကြောင်း"],["nav_packages","Menu: ပက်ကေ့ချ်"],["nav_contact","Menu: ဆက်သွယ်ရန်"]]],
+ ["ပထမ ပုံကြီး (Hero)",[["hero_eyebrow","ခေါင်းစဉ်အပေါ် စာလုံးသေး"],["hero_t1","ခေါင်းစဉ်ကြီး - လိုင်း ၁"],["hero_t2","ခေါင်းစဉ်ကြီး - လိုင်း ၂"],["hero_p","ဖော်ပြချက် စာပိုဒ်",1],["btn_portfolio","ခလုတ် (အဝါ)"],["btn_plan","ခလုတ် (အဖြူ)"],["based_label","ညာဘက်အောက် - Based in"],["based_place","ညာဘက်အောက် - နေရာ"]]],
+ ["လက်ရာများ (Portfolio)",[["explore","ကဏ္ဍ ခေါင်းစဉ်"],["view_all_portfolio","အားလုံးကြည့်ရန် link"],["view_gallery","ကတ်ပေါ်က 'ပုံများကြည့်ရန်'"],["photos","Gallery ထဲ ပုံအရေအတွက် ({n} = နံပါတ်)"]]],
+ ["ကျွန်ုပ်တို့အကြောင်း (About)",[["about_eyebrow","စာလုံးသေး ခေါင်းစဉ်"],["about_title","ခေါင်းစဉ်"],["about_p","စာပိုဒ်",1],["more_about","ခလုတ်"],["stamp","လည်နေသော စက်ဝိုင်းစာ"],["vertical","ညာဘက် ဒေါင်လိုက်စာ"]]],
+ ["ပက်ကေ့ချ် (Price List)",[["pk_eyebrow","ခေါင်းစဉ်အပေါ် စာလုံးသေး"],["pk_title","ခေါင်းစဉ်ကြီး (PRICE LIST)"],["pk_closing","အောက်ဆုံး ဘောင်ထဲက စာ (We look forward…)",1]]],
+ ["မြေပုံ / နေရာများ (Locations)",[["pl_eyebrow","ခေါင်းစဉ်အပေါ် စာလုံးသေး"],["pl_title","ခေါင်းစဉ်ကြီး"],["pl_lead","ခေါင်းစဉ်အောက် စာ",1],["pl_route","လမ်းကြောင်း ခေါင်းစဉ်"],["pl_book","ဘွတ်ကင် ခလုတ်"],["pl_gmap","Google Maps link စာ"],["pl_map_title","Google မြေပုံ ခေါင်းစဉ်"],["nav_places","Menu: နေရာများ"],["pl_zoom","မြေပုံ zoom လမ်းညွှန်စာ"]]],
+ ["ဘွတ်ကင် / ဆက်သွယ်ရန် ကတ်",[["bk_title","ခေါင်းစဉ်"],["bk_lead","ခေါင်းစဉ်အောက်စာ"],["bk_call","ဖုန်းခေါ်ရန်"],["bk_viber","Viber"],["bk_fb","Facebook Messenger"],["bk_mail","အီးမေးလ်"],["bk_map","တည်နေရာ"]]],
+ ["ဘွတ်ကင် Form",[["bf_name","အမည်"],["bf_phone","ဖုန်း"],["bf_email","အီးမေးလ်"],["bf_date","ရက်စွဲ"],["bf_package","ပက်ကေ့ချ်"],["bf_place","နေရာ"],["bf_msg","စာ"],["bf_send","ပို့ရန် ခလုတ်"],["bf_sending","ပို့နေချိန်"],["bf_ok","အောင်မြင်ချိန်",1],["bf_err","အမည်/ဖုန်း မပါချိန်"],["bf_fail","ပို့မရချိန်"],["bf_or","ဆက်သွယ်ရန် ခေါင်းစဉ်"],["bf_any","မဆုံးဖြတ်ရသေး"],["pk_book","Package ကတ်ပေါ် ခလုတ်"]]],
+ ["ဆောင်းပါးများ (Stories)",[["latest","ကဏ္ဍ ခေါင်းစဉ်"],["view_all_posts","အားလုံးကြည့်ရန် link"],["min_read","ဖတ်ချိန် ({n} = မိနစ်)"],["read_more","ဆက်ဖတ်ရန်"],["close","ပိတ်ရန်"]]],
+ ["TikTok + Email စာရင်းသွင်း",[["insta_t","TikTok ခေါင်းစဉ်"],["news_t","Email ကဏ္ဍ ခေါင်းစဉ်"],["news_p","Email ကဏ္ဍ စာ",1],["news_ph","Email အကွက်ထဲ စာ"],["news_btn","Subscribe ခလုတ်"],["news_ok","အောင်မြင်ချိန် စာ"],["news_err","Email မှားချိန် စာ"],["news_sending","ပို့နေချိန် စာ"],["news_fail","ပို့မရချိန် စာ (အင်တာနက်မရ)"]]],
+ ["အောက်ခြေ (Footer)",[["foot_tag","Logo အောက် စာ",1],["f_pages","ကော်လံ: စာမျက်နှာ"],["f_portfolio","ကော်လံ: လက်ရာ"],["f_resources","ကော်လံ: အရင်းအမြစ်"],["f_connect","ကော်လံ: ဆက်သွယ်ရန်"],["res1","Link ၁"],["res2","Link ၂"],["res3","Link ၃"],["res4","Link ၄"],["address","လိပ်စာ"],["copyright","မူပိုင်ခွင့် စာ"]]],
+ ["ရှာဖွေရန် (Search)",[["search_ph","ရှာဖွေရန် အကွက်ထဲ စာ"],["search_cat","ရလဒ်: ပုံများ"],["search_post","ရလဒ်: ဆောင်းပါး"]]]
+];
+const TABS=[["overview","ခြုံငုံကြည့်ရန်","Overview"],["inquiries","ဘွတ်ကင် စာများ","Booking inbox"],["text","စာသားများ","Text · 5 languages"],["images","ပင်မ ပုံများ","Hero · About · TikTok"],["portfolio","လက်ရာ / Gallery","Categories & photos"],["packages","ပက်ကေ့ချ် / ဈေးနှုန်း","Price list · 6 packages"],["places","မြေပုံ / နေရာများ","Map · pins · route"],["stories","ဆောင်းပါးများ","Stories / Journal"],["contact","ဆက်သွယ်ရန် / Brand","Contact · Social · Stats"],["cloud","Cloud / အွန်လိုင်း","Edit from anywhere"],["help","လမ်းညွှန်","How to use"]];
+
+/* ---------- helpers ---------- */
+function langFields(base,multiline,pathFn){
+  const ls=LANGS.filter(([l])=>langFilter==="all"||langFilter===l);
+  return `<div class="langs">${ls.map(([l,n])=>{const p=pathFn?pathFn(l):`${base}.${l}`,v=getP(p)??"";
+    return `<label class="lf"><span class="${v?"":"missing"}">${n}${v?"":" · ဗလာ"}</span>${multiline?`<textarea data-p="${p}">${esc(v)}</textarea>`:`<input type="text" data-p="${p}" value="${esc(v)}">`}</label>`}).join("")}</div>`}
+function single(p,label,type="text",hint=""){return `<label class="lf"><span>${label}</span><input type="${type}" data-p="${p}" value="${esc(getP(p)??"")}" ${hint?`placeholder="${esc(hint)}"`:""}></label>`}
+function langChips(){return `<div class="chips"><span style="font-size:12px;color:var(--muted);align-self:center">ပြမည့်ဘာသာ:</span>${[["all","အားလုံး"],...LANGS].map(([l,n])=>`<button class="chip" data-lang="${l}" aria-pressed="${langFilter===l}">${n}</button>`).join("")}</div>`}
+function toast(msg,bad){const t=document.createElement("div");t.className="toast"+(bad?" bad":"");t.textContent=msg;document.body.appendChild(t);setTimeout(()=>t.remove(),bad?6000:3000)}
+function markDirty(){dirty=true;const s=$("#status");s.textContent="မသိမ်းရသေးပါ";s.className="status dirty";schedulePreview()}
+let pvTimer;function schedulePreview(){clearTimeout(pvTimer);pvTimer=setTimeout(sendPreview,200)}
+function sendPreview(){try{$("#pv").contentWindow.postMessage({type:"lm-preview",site:SITE,lang:$("#pvLang").value},"*")}catch(e){}}
+$("#pv").addEventListener("load",()=>setTimeout(sendPreview,150));
+$("#pvLang").addEventListener("change",sendPreview);
+$("#pvToggle").addEventListener("click",()=>$("#main").classList.toggle("nopv"));
+
+/* media picking (photos are resized; videos kept as files until Save) */
+const BLOBS=new Map();
+const isVid=s=>/\.(mp4|webm|mov|m4v)(\?|#|$)/i.test(String(s||""))||(String(s||"").startsWith("blob:")&&BLOBS.get(s)?.type?.startsWith("video"));
+function thumb(src){return isVid(src)?`<video src="${esc(src)}#t=0.1" muted playsinline preload="metadata"></video><span class="vtag">VIDEO</span>`:`<img src="${esc(src)}" alt="" loading="lazy">`}
+function pickMedia(multiple,maxSide=1800){return new Promise(res=>{const f=$("#filePick");f.accept="image/*,video/*";f.multiple=!!multiple;f.value="";
+  f.onchange=async()=>{const out=[];for(const file of f.files){try{
+      if(file.type.startsWith("video")){if(file.size>50*1048576){toast("ဗီဒီယို "+file.name+" က 50MB ထက်ကြီးနေပါတယ်။ သေးအောင် ချုံ့ပြီးမှ ထည့်ပါ။",1);continue}
+        const u=URL.createObjectURL(file);BLOBS.set(u,file);out.push(u)}
+      else out.push(await resize(file,maxSide))}catch(e){toast("ဖွင့်မရပါ: "+file.name,1)}}f.accept="image/*";res(out)};f.click()})}
+/* image picking + resize */
+function pickImages(multiple,maxSide=2000){return new Promise(res=>{const f=$("#filePick");f.multiple=!!multiple;f.value="";
+  f.onchange=async()=>{const out=[];for(const file of f.files){try{out.push(await resize(file,maxSide))}catch(e){toast("ပုံဖွင့်မရပါ: "+file.name,1)}}res(out)};f.click()})}
+function resize(file,maxSide){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{
+  const sc=Math.min(1,maxSide/Math.max(im.width,im.height));const c=document.createElement("canvas");c.width=Math.round(im.width*sc);c.height=Math.round(im.height*sc);
+  c.getContext("2d").drawImage(im,0,0,c.width,c.height);res(c.toDataURL("image/jpeg",.86))};im.onerror=rej;im.src=r.result};r.onerror=rej;r.readAsDataURL(file)})}
+
+/* ---------- tabs ---------- */
+function renderRail(){$("#rail").innerHTML=TABS.map(([k,a,b])=>`<button data-tab="${k}" aria-current="${tab===k}">${a}${k==="inquiries"&&newCount()?`<span class="badge">${newCount()}</span>`:""}<small>${b}</small></button>`).join("")}
+function render(){renderRail();const P=$("#panel");const y=P.scrollTop;P.innerHTML=({overview:vOverview,inquiries:vInquiries,cloud:vCloud,text:vText,images:vImages,portfolio:vPortfolio,packages:vPackages,places:vPlaces,stories:vStories,contact:vContact,help:vHelp})[tab]();P.scrollTop=y}
+
+function vText(){return `<h2>စာသားများ</h2><p class="lead">Website ပေါ်က စာအားလုံးကို ဘာသာ ၅ မျိုးနဲ့ ဒီမှာ ပြင်ပါ။ ဘာသာတစ်ခုခု ဗလာထားရင် (တႆး → မြန်မာ → English) အစဉ်အတိုင်း အစားထိုးပြပါမယ်။</p>${langChips()}
+ ${TEXT_GROUPS.map(([g,rows])=>`<div class="group"><h3>${g}</h3>${rows.map(([k,lab,ml])=>`<div class="row"><label>${lab}<code>${k}</code></label>${langFields(null,ml,l=>`text.${l}.${k}`)}</div>`).join("")}</div>`).join("")}`}
+
+function imgSlot(path,title,hint){const v=getP(path)||"";return `<div class="slot"><div class="th">${v?`<img src="${esc(v)}" alt="">`:""}</div><div class="info"><b>${title}</b><small>${hint}</small><button class="b sm" data-img="${path}">ပုံပြောင်းရန်</button></div></div>`}
+function vImages(){return `<h2>ပင်မ ပုံများ</h2><p class="lead">ပုံကို နှိပ်ပြီး ကွန်ပျူတာထဲက ပုံရွေးပါ။ ပုံကြီးတွေကို အလိုအလျောက် သေးအောင်လုပ်ပေးပါတယ်။</p>
+ <div class="group"><h3>ပထမ ပုံကြီး + About ပုံများ</h3><div class="slots">
+ ${imgSlot("images.hero","Hero ပုံကြီး","အလျားလိုက်ပုံ (ဥပမာ 1800×800)။ ဘယ်ဘက်ခြမ်း အလင်းဖြစ်ရင် စာပိုဖတ်ရလွယ်ပါတယ်။")}
+ ${imgSlot("images.about1","About ပုံ ၁ (အပေါ်)","အလျားလိုက်ပုံ")}
+ ${imgSlot("images.about2","About ပုံ ၂ (ဘယ်အောက်)","အလျားလိုက်ပုံ")}
+ ${imgSlot("images.about3","About ပုံ ၃ (ညာအောက်)","ဒေါင်လိုက်ပုံ · အဖြူအမည်းဖြင့်ပြမည်")}
+ </div></div>
+ <div class="group"><h3>TikTok တန်း (ပုံ ၅ ပုံ · နှိပ်ရင် TikTok link သို့သွားမည်)</h3><div class="slots">
+ ${[0,1,2,3,4].map(i=>imgSlot("instagram."+i,"TikTok ပုံ "+(i+1),"စတုရန်းပုံ")).join("")}
+ </div></div>`}
+
+function vPortfolio(){const C=SITE.categories;return `<h2>လက်ရာ / Gallery</h2><p class="lead">ကတ်တစ်ခုစီက Gallery တစ်ခုပါ။ Website မှာ ကတ်ကိုနှိပ်ရင် ဒီထဲက ပုံတွေ ပွင့်လာပါမယ်။ အဝါဘောင်ပါတဲ့ပုံက မျက်နှာဖုံး (cover) ပုံပါ။</p>
+ ${langChips()}
+ ${C.map((c,i)=>`<details class="group" ${openSet.has("c"+i)?"open":""} data-key="c${i}"><summary class="item-head"><span class="thumb">${c.cover?thumb(c.cover):""}</span><b>${esc(c.name?.my||c.name?.en||"(အမည်မဲ့)")} <small style="color:var(--muted);font-weight:400">· ${c.photos.length} ဖိုင်${c.hidden?" · ဖျောက်ထား":""}</small></b>
+   <button class="b sm" data-act="catUp" data-i="${i}" ${i?"":"disabled"}>▲</button><button class="b sm" data-act="catDown" data-i="${i}" ${i<C.length-1?"":"disabled"}>▼</button><span data-confirm="cat${i}">${confirmBtn("cat"+i,"delCat",i,"ဖျက်ရန်")}</span></summary>
+   <div class="row"><label>အမည် (ဘာသာ ၅ မျိုး)</label>${langFields(`categories.${i}.name`)}</div>
+   <div class="row"><label>ဇာတ်လမ်း / ဖော်ပြချက် <code>Gallery ဖွင့်ရင် ခေါင်းစဉ်အောက်မှာ ပြမည်</code></label>${langFields(`categories.${i}.story`,1)}</div>
+   <div class="row grid2"><label class="lf"><span>ပင်မစာမျက်နှာမှာ ပြမည်</span><input type="checkbox" data-p="categories.${i}.hidden" data-invert="1" ${c.hidden?"":"checked"} style="width:20px;height:20px"></label>
+   <div><span class="lbl">Cover ပုံ ဗဟိုချက် <code>ပုံပေါ် နှိပ်ပါ</code></span><div class="focus" data-focus="${i}">${c.cover?thumb(c.cover).replace(/<span class="vtag">VIDEO<\/span>/,""):""}<i style="left:${(c.coverPos||"50% 50%").split(" ")[0]};top:${(c.coverPos||"50% 50%").split(" ")[1]||"50%"}"></i></div></div></div>
+   <div class="row"><label>ပုံများ <code>ပထမပုံ = Gallery မှာ အရင်ပြ</code></label>
+   <div class="photos">${c.photos.map((p,k)=>`<div class="ph ${p===c.cover?"cover":""}">${p===c.cover?'<span class="badge">COVER</span>':""}${thumb(p)}<div class="tools">
+     <button data-act="phLeft" data-i="${i}" data-k="${k}" title="ရှေ့ရွှေ့">◀</button><button data-act="phCover" data-i="${i}" data-k="${k}" title="Cover လုပ်ရန်">★</button><button data-act="phRight" data-i="${i}" data-k="${k}" title="နောက်ရွှေ့">▶</button><button data-act="phDel" data-i="${i}" data-k="${k}" title="ဖျက်ရန်" style="color:var(--bad)">✕</button></div></div>`).join("")}
+     <button class="ph add" data-act="phAdd" data-i="${i}">+ ပုံ / ဗီဒီယို ထည့်ရန်<br><small>(အများကြီး ရွေးလို့ရ · ဗီဒီယို 50MB အထိ)</small></button></div></div>
+ </details>`).join("")}
+ <button class="b gold" data-act="addCat">+ အမျိုးအစား အသစ်ထည့်ရန်</button>`}
+
+function vPackages(){const P=SITE.packages,I=P.items;return `<h2>ပက်ကေ့ချ် / ဈေးနှုန်းစာရင်း</h2><p class="lead">"ကျွန်ုပ်တို့အကြောင်း" နဲ့ "ဆောင်းပါးများ" ကြားက Price List ကဏ္ဍပါ။ ခေါင်းစဉ်နဲ့ အောက်ဆုံးစာ ("We look forward…") ကို "စာသားများ → ပက်ကေ့ချ်" မှာ ပြင်ပါ။</p>
+ <div class="group"><h3>နောက်ခံ ပုံကြီး</h3><div class="slots" style="grid-template-columns:minmax(0,260px) minmax(0,1fr);align-items:start">${imgSlot("packages.bg","နောက်ခံပုံ","အလျားလိုက် ပုံကြီး (ဥပမာ 1600×900)")}
+  <div><label class="lf"><span>ပုံ အလင်း/အမှိန် (Opacity): <b id="opv">${Math.round((P.bgOpacity??.35)*100)}%</b></span><input type="range" min="0" max="1" step="0.05" data-p="packages.bgOpacity" value="${P.bgOpacity??.35}" style="width:100%"></label>
+  <p style="font-size:12px;color:var(--muted);margin:8px 0 0">0% = ပုံ မမြင်ရ၊ 100% = ပုံ အပြည့်။ စာဖတ်ရလွယ်အောင် 20–45% လောက် ထားပါ။</p>
+  ${P.bg?`<button class="b sm danger" data-act="pkBgClear" style="margin-top:10px">နောက်ခံပုံ ဖြုတ်ရန်</button>`:""}</div></div></div>
+ ${langChips()}
+ ${I.map((it,i)=>`<details class="group" ${openSet.has("k"+i)?"open":""} data-key="k${i}"><summary class="item-head"><span class="thumb">${it.img?`<img src="${esc(it.img)}" alt="">`:""}</span><b>${esc(it.name?.my||it.name?.en||"(အမည်မဲ့)")} ${it.price?`<small style="color:var(--muted);font-weight:400">· ${esc(it.price)}</small>`:""}</b>
+   <button class="b sm" data-act="pkUp" data-i="${i}" ${i?"":"disabled"}>▲</button><button class="b sm" data-act="pkDown" data-i="${i}" ${i<I.length-1?"":"disabled"}>▼</button><span>${confirmBtn("pk"+i,"delPk",i,"ဖျက်ရန်")}</span></summary>
+   <div class="row grid2"><div><span class="lbl">ပုံ</span><button class="b sm" data-img="packages.items.${i}.img">ပုံပြောင်းရန်</button></div>${single(`packages.items.${i}.price`,"ဈေးနှုန်း (ဗလာထားရင် မပြပါ)","text","ဥပမာ 350,000 Ks")}</div>
+   <div class="row"><label>Package အမည်</label>${langFields(`packages.items.${i}.name`)}</div>
+   <div class="row"><label>ပါဝင်သည့်အရာများ <code>တစ်ကြောင်း = တစ်ချက် (Enter နှိပ်ပြီး ခွဲပါ)</code></label>${langFields(`packages.items.${i}.features`,1)}</div>
+ </details>`).join("")}
+ <button class="b gold" data-act="addPk">+ Package အသစ်ထည့်ရန်</button>`}
+
+let plActive=0,plMode="pin";
+function routeD(pts){if(pts.length<2)return"";let d=`M${pts[0][0]},${pts[0][1]}`;for(let i=0;i<pts.length-1;i++){const p0=pts[i-1]||pts[i],p1=pts[i],p2=pts[i+1],p3=pts[i+2]||p2;d+=` C${p1[0]+(p2[0]-p0[0])/6},${p1[1]+(p2[1]-p0[1])/6} ${p2[0]-(p3[0]-p1[0])/6},${p2[1]-(p3[1]-p1[1])/6} ${p2[0]},${p2[1]}`}return d}
+function vPlaces(){const P=SITE.places,I=P.items;if(plActive>=I.length)plActive=0;return `<h2>မြေပုံ / နေရာများ</h2><p class="lead">"ဈေးနှုန်းစာရင်း" နဲ့ "ဆောင်းပါးများ" ကြားက မြေပုံကဏ္ဍပါ။ နေရာတစ်ခု ရွေးပြီး <b>မြေပုံပေါ်မှာ နှိပ်လိုက်ရင်</b> pin နေရာ ပြောင်းပါမယ်။ Pin တွေကို အစဉ်အတိုင်း လမ်းကြောင်း (dashed line) နဲ့ ဆက်ပေးပါတယ်။</p>
+ <div class="group"><h3>မြေပုံပေါ် Pin နေရာချရန်</h3>
+  <div class="placepick"><span style="font-size:12px;color:var(--muted);align-self:center">ပြင်မည့်အရာ:</span><button data-plmode="pin" aria-pressed="${plMode==="pin"}">● Pin နေရာ</button><button data-plmode="card" aria-pressed="${plMode==="card"}">▭ ကတ် (ပုံ+စာ) နေရာ</button></div>
+  <div class="placepick">${I.map((p,i)=>`<button data-plact="${i}" aria-pressed="${i===plActive}">${i+1}. ${esc(p.name?.my||p.name?.en||"")}</button>`).join("")}</div>
+  <div class="mapboard" id="mapboard">${P.mapImg?`<img src="${esc(P.mapImg)}" alt="">`:`<div style="padding:60px;text-align:center;color:var(--muted)">မြေပုံပုံ မရှိသေးပါ</div>`}
+   <svg class="rt" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="${routeD(I.map(p=>[+p.x||0,+p.y||0]))}"/></svg>
+   <svg class="rt" viewBox="0 0 100 100" preserveAspectRatio="none" style="z-index:1">${I.map(p=>`<line x1="${+p.cx||0}" y1="${+p.cy||0}" x2="${+p.x||0}" y2="${+p.y||0}" stroke="#fff" stroke-width="1" vector-effect="non-scaling-stroke"/>`).join("")}</svg>
+   ${I.map((p,i)=>`<span class="mc${i===plActive?" on":""}" style="left:${+p.cx||0}%;top:${+p.cy||0}%">${i+1}. ${esc((p.name?.my||p.name?.en||"").slice(0,14))}</span>`).join("")}
+   ${I.map((p,i)=>`<span class="mp${i===plActive?" on":""}" style="left:${+p.x||0}%;top:${+p.y||0}%"><svg viewBox="0 0 34 44"><path d="M17 43s14-14.6 14-25.5A14 14 0 0 0 3 17.5C3 28.4 17 43 17 43z"/></svg><b>${i+1}</b></span>`).join("")}</div>
+  <p style="font-size:12px;color:var(--muted);margin:8px 0 0">လက်ရှိရွေးထားတာ: <b>${I[plActive]?esc(I[plActive].name?.my||I[plActive].name?.en):"-"}</b> · ${plMode==="pin"?"Pin":"ကတ်"} နေရာအတွက် မြေပုံပေါ်မှာ နှိပ်ပါ</p>
+ </div>
+ <div class="group"><h3>မြေပုံ ပုံ နဲ့ Google Maps</h3><div class="slots" style="grid-template-columns:minmax(0,240px) minmax(0,1fr);align-items:start">${imgSlot("places.mapImg","မြေပုံ ပုံ","PNG/WebP (နောက်ခံ ဖောက်ထွင်း) အကောင်းဆုံး · Google Earth screenshot လည်းရ")}
+  <div class="grid2">${single("places.credit","ပုံ မူပိုင်ခွင့် စာ (ဥပမာ Imagery © Esri)")}${single("places.embedQuery","Google မြေပုံ ရှာမည့်နေရာ","text","Tangyan, Myanmar")}${single("places.embedZoom","Zoom (5–18)","number")}
+  <label class="lf"><span>မြေပုံပေါ် ကတ်များ ပြမည်</span><input type="checkbox" data-p="places.showCards" ${P.showCards!==false?"checked":""} style="width:20px;height:20px"></label><label class="lf"><span>Google မြေပုံ ပြမည်</span><input type="checkbox" data-p="places.showEmbed" ${P.showEmbed!==false?"checked":""} style="width:20px;height:20px"></label></div></div></div>
+ ${langChips()}
+ ${I.map((p,i)=>`<details class="group" ${openSet.has("l"+i)?"open":""} data-key="l${i}"><summary class="item-head"><span class="thumb">${p.img?`<img src="${esc(p.img)}" alt="">`:""}</span><b>${i+1}. ${esc(p.name?.my||p.name?.en||"(အမည်မဲ့)")}</b>
+   <button class="b sm" data-act="plUp" data-i="${i}" ${i?"":"disabled"}>▲</button><button class="b sm" data-act="plDown" data-i="${i}" ${i<I.length-1?"":"disabled"}>▼</button><span>${confirmBtn("pl"+i,"delPl",i,"ဖျက်ရန်")}</span></summary>
+   <div class="row grid2"><div><span class="lbl">ဓာတ်ပုံ</span><button class="b sm" data-img="places.items.${i}.img">ပုံပြောင်းရန်</button></div>${single(`places.items.${i}.x`,"မြေပုံပေါ် X (%)","number")}${single(`places.items.${i}.y`,"မြေပုံပေါ် Y (%)","number")}${single(`places.items.${i}.cx`,"ကတ် X (%)","number")}${single(`places.items.${i}.cy`,"ကတ် Y (%)","number")}</div>
+   <div class="row grid2">${single(`places.items.${i}.lat`,"Latitude (Google Maps · မထည့်လည်းရ)","text","22.4917")}${single(`places.items.${i}.lng`,"Longitude","text","98.4006")}</div>
+   <div class="row"><label>နေရာ အမည်</label>${langFields(`places.items.${i}.name`)}</div>
+   <div class="row"><label>Pin အပေါ် စာလုံးသေး <code>ဥပမာ ကန်၊ စေတီ</code></label>${langFields(`places.items.${i}.sub`)}</div>
+   <div class="row"><label>အချိန် / အချက်အလက် တစ်ကြောင်း <code>ဥပမာ ကား ၂၀ မိနစ် · နေထွက်ချိန်</code></label>${langFields(`places.items.${i}.meta`)}</div>
+   <div class="row"><label>ဖော်ပြချက်</label>${langFields(`places.items.${i}.desc`,1)}</div>
+ </details>`).join("")}
+ <button class="b gold" data-act="addPl">+ နေရာ အသစ်ထည့်ရန်</button>`}
+
+/* ---------- Overview ---------- */
+function stats(){let ph=0,vi=0;SITE.categories.forEach(c=>c.photos.forEach(p=>isVid(p)?vi++:ph++));return{g:SITE.categories.length,ph,vi,pk:SITE.packages?.items?.length||0,pl:SITE.places?.items?.length||0,po:SITE.posts.length}}
+function vOverview(){const s=stats(),cl=cloudOK();return `<h2>ခြုံငုံကြည့်ရန်</h2><p class="lead">Website တစ်ခုလုံးရဲ့ အခြေအနေ။ ကတ်ကိုနှိပ်ရင် အဲ့ဒီ tab ကို တန်းရောက်ပါမယ်။</p>
+ <div class="tiles">
+  <div class="tile${newCount()?" hot":""}" data-go="inquiries"><b>${cl&&sb.token()?newCount():"—"}</b><small>ဘွတ်ကင်စာ အသစ်</small></div>
+  <div class="tile" data-go="portfolio"><b>${s.g}</b><small>Gallery</small></div>
+  <div class="tile" data-go="portfolio"><b>${s.ph}</b><small>ဓာတ်ပုံ</small></div>
+  <div class="tile" data-go="portfolio"><b>${s.vi}</b><small>ဗီဒီယို</small></div>
+  <div class="tile" data-go="packages"><b>${s.pk}</b><small>ပက်ကေ့ချ်</small></div>
+  <div class="tile" data-go="places"><b>${s.pl}</b><small>ရိုက်ကူးရေးနေရာ</small></div>
+  <div class="tile" data-go="stories"><b>${s.po}</b><small>ဆောင်းပါး</small></div>
+ </div>
+ <div class="group"><h3>Cloud အခြေအနေ</h3><div class="cloudbox"><span class="dot ${cl?"on":""}"></span>${cl?(sb.token()?`Cloud ချိတ်ပြီး · <b>${esc(sb.email())}</b> နဲ့ ဝင်ထားသည်`:"Cloud ချိတ်ထားသည် · Login မဝင်ရသေး"):"Cloud မချိတ်ရသေး (ကွန်ပျူတာ folder နဲ့ပဲ သိမ်းနေသည်)"}<button class="b sm" data-go="cloud">Cloud ဆက်တင်</button></div></div>
+ <div class="group"><h3>Gallery များ</h3><div class="recent">${SITE.categories.map(c=>`<div data-go="portfolio" style="cursor:pointer">${c.cover?thumb(c.cover).replace(/<span class="vtag">VIDEO<\/span>/,""):""}<span>${esc(c.name?.my||c.name?.en||"")}${c.hidden?" · ဖျောက်ထား":""}</span></div>`).join("")}</div></div>`}
+
+/* ---------- Supabase cloud (REST, no library) ---------- */
+const cloudOK=()=>!!(SITE.cloud&&SITE.cloud.url&&SITE.cloud.key);
+const base=()=>SITE.cloud.url.trim().replace(/\/+$/,"");
+const sb={get s(){try{return JSON.parse(localStorage.getItem("lm_sb")||"null")}catch(e){return null}},set s(v){try{v?localStorage.setItem("lm_sb",JSON.stringify(v)):localStorage.removeItem("lm_sb")}catch(e){}},
+  token(){return this.s&&this.s.access_token},email(){return this.s&&this.s.email||""}};
+async function sbFetch(path,opt={}){if(!cloudOK())throw new Error("Cloud URL/Key မထည့်ရသေးပါ");
+  const s=sb.s;if(s&&s.exp&&Date.now()>s.exp-60000)await sbRefresh();
+  const h={apikey:SITE.cloud.key,...(sb.token()?{Authorization:"Bearer "+sb.token()}:{}),...(opt.headers||{})};
+  const r=await fetch(base()+path,{...opt,headers:h});if(!r.ok){let m=r.status+"";try{const j=await r.json();m=j.message||j.error_description||j.msg||j.error||m}catch(e){}throw new Error(m)}return r}
+async function sbLogin(email,pw){const r=await fetch(base()+"/auth/v1/token?grant_type=password",{method:"POST",headers:{apikey:SITE.cloud.key,"Content-Type":"application/json"},body:JSON.stringify({email,password:pw})});
+  const j=await r.json();if(!r.ok)throw new Error(j.error_description||j.msg||j.error||"Login မရပါ");sb.s={access_token:j.access_token,refresh_token:j.refresh_token,exp:Date.now()+j.expires_in*1000,email:j.user?.email||email}}
+async function sbRefresh(){const s=sb.s;if(!s)return;const r=await fetch(base()+"/auth/v1/token?grant_type=refresh_token",{method:"POST",headers:{apikey:SITE.cloud.key,"Content-Type":"application/json"},body:JSON.stringify({refresh_token:s.refresh_token})});
+  const j=await r.json();if(!r.ok){sb.s=null;throw new Error("Login သက်တမ်းကုန်ပါပြီ။ ပြန်ဝင်ပါ။")}sb.s={...s,access_token:j.access_token,refresh_token:j.refresh_token,exp:Date.now()+j.expires_in*1000}}
+async function cloudLoad(silent){try{const r=await sbFetch("/rest/v1/site_content?id=eq.1&select=data,updated_at");const j=await r.json();
+  if(!j[0]){if(!silent)toast("Cloud မှာ အချက်အလက် မရှိသေးပါ။ 'Cloud သို့ တင်ရန်' ကို အရင်နှိပ်ပါ။");return}
+  const keep=SITE.cloud;SITE=normalize(j[0].data);SITE.cloud=keep;dirty=false;render();sendPreview();if(!silent)toast("Cloud ကနေ ဖွင့်ပြီးပါပြီ ("+new Date(j[0].updated_at).toLocaleString()+")")}catch(e){if(!silent)toast("Cloud ဖွင့်မရပါ: "+e.message,1)}}
+async function cloudUploadMedia(){const stamp=new Date().toISOString().replace(/[-:T]/g,"").slice(0,14);let n=0;const todo=[];
+  const walk=o=>{for(const k in o){const v=o[k];if(typeof v==="string"&&(v.startsWith("data:image")||(v.startsWith("blob:")&&BLOBS.has(v))))todo.push(v);else if(v&&typeof v==="object")walk(v)}};walk(SITE);
+  for(const v of [...new Set(todo)]){let blob,ext;if(v.startsWith("blob:")){blob=BLOBS.get(v);ext=(blob.name.split(".").pop()||"mp4").toLowerCase().replace(/[^a-z0-9]/g,"")}else{blob=await (await fetch(v)).blob();ext="jpg"}
+    const path=`u/${stamp}-${++n}.${ext}`;toast(`ဖိုင် ${n}/${new Set(todo).size} တင်နေသည်…`);
+    await sbFetch("/storage/v1/object/media/"+path,{method:"POST",headers:{"Content-Type":blob.type||"application/octet-stream","x-upsert":"true","cache-control":"31536000"},body:blob});
+    replaceAll(SITE,v,base()+"/storage/v1/object/public/media/"+path)}return n}
+async function cloudPublish(){const btn=$("#saveBtn");btn.disabled=true;btn.textContent="Cloud သို့ တင်နေသည်…";
+  try{const n=await cloudUploadMedia();
+    await sbFetch("/rest/v1/site_content",{method:"POST",headers:{"Content-Type":"application/json",Prefer:"resolution=merge-duplicates,return=minimal"},body:JSON.stringify([{id:1,data:SITE,updated_at:new Date().toISOString()}])});
+    dirty=false;const s=$("#status");s.textContent="Cloud သို့ တင်ပြီး "+new Date().toLocaleTimeString();s.className="status saved";toast("Website ကို Cloud ပေါ် တင်ပြီးပါပြီ"+(n?` · ဖိုင် ${n} ခု`:""));render();sendPreview()}
+  catch(e){toast("Cloud သို့ တင်မရပါ: "+e.message,1)}btn.disabled=false;btn.textContent="သိမ်းရန် (Save)"}
+/* ---------- Inquiries ---------- */
+let INQ=[],inqFilter="all",inqLoaded=false;
+const STAT=[["new","အသစ်"],["contacted","ဆက်သွယ်ပြီး"],["booked","ဘွတ်ကင်ရပြီ"],["done","ပြီးဆုံး"],["cancelled","ပယ်ဖျက်"]];
+const newCount=()=>INQ.filter(x=>x.status==="new").length;
+async function loadInq(silent){try{const r=await sbFetch("/rest/v1/inquiries?select=*&order=created_at.desc&limit=500");INQ=await r.json();inqLoaded=true;renderRail();if(tab==="inquiries"||tab==="overview")render()}catch(e){if(!silent)toast("ဘွတ်ကင်စာ ဖွင့်မရပါ: "+e.message,1)}}
+function intl(t){t=String(t||"").replace(/[^\d+]/g,"");if(t.startsWith("+"))return t;if(t.startsWith("0"))return"+95"+t.slice(1);return t}
+function vInquiries(){if(!cloudOK()||!sb.token())return `<h2>ဘွတ်ကင် စာများ</h2><div class="group"><p>Website ကနေ ဖောက်သည်တွေ ပို့တဲ့ ဘွတ်ကင်စာတွေကို ဒီမှာ စုကြည့်ဖို့ <b>Cloud</b> ချိတ်ပြီး Login ဝင်ရပါမယ်။</p><p style="color:var(--muted);font-size:13px">Cloud မချိတ်ရသေးရင် ဘွတ်ကင်စာတွေကို Email (FormSubmit) / Netlify Forms ကနေ ရောက်လာပါမယ်။</p><button class="b gold" data-go="cloud">Cloud ချိတ်ရန်</button></div>`;
+  const L=INQ.filter(x=>inqFilter==="all"||x.status===inqFilter);
+  return `<h2>ဘွတ်ကင် စာများ</h2><p class="lead">Website ရဲ့ "Plan Your Shoot / Book" form ကနေ ရောက်လာတဲ့ စာများ။ အခြေအနေ ပြောင်းပြီး မှတ်စု ရေးထားလို့ရပါတယ်။</p>
+  <div class="chips"><button class="chip" data-inqf="all" aria-pressed="${inqFilter==="all"}">အားလုံး (${INQ.length})</button>${STAT.map(([k,n])=>`<button class="chip" data-inqf="${k}" aria-pressed="${inqFilter===k}">${n} (${INQ.filter(x=>x.status===k).length})</button>`).join("")}<button class="b sm" data-inqreload>↻ ပြန်ဖွင့်ရန်</button></div>
+  ${inqLoaded?"":"<p>ဖွင့်နေသည်…</p>"}${inqLoaded&&!L.length?'<div class="group">စာ မရှိသေးပါ။</div>':""}
+  ${L.map(x=>{const ph=String(x.phone||"").replace(/[^\d+]/g,"");return `<div class="inq s-${esc(x.status)}"><div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap"><div><h4>${esc(x.name)}</h4><span class="when">${new Date(x.created_at).toLocaleString()} · ${esc((x.lang||"").toUpperCase())}</span></div>
+   <select class="inp" style="width:auto" data-inqstatus="${x.id}">${STAT.map(([k,n])=>`<option value="${k}" ${x.status===k?"selected":""}>${n}</option>`).join("")}</select></div>
+   <div class="meta">${x.shoot_date?`<span>📅 ${esc(x.shoot_date)}</span>`:""}${x.package?`<span>📦 ${esc(x.package)}</span>`:""}${x.place?`<span>📍 ${esc(x.place)}</span>`:""}${x.phone?`<span>📞 ${esc(x.phone)}</span>`:""}${x.email?`<span>✉ ${esc(x.email)}</span>`:""}</div>
+   ${x.message?`<div class="msgx">${esc(x.message)}</div>`:""}
+   <label class="lf"><span>မှတ်စု (ကိုယ်ပဲ မြင်ရ)</span><textarea data-inqnote="${x.id}" style="min-height:50px">${esc(x.note||"")}</textarea></label>
+   <div class="acts">${ph?`<a class="b sm" href="tel:${esc(ph)}">ဖုန်းခေါ်ရန်</a><a class="b sm" href="viber://chat?number=${encodeURIComponent(intl(ph))}">Viber</a>`:""}${x.email?`<a class="b sm" href="mailto:${esc(x.email)}?subject=${encodeURIComponent((SITE.brand.name||"LM STUDIO")+" · Booking")}">Email ပြန်ရန်</a>`:""}<span>${confirmBtn("inq"+x.id,"delInq",x.id,"ဖျက်ရန်")}</span></div></div>`}).join("")}`}
+/* ---------- Cloud self-test ---------- */
+function hint(m){m=String(m||"");
+  if(/fetch|network|Failed/i.test(m))return "URL မှားနေနိုင်ပါတယ် (https://xxxx.supabase.co ပုံစံ ဖြစ်ရမယ်) သို့မဟုတ် အင်တာနက် မရပါ။";
+  if(/does not exist|relation|schema cache|404|PGRST205/i.test(m))return "SQL ကို မ Run ရသေးပါ။ အဆင့် ၂ ကို လုပ်ပါ။";
+  if(/Invalid API key|No API key|401/i.test(m))return "Key မှားနေပါတယ်။ Publishable (anon) key ကို ပြန်ကူးပါ။";
+  if(/row-level security|violates|403|permission/i.test(m))return "ခွင့်ပြုချက် (Policy) မမှန်ပါ။ SQL ကို ပြန် Run ပါ။";
+  if(/Bucket not found/i.test(m))return "Storage bucket 'media' မရှိပါ။ SQL ကို ပြန် Run ပါ။";
+  if(/mime|size/i.test(m))return "Storage ဖိုင်အမျိုးအစား/အရွယ် ကန့်သတ်ချက် ပြဿနာ။";
+  return m}
+async function cloudTest(){const out=$("#ctOut");const R=[];const show=()=>out.innerHTML=`<ul class="ct">${R.map(r=>`<li class="${r.s}"><b>${r.s==="ok"?"✓":r.s==="bad"?"✗":"–"}</b><span>${esc(r.t)}${r.h?`<small>${esc(r.h)}</small>`:""}</span></li>`).join("")}</ul>`;
+  const step=async(t,fn)=>{const r={t,s:"skip"};R.push(r);show();try{const h=await fn();r.s="ok";if(h)r.h=h}catch(e){r.s="bad";r.h=hint(e.message)+" ("+e.message+")"}show();return r.s==="ok"};
+  const skip=(t,h)=>{R.push({t,s:"skip",h});show()};
+  if(!await step("URL နဲ့ Key ပုံစံ",async()=>{if(!/^https:\/\/[a-z0-9-]+\.supabase\.(co|in)\/?$/i.test(SITE.cloud.url.trim())&&!/^https?:\/\//.test(SITE.cloud.url))throw new Error("URL format");if(!SITE.cloud.key||SITE.cloud.key.length<10)throw new Error("Key too short");if(/service_role|sb_secret_/.test(SITE.cloud.key))throw new Error("SECRET KEY! Publishable key ကိုပဲ သုံးပါ")}))return;
+  await step("Website content ဖတ်ခြင်း (public)",async()=>{const r=await sbFetch("/rest/v1/site_content?id=eq.1&select=updated_at");const j=await r.json();return j[0]?"Cloud content ရှိပြီး · "+new Date(j[0].updated_at).toLocaleString():"Table ရှိပါတယ် (content မတင်ရသေး)"});
+  const tok=sb.s;sb.s=null;let anonOK=false;
+  try{anonOK=await step("ဖောက်သည်လို ဘွတ်ကင်စာ ပို့ခြင်း (anon)",async()=>{await sbFetch("/rest/v1/inquiries",{method:"POST",headers:{"Content-Type":"application/json",Prefer:"return=minimal"},body:JSON.stringify({name:"TEST · Cloud check (ဖျက်ရန်)",phone:"000000",message:"auto test",lang:"my"})})});
+    await step("ဖောက်သည်က ဘွတ်ကင်စာများကို ဖတ်လို့ မရခြင်း (လုံခြုံရေး)",async()=>{const r=await sbFetch("/rest/v1/inquiries?select=id&limit=1");const j=await r.json();if(j.length)throw new Error("Public က ဘွတ်ကင်စာ ဖတ်လို့ရနေပါတယ် — permission");return"လုံခြုံပါတယ်"})}
+  finally{sb.s=tok}
+  if(!sb.token()){skip("Admin စစ်ဆေးမှုများ","Login ဝင်ပြီး ပြန်နှိပ်ပါ (Inbox, Storage, Publish ခွင့်)");return}
+  await step("Admin Login သက်တမ်း",async()=>{await sbRefresh();return sb.email()});
+  let testId=null;
+  await step("Admin က ဘွတ်ကင်စာ ဖတ်ခြင်း",async()=>{const r=await sbFetch("/rest/v1/inquiries?select=id,name&order=created_at.desc&limit=20");const j=await r.json();const t=j.find(x=>/^TEST · Cloud check/.test(x.name));testId=t&&t.id;return `စာ ${j.length} စောင် တွေ့`});
+  if(testId){await step("Status ပြောင်းခြင်း",async()=>{await sbFetch("/rest/v1/inquiries?id=eq."+testId,{method:"PATCH",headers:{"Content-Type":"application/json",Prefer:"return=minimal"},body:JSON.stringify({status:"done"})})});
+    await step("စမ်းသပ်စာ ပြန်ဖျက်ခြင်း",async()=>{await sbFetch("/rest/v1/inquiries?id=eq."+testId,{method:"DELETE"})})}
+  const path="test/check-"+Date.now()+".png";
+  const png=await (await fetch("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==")).blob();
+  if(await step("ပုံ Upload (Storage)",async()=>{await sbFetch("/storage/v1/object/media/"+path,{method:"POST",headers:{"Content-Type":"image/png","x-upsert":"true"},body:png})})){
+    await step("Upload ပုံကို public ကြည့်လို့ရခြင်း",async()=>{const r=await fetch(base()+"/storage/v1/object/public/media/"+path);if(!r.ok)throw new Error(r.status+" bucket not public")});
+    await step("စမ်းသပ်ပုံ ပြန်ဖျက်ခြင်း",async()=>{await sbFetch("/storage/v1/object/media/"+path,{method:"DELETE"})})}
+  await step("Website content ရေးခွင့် (Publish)",async()=>{await sbFetch("/rest/v1/site_content",{method:"POST",headers:{"Content-Type":"application/json",Prefer:"resolution=merge-duplicates,return=minimal"},body:JSON.stringify([{id:999,data:{test:true}}])});await sbFetch("/rest/v1/site_content?id=eq.999",{method:"DELETE"})});
+  const bad=R.filter(r=>r.s==="bad").length;toast(bad?`ပြဿနာ ${bad} ခု တွေ့ပါတယ်`:"Cloud အားလုံး အဆင်ပြေပါတယ် ✓",bad)}
+/* ---------- Cloud tab ---------- */
+function vCloud(){const cl=cloudOK();return `<h2>Cloud / အွန်လိုင်း</h2><p class="lead">Supabase (အခမဲ့) နဲ့ ချိတ်ရင် ဖုန်း/ကွန်ပျူတာ ဘယ်ကနေမဆို Login ဝင်ပြီး website ကို ပြင်လို့ရပါမယ်။ ပုံ/ဗီဒီယို အသစ်တွေ Cloud ပေါ် တိုက်ရိုက် တက်ပြီး ဖောက်သည် ဘွတ်ကင်စာတွေလည်း ဒီ Editor ထဲ ရောက်လာပါမယ်။</p>
+ <div class="group"><h3>၁။ Project ချိတ်ရန်</h3><div class="grid2">${single("cloud.url","Project URL","url","https://xxxx.supabase.co")}${single("cloud.key","Publishable / anon key","text","eyJ… (သို့) sb_publishable_…")}</div>
+  <div style="margin-top:10px"><button class="b gold" data-cloudtest>Cloud စမ်းသပ်ရန် (Test)</button> <small style="color:var(--muted)">Login ဝင်ပြီးမှ နှိပ်ရင် အပြည့်အစုံ စစ်ပေးပါမယ်</small></div><div id="ctOut"></div>
+  <p style="font-size:12px;color:var(--muted);margin:8px 0 0">Supabase → Project Settings → API (Data API) မှာ ရပါတယ်။ ဒီ key က website ပေါ်မှာ ပေါ်လို့ရတဲ့ public key ပါ (service_role key ကို <b>မထည့်ပါနဲ့</b>)။ ထည့်ပြီးရင် Save တစ်ချက်နှိပ်ပါ။</p></div>
+ <div class="group"><h3>၂။ Database ပြင်ဆင်ရန် (တစ်ကြိမ်ပဲ)</h3><p style="font-size:13px;margin:0 0 8px">Supabase → <b>SQL Editor</b> → New query မှာ အောက်ကစာကို ကူးထည့်ပြီး <b>Run</b> နှိပ်ပါ။</p>
+  <textarea class="sql" readonly id="sqlBox">${esc($("#sqlSetup").textContent.trim())}</textarea><div style="margin-top:8px"><button class="b sm" data-copysql>SQL ကူးရန် (Copy)</button></div></div>
+ <div class="group"><h3>၃။ Admin Login</h3>${!cl?'<p style="color:var(--muted)">အပေါ်မှာ URL နဲ့ Key အရင်ထည့်ပါ။</p>':sb.token()?`<div class="cloudbox"><span class="dot on"></span>ဝင်ထားသည်: <b>${esc(sb.email())}</b><button class="b sm" data-sblogout>ထွက်ရန် (Logout)</button></div>
+   <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="b gold" data-cloudpub>Cloud သို့ တင်ရန် (Publish)</button><button class="b" data-cloudload>Cloud ကနေ ဖွင့်ရန် (Load)</button></div>
+   <p style="font-size:12px;color:var(--muted);margin:8px 0 0">Login ဝင်ထားစဉ် အပေါ်က <b>Save</b> ကိုနှိပ်ရင်လည်း Cloud ပေါ်ကို အလိုအလျောက် တင်ပါမယ်။</p>`:`<div class="grid2"><label class="lf"><span>Email</span><input type="email" id="sbEmail" autocomplete="username"></label><label class="lf"><span>Password</span><input type="password" id="sbPw" autocomplete="current-password"></label></div><div style="margin-top:10px"><button class="b gold" data-sblogin>Login ဝင်ရန်</button></div>
+   <p style="font-size:12px;color:var(--muted);margin:8px 0 0">Supabase → Authentication → Users → <b>Add user</b> နဲ့ ကိုယ့် Admin account ကို ဖန်တီးထားပါ။ "Allow new users to sign up" ကို <b>ပိတ်</b>ထားပါ။</p>`}</div>`}
+$("#rail").addEventListener("click",e=>{const b=e.target.closest("[data-tab]");if(b&&b.dataset.tab==="inquiries"&&cloudOK()&&sb.token())loadInq(true)});
+$("#panel").addEventListener("click",async e=>{
+  const go=e.target.closest("[data-go]");if(go){tab=go.dataset.go;render();$("#panel").scrollTop=0;if(tab==="inquiries"&&sb.token())loadInq(true);return}
+  if(e.target.closest("[data-copysql]")){const t=$("#sqlBox");try{await navigator.clipboard.writeText(t.value);toast("ကူးပြီးပါပြီ")}catch(_){t.select();toast("Ctrl+C နှိပ်ပြီး ကူးပါ")}return}
+  if(e.target.closest("[data-sblogin]")){try{await sbLogin($("#sbEmail").value.trim(),$("#sbPw").value);toast("Login ဝင်ပြီးပါပြီ");render();loadInq(true)}catch(err){toast(err.message,1)}return}
+  if(e.target.closest("[data-sblogout]")){sb.s=null;INQ=[];inqLoaded=false;render();toast("ထွက်ပြီးပါပြီ");return}
+  if(e.target.closest("[data-cloudpub]")){await cloudPublish();return}
+  if(e.target.closest("[data-cloudtest]")){await cloudTest();return}
+  if(e.target.closest("[data-cloudload]")){await cloudLoad(false);return}
+  const f=e.target.closest("[data-inqf]");if(f){inqFilter=f.dataset.inqf;render();return}
+  if(e.target.closest("[data-inqreload]")){await loadInq(false);return}
+});
+$("#panel").addEventListener("change",async e=>{const st=e.target.dataset.inqstatus,nt=e.target.dataset.inqnote;if(!st&&!nt)return;
+  const id=st||nt,body=st?{status:e.target.value}:{note:e.target.value};
+  try{await sbFetch("/rest/v1/inquiries?id=eq."+encodeURIComponent(id),{method:"PATCH",headers:{"Content-Type":"application/json",Prefer:"return=minimal"},body:JSON.stringify(body)});const x=INQ.find(q=>String(q.id)===String(id));Object.assign(x,body);toast("သိမ်းပြီး");renderRail();if(st)render()}catch(err){toast("သိမ်းမရပါ: "+err.message,1)}});
+
+function vStories(){const P=SITE.posts;return `<h2>ဆောင်းပါးများ</h2><p class="lead">Website မှာ ရက်စွဲ အသစ်ဆုံး ၄ ပုဒ်ကို ပြပါမယ်။ ကတ်ကိုနှိပ်ရင် စာအပြည့်အစုံ ဖတ်ရပါမယ်။ စာပိုဒ်ခွဲချင်ရင် Enter နှိပ်ပါ။</p>${langChips()}
+ <button class="b gold" data-act="addPost" style="margin-bottom:14px">+ ဆောင်းပါး အသစ်ထည့်ရန်</button>
+ ${P.map((p,i)=>`<details class="group" ${openSet.has("p"+i)?"open":""} data-key="p${i}"><summary class="item-head"><span class="thumb">${p.img?`<img src="${esc(p.img)}" alt="">`:""}</span><b>${esc(p.title?.my||p.title?.en||"(ခေါင်းစဉ်မဲ့)")} <small style="color:var(--muted);font-weight:400">· ${esc(p.date)}</small></b><span data-confirm="post${i}">${confirmBtn("post"+i,"delPost",i,"ဖျက်ရန်")}</span></summary>
+   <div class="row grid2"><div><span class="lbl">ပုံ</span><button class="b sm" data-img="posts.${i}.img">ပုံပြောင်းရန်</button></div>${single(`posts.${i}.date`,"ရက်စွဲ","date")}${single(`posts.${i}.minutes`,"ဖတ်ချိန် (မိနစ်)","number")}</div>
+   <div class="row"><label>Tag (အဝါ စာလုံးသေး)</label>${langFields(`posts.${i}.tag`)}</div>
+   <div class="row"><label>ခေါင်းစဉ်</label>${langFields(`posts.${i}.title`)}</div>
+   <div class="row"><label>စာကိုယ်</label>${langFields(`posts.${i}.body`,1)}</div>
+ </details>`).join("")}`}
+
+function vContact(){const st=SITE.stats||[];return `<h2>ဆက်သွယ်ရန် / Brand</h2><p class="lead">Social link ကို ဗလာထားရင် အဲ့ဒီ icon ကို website မှာ ဖျောက်ထားပါမယ်။</p>
+ <div class="group"><h3>Brand</h3><div class="grid2">${single("brand.name","Logo အမည်")}${single("brand.signature","လက်မှတ်စာ (script)")}${single("brand.website","Website လိပ်စာ")}</div></div>
+ <div class="group"><h3>ဆက်သွယ်ရန်</h3><div class="grid2">${single("contact.email","Email","email")}${single("contact.phone","ဖုန်း (နံပါတ်များကို , ဖြင့်ခွဲပါ)")}${single("contact.viber","Viber နံပါတ် (ဗလာ = ပထမဖုန်း)","text","09…")}<label class="lf"><span>ညာဘက်အောက် ဖုန်း/Viber ခလုတ် ပြမည်</span><input type="checkbox" data-p="contact.fab" ${SITE.contact.fab!==false?"checked":""} style="width:20px;height:20px"></label></div><p style="font-size:12px;color:var(--muted);margin:10px 0 0">Website ပေါ်မှာ ဖုန်းနံပါတ်ကိုနှိပ်ရင် ဖုန်းခေါ်မယ့် မျက်နှာပြင် တန်းရောက်ပါမယ်။ Email နှိပ်ရင် Email app၊ လိပ်စာနှိပ်ရင် Google Maps ပွင့်ပါမယ်။</p><p style="font-size:12px;color:var(--muted);margin:10px 0 0">လိပ်စာကို "စာသားများ → အောက်ခြေ → လိပ်စာ" မှာ ဘာသာ ၅ မျိုးနဲ့ ပြင်ပါ။</p></div>
+ <div class="group"><h3>Email စာရင်းသွင်း Form ပို့မည့်နေရာ</h3><div class="grid2"><label class="lf"><span>ပို့ရန်နည်း</span><select class="inp" data-p="forms.provider">${[["auto","အလိုအလျောက် (netlify.app ဆို Netlify Forms · ကျန်တာ (Cloudflare, GitHub…) ဆို FormSubmit)"],["netlify","Netlify Forms"],["formsubmit","FormSubmit (Email သို့ တိုက်ရိုက် · GitHub Pages)"]].map(([v,n])=>`<option value="${v}" ${(SITE.forms.provider||"auto")===v?"selected":""}>${n}</option>`).join("")}</select></label>${single("forms.email","FormSubmit လက်ခံမည့် Email (ဗလာ = အပေါ်က Email)","email")}</div><p style="font-size:12px;color:var(--muted);margin:10px 0 0">FormSubmit ကို ပထမဆုံးအကြိမ် သုံးရင် အဲ့ဒီ Email ထဲကို "Activate" link ရောက်လာပါမယ်။ တစ်ကြိမ် နှိပ်ပေးရပါမယ်။</p></div>
+ <div class="group"><h3>Social Media</h3><div class="grid2">${single("social.facebook","Facebook link","url","https://facebook.com/…")}${single("social.instagram","Instagram link","url","https://instagram.com/…")}${single("social.tiktok","TikTok link","url","https://tiktok.com/@…")}${single("social.youtube","YouTube link","url","https://youtube.com/@…")}${single("social.tiktokHandle","TikTok အမည် (@…) · TikTok တန်းမှာ ပြမည်")}${single("social.instagramHandle","Instagram အမည် (@…)")}</div></div>
+ <div class="group"><h3>ကိန်းဂဏန်းများ (About ကဏ္ဍ)</h3>${langChips()}
+ ${st.map((s,i)=>`<div class="row"><div class="grid2" style="margin-bottom:8px">${single(`stats.${i}.value`,"ကိန်းဂဏန်း (ဥပမာ 12+)")}<label class="lf"><span>Icon</span><select class="inp" data-p="stats.${i}.icon">${[["cam","ကင်မရာ"],["pin","နေရာ pin"],["rings","လက်စွပ်"],["clock","နာရီ"],["mail","စာအိတ်"]].map(([v,n])=>`<option value="${v}" ${s.icon===v?"selected":""}>${n}</option>`).join("")}</select></label><div style="align-self:end"><span data-confirm="stat${i}">${confirmBtn("stat"+i,"delStat",i,"ဖျက်ရန်")}</span></div></div>${langFields(`stats.${i}.label`)}</div>`).join("")}
+ ${st.length<4?`<button class="b sm" data-act="addStat">+ ကိန်းဂဏန်း ထည့်ရန်</button>`:""}</div>`}
+
+function vHelp(){return `<div class="help"><h2>ဘယ်လိုသုံးရမလဲ</h2>
+ <div class="note"><b>အရေးကြီး:</b> ဒီ Editor ကို <b>Google Chrome</b> သို့မဟုတ် <b>Microsoft Edge</b> နဲ့ ဖွင့်ပါ။ အင်တာနက် ချိတ်ထားရင် font တွေ မှန်မှန်ပေါ်ပါမယ်။</div>
+ <ol>
+ <li><b>Zip ကို ဖြည်ပါ (Extract)။</b> Folder ထဲမှာ <code>index.html</code> (website)၊ <code>admin.html</code> (ဒီ editor)၊ <code>content.js</code> (စာနဲ့ပုံ စာရင်း)၊ <code>img/</code> (ပုံများ) ပါပါတယ်။</li>
+ <li><b>admin.html ကို ဖွင့်ပြီး အပေါ်က "Folder ချိတ်ရန်" ကိုနှိပ်ပါ။</b> Zip ဖြည်ထားတဲ့ folder ကို ရွေးပြီး "Edit files / Allow" ကို ခွင့်ပြုပါ။ ဒါမှ Save နှိပ်ရင် folder ထဲကို တိုက်ရိုက်သိမ်းပေးပါမယ်။</li>
+ <li><b>ဘယ်ဘက် tab တွေကနေ ပြင်ပါ။</b> စာသားများ၊ ပုံများ၊ Gallery၊ ဆောင်းပါး၊ ဆက်သွယ်ရန်။ ညာဘက် Preview မှာ ချက်ချင်း မြင်ရပါမယ်။ အပေါ်က "Preview ဘာသာ" နဲ့ ဘာသာပြောင်းကြည့်ပါ။</li>
+ <li><b>"သိမ်းရန် (Save)" ကိုနှိပ်ပါ။</b> ပုံအသစ်တွေကို <code>img/</code> ထဲ သိမ်းပြီး <code>content.js</code> ကို update လုပ်ပါမယ်။ အဟောင်းကို <code>backups/</code> folder ထဲ အလိုအလျောက် သိမ်းထားပါတယ် (မှားသွားရင် ပြန်ယူလို့ရ)။</li>
+ <li><b>index.html ကို ဖွင့်ကြည့်ပါ</b> (ဖွင့်ထားပြီးသားဆိုရင် Refresh လုပ်ပါ)။</li>
+ <li><b>Hosting ပေါ်တင်မယ်ဆိုရင်</b> folder တစ်ခုလုံးကို (admin.html မပါလည်းရ) upload တင်ပါ။</li>
+ </ol>
+ <h3>Folder ချိတ်လို့ မရရင် (Firefox / Safari / ဖုန်း)</h3>
+ <ol><li>ပြင်ပြီးရင် "content.js ဒေါင်းရန်" ကိုနှိပ်ပါ။</li><li>ဒေါင်းလာတဲ့ <code>content.js</code> ကို website folder ထဲက အဟောင်းနေရာမှာ အစားထိုး (Replace) ပါ။ ပုံအသစ်တွေက ဖိုင်ထဲမှာ ပါပြီးသားမို့ ဖိုင်က နည်းနည်းကြီးနိုင်ပါတယ်။</li></ol>
+ <h3>Cloud (ဘယ်နေရာကမဆို ပြင်ရန်)</h3><ol><li>supabase.com မှာ အခမဲ့ Project တစ်ခု ဖွင့်ပါ။</li><li>"Cloud / အွန်လိုင်း" tab အတိုင်း URL/Key ထည့်၊ SQL Run၊ Admin user ဖန်တီးပါ။</li><li>Login ဝင်ပြီး Publish နှိပ်ပါ။ ပြီးရင် website ကို hosting ပေါ် တင်ထားတဲ့ <code>admin.html</code> ကို ဖုန်းကနေ ဖွင့်ပြီး ပြင်လို့ရပါပြီ။</li></ol>
+ <h3>အမြန် မှတ်စုများ</h3>
+ <ul><li>Gallery ပုံ: ◀ ▶ နဲ့ အစဉ်ပြောင်း၊ ★ နဲ့ cover လုပ်၊ ✕ နဲ့ဖျက်။</li><li>Social link ဗလာ = icon ဖျောက်။</li><li>GitHub Pages: ပုံနာမည် စာလုံးအကြီး/အသေး တိကျရပါတယ် (Photo.JPG ≠ photo.jpg)။ Folder ချိတ်ရင် Editor က အလိုအလျောက် စစ်ပြီး ပြင်ပေးပါမယ်။</li><li>Email စာရင်းသွင်းသူတွေကို Netlify → Forms → newsletter မှာ ကြည့်ပါ (website ကို Netlify ပေါ်တင်ထားမှ အလုပ်လုပ်)။</li><li>ဘာသာတစ်ခု ဗလာ = တႆး → မြန်မာ → English အစဉ်နဲ့ အစားထိုးပြ။</li><li>ဆောင်းပါး ရက်စွဲ အသစ်ဆုံး ၄ ပုဒ်ကို ပင်မစာမျက်နှာမှာ ပြ။</li><li>ပက်ကေ့ချ်: "ပက်ကေ့ချ် / ဈေးနှုန်း" tab မှာ ပုံ၊ အမည်၊ ဈေးနှုန်း၊ ပါဝင်သည့်အရာ နဲ့ နောက်ခံပုံ opacity ကို ပြင်ပါ။</li></ul>
+ </div>`}
+
+/* inline two-step delete (no browser confirm dialog) */
+const pending=new Set();const openSet=new Set();
+function confirmBtn(id,act,i,label){return pending.has(id)?`<span class="confirm">သေချာလား? <button class="b sm danger" data-act="${act}" data-i="${i}">ဖျက်မည်</button><button class="b sm" data-cancel="${id}">မဖျက်ပါ</button></span>`:`<button class="b sm danger" data-ask="${id}">${label}</button>`}
+
+/* ---------- events ---------- */
+$("#rail").addEventListener("click",e=>{const b=e.target.closest("[data-tab]");if(b){tab=b.dataset.tab;$("#panel").scrollTop=0;render();$("#panel").scrollTop=0}});
+$("#panel").addEventListener("input",e=>{const p=e.target.dataset.p;if(!p)return;let v=e.target.type==="checkbox"?(e.target.dataset.invert?!e.target.checked:e.target.checked):e.target.value;if(e.target.type==="number"||e.target.type==="range")v=+v||0;if(e.target.type==="range"){const o=$("#opv");if(o)o.textContent=Math.round(v*100)+"%"}setP(p,v);markDirty();
+  const sp=e.target.parentElement.querySelector("span");if(sp&&sp.parentElement.classList.contains("lf")&&p.split(".").length>2){const has=!!v;sp.classList.toggle("missing",!has);sp.textContent=sp.textContent.replace(" · ဗလာ","")+(has?"":" · ဗလာ")}});
+$("#panel").addEventListener("change",e=>{if(e.target.tagName==="SELECT"&&e.target.dataset.p){setP(e.target.dataset.p,e.target.value);markDirty()}});
+$("#panel").addEventListener("toggle",e=>{const d=e.target;if(d.dataset?.key){d.open?openSet.add(d.dataset.key):openSet.delete(d.dataset.key)}},true);
+$("#panel").addEventListener("click",async e=>{
+  const fc=e.target.closest("[data-focus]");if(fc){const r=fc.getBoundingClientRect(),c=SITE.categories[+fc.dataset.focus];c.coverPos=Math.round((e.clientX-r.left)/r.width*100)+"% "+Math.round((e.clientY-r.top)/r.height*100)+"%";markDirty();render();return}
+  const pmo=e.target.closest("[data-plmode]");if(pmo){plMode=pmo.dataset.plmode;render();return}
+  const pa=e.target.closest("[data-plact]");if(pa){plActive=+pa.dataset.plact;render();return}
+  const mb=e.target.closest("#mapboard");if(mb&&SITE.places.items[plActive]){const r=mb.getBoundingClientRect();const it=SITE.places.items[plActive];
+    const vx=Math.round((e.clientX-r.left)/r.width*1000)/10,vy=Math.round((e.clientY-r.top)/r.height*1000)/10;if(plMode==="card"){it.cx=vx;it.cy=vy}else{it.x=vx;it.y=vy}markDirty();render();return}
+  const chip=e.target.closest("[data-lang]");if(chip){langFilter=chip.dataset.lang;render();return}
+  const ask=e.target.closest("[data-ask]");if(ask){e.preventDefault();pending.add(ask.dataset.ask);render();return}
+  const can=e.target.closest("[data-cancel]");if(can){e.preventDefault();pending.delete(can.dataset.cancel);render();return}
+  const im=e.target.closest("[data-img]");if(im){e.preventDefault();const p=im.dataset.img;const [d]=await pickImages(false,p==="images.hero"?2200:1600);if(d){setP(p,d);markDirty();render()}return}
+  const a=e.target.closest("[data-act]");if(!a)return;e.preventDefault();
+  const i=+a.dataset.i,k=+a.dataset.k,C=SITE.categories;
+  const mv=(arr,x,y)=>{if(y<0||y>=arr.length)return;[arr[x],arr[y]]=[arr[y],arr[x]]};
+  switch(a.dataset.act){
+    case"phAdd":{const ds=await pickMedia(true,1800);if(!ds.length)return;C[i].photos.push(...ds);if(!C[i].cover)C[i].cover=ds[0];openSet.add("c"+i);toast(ds.length+" ဖိုင် ထည့်ပြီးပါပြီ");break}
+    case"phLeft":mv(C[i].photos,k,k-1);break;
+    case"phRight":mv(C[i].photos,k,k+1);break;
+    case"phCover":C[i].cover=C[i].photos[k];break;
+    case"phDel":{const [r]=C[i].photos.splice(k,1);if(C[i].cover===r)C[i].cover=C[i].photos[0]||"";break}
+    case"catUp":mv(C,i,i-1);openSet.clear();break;
+    case"catDown":mv(C,i,i+1);openSet.clear();break;
+    case"delCat":C.splice(i,1);pending.delete("cat"+i);openSet.clear();break;
+    case"addCat":C.push({id:"cat-"+Date.now(),cover:"",name:{...per(),en:"New Category",my:"အမျိုးအစား အသစ်"},photos:[]});openSet.add("c"+(C.length-1));break;
+    case"addPost":SITE.posts.unshift({img:SITE.images.hero||"",date:new Date().toISOString().slice(0,10),minutes:3,tag:per(),title:{...per(),en:"New story",my:"ဆောင်းပါး အသစ်"},body:per()});openSet.clear();openSet.add("p0");break;
+    case"delPost":SITE.posts.splice(i,1);pending.delete("post"+i);openSet.clear();break;
+    case"addStat":SITE.stats.push({value:"10+",icon:"cam",label:per()});break;
+    case"pkUp":mv(SITE.packages.items,i,i-1);openSet.clear();break;
+    case"pkDown":mv(SITE.packages.items,i,i+1);openSet.clear();break;
+    case"delPk":SITE.packages.items.splice(i,1);pending.delete("pk"+i);openSet.clear();break;
+    case"addPk":SITE.packages.items.push({img:"",price:"",name:{...per(),en:"New Package",my:"ပက်ကေ့ချ် အသစ်"},features:per()});openSet.add("k"+(SITE.packages.items.length-1));break;
+    case"pkBgClear":SITE.packages.bg="";break;
+    case"plUp":mv(SITE.places.items,i,i-1);openSet.clear();break;
+    case"plDown":mv(SITE.places.items,i,i+1);openSet.clear();break;
+    case"delPl":SITE.places.items.splice(i,1);pending.delete("pl"+i);openSet.clear();plActive=0;break;
+    case"addPl":SITE.places.items.push({x:50,y:50,cx:50,cy:15,img:"",lat:"",lng:"",name:{...per(),en:"New place",my:"နေရာ အသစ်"},sub:per(),desc:per(),meta:per()});plActive=SITE.places.items.length-1;openSet.add("l"+plActive);break;
+    case"delInq":{try{await sbFetch("/rest/v1/inquiries?id=eq."+encodeURIComponent(a.dataset.i),{method:"DELETE"});INQ=INQ.filter(q=>String(q.id)!==String(a.dataset.i));pending.delete("inq"+a.dataset.i);toast("ဖျက်ပြီး")}catch(err){toast("ဖျက်မရပါ: "+err.message,1)}render();renderRail();return}
+    case"delStat":SITE.stats.splice(i,1);pending.delete("stat"+i);break;
+  }
+  markDirty();render()});
+
+/* ---------- save ---------- */
+const serialize=()=>"/* LM STUDIO website content. Edit with admin.html (recommended). */\nwindow.SITE = "+JSON.stringify(SITE,null,1)+";\n";
+function parseContent(txt){const a=txt.indexOf("{"),b=txt.lastIndexOf("}");return JSON.parse(txt.slice(a,b+1))}
+$("#connectBtn").addEventListener("click",async()=>{
+  if(!window.showDirectoryPicker){toast("ဒီ browser မှာ Folder ချိတ်လို့ မရပါ။ Chrome/Edge သုံးပါ သို့မဟုတ် 'content.js ဒေါင်းရန်' ကို သုံးပါ။",1);return}
+  try{const h=await window.showDirectoryPicker({mode:"readwrite"});
+    let txt;try{txt=await (await (await h.getFileHandle("content.js")).getFile()).text()}catch(e){toast("ဒီ folder ထဲမှာ content.js မရှိပါ။ Website folder ကို ရွေးပါ။",1);return}
+    dirHandle=h;if(!dirty){try{SITE=normalize(parseContent(txt));render();sendPreview()}catch(e){}}
+    $("#connectBtn").textContent="Folder: "+h.name;checkMissing();toast("Folder ချိတ်ပြီးပါပြီ။ Save နှိပ်ရင် ဒီ folder ထဲ တိုက်ရိုက်သိမ်းပါမယ်။")
+  }catch(e){if(e.name!=="AbortError")toast("Folder ချိတ်မရပါ: "+e.message,1)}});
+async function dataUrlToBlob(u){return await (await fetch(u)).blob()}
+$("#saveBtn").addEventListener("click",async()=>{
+  if(sb.token()){await cloudPublish();if(!dirHandle)return}
+  if(!dirHandle){if(window.showDirectoryPicker){toast("ပထမဆုံး 'Folder ချိတ်ရန်' ကိုနှိပ်ပါ။ (သို့မဟုတ် content.js ဒေါင်းရန် ကို သုံးပါ)",1)}else downloadContent();return}
+  const btn=$("#saveBtn");btn.disabled=true;btn.textContent="သိမ်းနေသည်…";
+  try{
+    const imgDir=await dirHandle.getDirectoryHandle("img",{create:true});
+    const stamp=new Date().toISOString().replace(/[-:T]/g,"").slice(0,14);let n=0;
+    const walk=async(o)=>{for(const k in o){const v=o[k];
+      if(typeof v==="string"&&v.startsWith("blob:")&&BLOBS.has(v)){const file=BLOBS.get(v);const ext=(file.name.split(".").pop()||"mp4").toLowerCase().replace(/[^a-z0-9]/g,"");const name=`v-${stamp}-${++n}.${ext}`;const fh=await imgDir.getFileHandle(name,{create:true});const w=await fh.createWritable();await w.write(file);await w.close();replaceAll(SITE,v,"img/"+name)}
+      else if(typeof v==="string"&&v.startsWith("data:image")){const name=`u-${stamp}-${++n}.jpg`;const fh=await imgDir.getFileHandle(name,{create:true});const w=await fh.createWritable();await w.write(await dataUrlToBlob(v));await w.close();
+        const path="img/"+name;replaceAll(SITE,v,path)}
+      else if(v&&typeof v==="object")await walk(v)}};
+    await walk(SITE);
+    // backup old content.js
+    try{const old=await (await (await dirHandle.getFileHandle("content.js")).getFile()).text();const bd=await dirHandle.getDirectoryHandle("backups",{create:true});const bf=await bd.getFileHandle(`content-${stamp}.js`,{create:true});const bw=await bf.createWritable();await bw.write(old);await bw.close()}catch(e){}
+    const fh=await dirHandle.getFileHandle("content.js",{create:true});const w=await fh.createWritable();await w.write(serialize());await w.close();
+    dirty=false;const s=$("#status");s.textContent="သိမ်းပြီးပါပြီ "+new Date().toLocaleTimeString();s.className="status saved";
+    toast("သိမ်းပြီးပါပြီ"+(n?` · ပုံအသစ် ${n} ပုံ img/ ထဲ ထည့်ပြီး`:""));render();sendPreview();
+  }catch(e){toast("သိမ်းမရပါ: "+e.message,1)}
+  btn.disabled=false;btn.textContent="သိမ်းရန် (Save)"});
+function replaceAll(o,from,to){for(const k in o){if(o[k]===from)o[k]=to;else if(o[k]&&typeof o[k]==="object")replaceAll(o[k],from,to)}}
+function downloadContent(){if(JSON.stringify(SITE).includes('"blob:')){toast("ဗီဒီယိုတွေကို content.js ထဲ ထည့်လို့မရပါ။ 'Folder ချိတ်ရန်' (သို့) Cloud ကို သုံးပြီး Save လုပ်ပါ။",1);return}const blob=new Blob([serialize()],{type:"text/javascript"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="content.js";document.body.appendChild(a);a.click();a.remove();
+  const mb=(blob.size/1048576).toFixed(1);toast(`content.js (${mb} MB) ဒေါင်းပြီးပါပြီ။ Website folder ထဲက content.js ကို အစားထိုးပါ။`);dirty=false;const s=$("#status");s.textContent="ဒေါင်းပြီး";s.className="status saved"}
+$("#dlBtn").addEventListener("click",downloadContent);
+addEventListener("beforeunload",e=>{if(dirty){e.preventDefault();e.returnValue=""}});
+addEventListener("keydown",e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="s"){e.preventDefault();$("#saveBtn").click()}});
+/* ---------- missing-image check & recovery ---------- */
+document.addEventListener("error",e=>{if(e.target.tagName==="IMG")e.target.classList.add("broken")},true);
+function allImagePaths(){const out=new Set();const walk=o=>{for(const k in o){const v=o[k];if(typeof v==="string"&&/^img\/[^/]+$/i.test(v))out.add(v);else if(v&&typeof v==="object")walk(v)}};walk(SITE);return [...out]}
+function probe(src){return new Promise(r=>{const i=new Image();i.onload=()=>r(true);i.onerror=()=>r(false);i.src=src+"?t="+Date.now()})}
+let missing=[],fixes=[];
+async function checkMissing(){
+  const paths=allImagePaths();const res=[];fixes=[];
+  if(dirHandle){let img=null;try{img=await dirHandle.getDirectoryHandle("img")}catch(e){}
+    const names=new Map();if(img){for await(const [n,h] of img.entries()){if(h.kind==="file")names.set(n.toLowerCase(),n)}}
+    fixes=[];for(const p of paths){const n=p.slice(4);if(names.has(n.toLowerCase())&&names.get(n.toLowerCase())===n)continue;
+      const real=names.get(n.toLowerCase())||names.get(decodeURIComponent(n).toLowerCase());if(real)fixes.push([p,"img/"+real]);else res.push(p)}}
+  else{for(const p of paths){if(!(await probe(p)))res.push(p)}}
+  missing=res;$("#missBar").hidden=!res.length&&!fixes.length;$("#fixWrap").hidden=!fixes.length;$("#fixN").textContent=fixes.length;$("#missN").textContent=res.length;
+  $("#missList").innerHTML=res.map(x=>`<code>${esc(x)}</code>`).join("");
+  $("#dropMissWrap").innerHTML='<button class="b sm danger" id="dropMissAsk">မတွေ့တဲ့ပုံတွေကို စာရင်းကဖယ်ရန်</button>';
+  return res}
+$("#fixBtn").addEventListener("click",async()=>{const n=fixes.length;fixes.forEach(([a,b])=>replaceAll(SITE,a,b));markDirty();await checkMissing();render();toast(`လမ်းကြောင်း ${n} ခု ပြင်ပြီး · Save နှိပ်ပါ`)});
+$("#recheckBtn").addEventListener("click",async()=>{const r=await checkMissing();toast(r.length?`ပုံ ${r.length} ပုံ မတွေ့သေးပါ`:"ပုံအားလုံး တွေ့ပါပြီ ✓");render();sendPreview();reloadPreview()});
+function reloadPreview(){try{$("#pv").contentWindow.location.reload()}catch(e){}}
+$("#recoverBtn").addEventListener("click",async()=>{
+  if(!window.showDirectoryPicker){toast("Chrome / Edge လိုပါတယ်",1);return}
+  if(!dirHandle){toast("ပထမဆုံး 'Folder ချိတ်ရန်' နဲ့ လက်ရှိ website folder ကို ချိတ်ပါ",1);return}
+  toast("ပုံဟောင်းတွေရှိတဲ့ ယခင် website folder (သို့) အဲ့ဒီ img folder ကို ရွေးပါ");
+  let src;try{src=await window.showDirectoryPicker({mode:"read"})}catch(e){return}
+  let srcImg=src;try{srcImg=await src.getDirectoryHandle("img")}catch(e){}
+  const dst=await dirHandle.getDirectoryHandle("img",{create:true});let n=0,miss=0;
+  for(const p of missing){const name=p.slice(4);try{const f=await (await srcImg.getFileHandle(name)).getFile();const w=await (await dst.getFileHandle(name,{create:true})).createWritable();await w.write(f);await w.close();n++}catch(e){miss++}}
+  await checkMissing();render();reloadPreview();
+  toast(`ပုံ ${n} ပုံ ပြန်ယူပြီးပါပြီ`+(miss?` · ${miss} ပုံ အဲ့ဒီ folder မှာလည်း မရှိပါ`:""),miss&&!n)});
+document.addEventListener("click",e=>{
+  if(e.target.id==="dropMissAsk"){$("#dropMissWrap").innerHTML='<span class="confirm">သေချာလား? <button class="b sm danger" id="dropMissDo">ဖယ်မည်</button><button class="b sm" id="dropMissNo">မဖယ်ပါ</button></span>'}
+  if(e.target.id==="dropMissNo")checkMissing();
+  if(e.target.id==="dropMissDo"){const M=new Set(missing);
+    const clean=o=>{for(const k in o){const v=o[k];if(Array.isArray(v)){for(let i=v.length-1;i>=0;i--){if(typeof v[i]==="string"&&M.has(v[i]))v.splice(i,1);else if(v[i]&&typeof v[i]==="object")clean(v[i])}}
+      else if(typeof v==="string"&&M.has(v))o[k]="";else if(v&&typeof v==="object")clean(v)}};
+    clean(SITE);(SITE.categories||[]).forEach(c=>{if(!c.cover)c.cover=c.photos[0]||""});
+    markDirty();checkMissing();render();toast("ဖယ်ပြီးပါပြီ။ Save နှိပ်ပြီး သိမ်းပါ")}
+});
+if(!window.SITE){$("#panel").innerHTML='<div class="group"><b>content.js ကို ရှာမတွေ့ပါ။</b> admin.html ကို website folder ထဲကနေ ဖွင့်ပါ။</div>'}else{render();setTimeout(checkMissing,400);if(cloudOK()){cloudLoad(true).then(()=>{if(sb.token())loadInq(true)})}}
+</script>
+</body>
+</html>

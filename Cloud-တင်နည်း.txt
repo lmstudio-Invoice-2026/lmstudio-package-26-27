@@ -1,0 +1,23 @@
+LM STUDIO — Cloud (Supabase) ချိတ်နည်း
+=====================================
+Cloud ချိတ်ရင် ရလာမယ့်အရာ:
+- ဖုန်း/ကွန်ပျူတာ ဘယ်ကမဆို admin.html ကို Login ဝင်ပြီး website ကို ပြင်နိုင်
+- ပုံ/ဗီဒီယို အသစ်တွေ Cloud ပေါ် တိုက်ရိုက်တက် (zip ပြန်တင်စရာ မလို)
+- ဖောက်သည် ဘွတ်ကင်စာတွေ admin → "ဘွတ်ကင် စာများ" ထဲ ရောက်
+
+အဆင့်များ
+1. supabase.com → Start your project → (Gmail/GitHub နဲ့) အခမဲ့ ဝင်ပြီး New project ဖွင့်ပါ (Region: Singapore)။
+2. admin.html (ကွန်ပျူတာထဲက) → "Cloud / အွန်လိုင်း" tab:
+   - Project URL နဲ့ Publishable key ထည့်ပါ (Supabase → Project Settings → API Keys)။
+   - "SQL ကူးရန်" → Supabase → SQL Editor → New query → Paste → Run။ (supabase-setup.sql ဖိုင်ထဲမှာလည်း ပါ)
+3. Supabase → Authentication → Users → Add user → ကိုယ့် Email + Password (Auto confirm)။
+   Authentication → Sign In / Providers → "Allow new users to sign up" ကို ပိတ်ပါ။
+4. admin.html → Folder ချိတ်ပြီး Save တစ်ကြိမ်နှိပ်ပါ (content.js ထဲ Cloud လိပ်စာ ပါသွားအောင်)။
+5. Cloud tab → Login ဝင် → "Cloud သို့ တင်ရန် (Publish)"။
+6. index.html, content.js, img/, admin.html ကို hosting (Cloudflare Pages / GitHub) ပေါ် တစ်ကြိမ် ထပ်တင်ပါ။
+   နောက်ပိုင်း https://သင့်site/admin.html ကို ဖုန်းကနေ ဖွင့် → Login → ပြင် → Save = website ချက်ချင်းပြောင်း။
+
+သတိ
+- service_role / secret key ကို ဘယ်တော့မှ admin ထဲ မထည့်ပါနဲ့။ Publishable (anon) key ပဲ ထည့်ပါ။
+- ဗီဒီယို တစ်ဖိုင် 50MB အထိ။ အခမဲ့ Supabase မှာ Storage 1GB ရပါတယ်။
+- Cloud မချိတ်ရင်: ဘွတ်ကင်စာတွေ Email (FormSubmit) / Netlify Forms နဲ့ ဆက်ရောက်ပါမယ်။

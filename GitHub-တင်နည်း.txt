@@ -1,0 +1,26 @@
+LM STUDIO Website — GitHub Pages တင်နည်း
+==========================================
+
+1. github.com မှာ Account ဖွင့်ပြီး New repository လုပ်ပါ (ဥပမာ lmstudio)။ Public ရွေးပါ။
+2. "uploading an existing file" ကိုနှိပ်ပြီး ဒီဖိုင်တွေကို ဆွဲထည့်ပါ:
+     index.html, content.js, .nojekyll, img folder
+   (admin.html, backups folder မလိုပါ)
+   * GitHub web မှာ တစ်ခါ upload ရင် ဖိုင် ၁၀၀ ပဲ ရပါတယ်။ img ထဲ ပုံ ၁၀၀ ကျော်ရင် ၂ ကြိမ် ခွဲတင်ပါ (သို့) GitHub Desktop သုံးပါ။
+   * ဖိုင်တစ်ခု 25 MB ထက် မကြီးရပါ။
+3. Commit changes နှိပ်ပါ။
+4. Settings → Pages → Branch: main / (root) → Save။
+5. ၁–၂ မိနစ်စောင့်ရင် link ရပါမယ်:  https://<username>.github.io/lmstudio/
+
+ပုံလမ်းကြောင်း စည်းကမ်း
+- ပုံလမ်းကြောင်းအားလုံး "img/xxx.jpg" ပုံစံ (relative) ဖြစ်ရပါမယ်။ Website က အလိုအလျောက် ပြင်ပေးထားပါတယ်။
+- GitHub မှာ စာလုံး အကြီး/အသေး ကွဲပါတယ်: Photo.JPG နဲ့ photo.jpg မတူပါ။
+  admin.html → Folder ချိတ်ရန် လုပ်ရင် မကိုက်တာတွေကို ရှာပြီး "လမ်းကြောင်း ပြင်ရန်" ခလုတ် ပေါ်လာပါမယ်။ နှိပ်ပြီး Save လုပ်ပါ။
+- ဖိုင်နာမည်မှာ space နဲ့ မြန်မာစာ မထည့်တာ အကောင်းဆုံးပါ (Editor က u-xxxx.jpg ပုံစံနဲ့ သိမ်းပေးပါတယ်)။
+
+Email စာရင်းသွင်း Form
+- GitHub Pages ပေါ်မှာ Netlify Forms အလုပ်မလုပ်ပါ။ Website က github.io ပေါ်ရောက်ရင် FormSubmit နဲ့ Email ကို တိုက်ရိုက် ပို့ပါမယ်။
+- ပထမဆုံး စာရင်းသွင်းသူ ပေါ်တဲ့အခါ lmproduction1993@gmail.com ထဲကို FormSubmit က "Activate Form" email ပို့ပါမယ်။ တစ်ကြိမ် နှိပ်ပေးရပါမယ်။
+- admin.html → ဆက်သွယ်ရန် / Brand → "Form ပို့မည့်နေရာ" မှာ ပြောင်းလို့ရပါတယ်။
+
+Update လုပ်နည်း
+- admin.html နဲ့ ပြင်ပြီး Save → GitHub repo မှာ content.js နဲ့ img ထဲက ပုံအသစ်တွေကို ထပ် upload (Add file → Upload files) လုပ်ပါ။
